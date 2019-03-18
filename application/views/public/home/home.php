@@ -31,6 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!-- Theme CSS -->
     <link href="<?php echo base_url(); ?>assets/vendor/creative/css/creative.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/vendor/creative/css/style4.css" rel="stylesheet">
 
     <!-- set global variable-->
     <script>var base_url = '<?php echo base_url() ?>';</script>
@@ -89,9 +90,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </nav>
 
     <header>
+    <div class="overlay"></div>
+    <ul class="cb-slideshow">
+            <li><span>Image 01</span><div><h3>se·ren·i·ty</h3></div></li>
+            <li><span>Image 02</span><div><h3>Penegakan Perda 8/2008</h3></div></li>
+            <li><span>Image 03</span><div><h3>e·qua·nim·i·ty</h3></div></li>
+            <li><span>Image 04</span><div><h3>bal·ance</h3></div></li>
+            <li><span>Image 05</span><div><h3>qui·e·tude</h3></div></li>
+            <li><span>Image 06</span><div><h3>re·lax·a·tion</h3></div></li>
+        </ul>
+        <!--
         <div class="overlay"></div>
 		<video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-			<source src="<?php echo base_url(); ?>assets/vendor/creative/img/timeLapseBuildingFire.mp4" type="video/mp4">
+			<source src="<?php //echo base_url(); ?>assets/vendor/creative/img/timeLapseBuildingFire.mp4" type="video/mp4">
 		</video>
         <div class="header-content">
 			<div data-ros="fadeInDown" data-options="delay:1000">
@@ -100,15 +111,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <h1 id="homeHeading">Dinas Penanggulangan Kebakaran dan Penyelamatan</h1>
                     <h1 id="homeHeading">Provinsi DKI Jakarta</h1>
                 </div>
-              <!--
+              
               <hr>
               <div class="jumbotron subheading"> 
                 <p id="homeHeading" >Kami adalah Salah Satu Unit Kerja pada Dinas Penanggulangan Kebakaran dan Penyelamatan Provinsi DKI Jakarta dalam Pelaksanaan Upaya Pencegahan Kebakaran</p>
               </div>
                 <a href="#tupoksi" class="btn btn-primary btn-xl page-scroll">Tupoksi</a>
-                -->
+                
             </div>
-        </div>
+        </div> -->
     </header>
 
     <section class="bg-primary" id="tupoksi" style="padding-top:0;">
