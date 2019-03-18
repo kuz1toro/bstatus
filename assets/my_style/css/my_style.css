@@ -1,0 +1,97 @@
+.crud-actions{
+	width: 90px;
+}
+
+.nama{
+	width: 200px;
+}
+
+@keyframes blink {
+	0% {
+		background-color: rgba(105,105,105,0.6)
+	}
+	50% {
+		background-color: rgba(105,105,105,0)
+	}
+	100% {
+		background-color: rgba(105,105,105,0.6)
+	}
+}
+@-webkit-keyframes blink {
+	0% {
+		background-color: rgba(105,105,105,0.6)
+	}
+	50% {
+		background-color: rgba(105,105,105,0)
+	}
+	100% {
+		background-color: rgba(105,105,105,0.6)
+	}
+}
+
+.kedipGrey {
+
+	-moz-transition:all 0.5s ease-in-out;
+	-webkit-transition:all 1.5s ease-in-out;
+	-o-transition:all 0.5s ease-in-out;
+	-ms-transition:all 0.5s ease-in-out;
+	transition:all 0.5s ease-in-out;
+	-moz-animation:blink normal 2.5s infinite ease-in-out;
+	/* Firefox */
+	-webkit-animation:blink normal 2.5s infinite ease-in-out;
+	/* Webkit */
+	-ms-animation:blink normal 2.5s infinite ease-in-out;
+	/* IE */
+	animation:blink normal 2.5s infinite ease-in-out;
+	/* Opera */
+}
+
+.kotak{
+	border: solid thin rgba(0, 128, 0, 0.25);
+	border-radius: 5px;
+	margin-bottom: 5px;
+}
+
+a.indent{
+	padding-left: 10px;
+}
+
+div.box1{
+	padding-left:0px;
+	padding-right: 0px;
+}
+
+div.grey{
+	padding-top: 15px;
+	margin-bottom: 15px;
+	background: rgba(127, 127, 127, 0.1);
+}
+
+p.help-block{
+	margin-top: 0px;
+	margin-left: 15px;
+}
+
+input.form-control, select.form-control, textarea.form-control{
+	border-radius: 15px;
+}
+
+div.content-wrapper{
+	/* background-color:rgb(120, 120, 120); */
+	background-color: white;
+}
+
+div.my-col{
+	padding-right: 1px;
+	padding-left: 1px;
+}
+
+section.my-content{
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+}
+
+label.control-label{
+	padding-bottom: 15px;
+}

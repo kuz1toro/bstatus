@@ -1,0 +1,56 @@
+#kepala { 
+  border: solid thin; 
+  border-collapse: collapse; 
+}
+#kepala th, 
+#kepala td { 
+  border: solid thin;
+  padding: 0.5rem 2rem;
+}
+#kepala td {
+  white-space: nowrap;
+}
+#kepala th { 
+  font-weight: bold; 
+}
+#kepala td { 
+  border-style: none solid; 
+  vertical-align: top; 
+}
+#kepala th { 
+  padding: 0.2em; 
+  vertical-align: middle; 
+  text-align: center; 
+}
+
+#kepala tbody td:first-child::after { 
+  content: leader(". "); '
+}
+
+body {
+  padding: 1rem;
+}
+
+#isi { 
+  border: solid thin; 
+  border-collapse: collapse; 
+}
+#isi th, 
+#isi td { 
+  border: solid thin;
+  padding: 0.5rem 2rem;
+}
+#isi td {
+  white-space: nowrap;
+}
+#isi th { 
+  font-weight: normal; 
+}
+#isi td { 
+  border-style: none solid; 
+  vertical-align: top; 
+}
+#isi th { 
+  padding: 0.2em; 
+  vertical-align: middle; 
+  text-align: center; 

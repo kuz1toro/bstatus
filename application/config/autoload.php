@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
 |
 */
-$autoload['packages'] = array();
+$autoload['packages'] = array(APPPATH.'third_party/ion_auth');
 
 /*
 | -------------------------------------------------------------------
@@ -72,6 +72,12 @@ $autoload['libraries'] = array();
 | Prototype:
 |
 |	$autoload['drivers'] = array('cache');
+|
+| You can also supply an alternative property name to be assigned in
+| the controller:
+|
+|	$autoload['drivers'] = array('cache' => 'cch');
+|
 */
 $autoload['drivers'] = array();
 
@@ -83,7 +89,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array();
+$autoload['helper'] = array('url', 'file');
 
 /*
 | -------------------------------------------------------------------
