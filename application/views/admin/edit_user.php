@@ -41,6 +41,11 @@
 		</p>
 
 		<p>
+			<?php echo lang('edit_user_email_label', 'email');?> <br />
+			<?php echo form_input($email);?>
+		</p>
+
+		<p>
 			<?php echo lang('edit_user_password_label', 'password');?> <br />
 			<?php echo form_input($password);?>
 		</p>

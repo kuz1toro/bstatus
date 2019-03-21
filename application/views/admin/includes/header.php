@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>SIBP--Sistem Informasi Bidang Pencegahan</title>
+  <title>B-STATUS</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -244,6 +244,7 @@
         <li class="header">HEADER</li>
         <!-- Optionally, you can add icons to the links -->
         <li class="active"><a href="<?php echo site_url("auth/index")?>"><i class="fa fa-user"></i> <span>Users</span></a></li>
+        <li><a href="<?php echo site_url("auth/show_groups")?>"><i class="fa fa-user"></i> <span>Groups</span></a></li>
         <li><a href="<?php echo site_url("admin/import")?>"><i class="fa fa-link"></i> <span>Import from word doc</span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
