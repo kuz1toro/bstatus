@@ -42,9 +42,9 @@
     <!-- Logo -->
     <a href="index2.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>SIBP</b></span>
+      <span class="logo-mini"><b>BS</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg" style="font-size:small;"><b>Bidang Pencegahan</b></span>
+      <span class="logo-lg" style="font-size:small;"><b>B-STATUS</b></span>
     </a>
 
     <!-- Header Navbar -->
@@ -240,11 +240,16 @@
       <!-- /.search form -->
 
       <!-- Sidebar Menu -->
+      <?php 
+        $url1 = 'admin';
+        $url2 = $this->uri->segment(2); 
+        //echo trv_state($page, $url1, $url2);
+      ?>
       <ul class="sidebar-menu">
         <li class="header">HEADER</li>
         <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="<?php echo site_url("auth/index")?>"><i class="fa fa-user"></i> <span>Users</span></a></li>
-        <li><a href="<?php echo site_url("auth/show_groups")?>"><i class="fa fa-user"></i> <span>Groups</span></a></li>
+        <li class="<?php trv_state('users', $url1, $url2);?>"><a href="<?php echo site_url("auth/index")?>"><i class="fa fa-user"></i> <span>Users</span></a></li>
+        <li class="<?php trv_state('groups', $url1, $url2);?>"><a href="<?php echo site_url("auth/show_groups")?>"><i class="fa fa-user"></i> <span>Groups</span></a></li>
         <li><a href="<?php echo site_url("admin/import")?>"><i class="fa fa-link"></i> <span>Import from word doc</span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>

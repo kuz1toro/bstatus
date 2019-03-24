@@ -211,6 +211,10 @@ if(!function_exists('trv_state'))
 			echo 'active';
 		}elseif ($page=='permohonan' && $url1=='disposisi' && $url2=='validasi_step2') {
 			echo 'active';
+		}elseif ($page==='users' && $url1==='admin' && $url2==='index') {
+			echo 'active';
+		}elseif ($page==='groups' && $url1==='admin' && $url2==='show_groups') {
+			echo 'active';	
 		}else{
 			echo '';
 		}

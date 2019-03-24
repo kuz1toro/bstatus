@@ -15,7 +15,7 @@
 		</p>
 
 		<p>
-			<?php echo lang('edit_group_desc_label', 'description');?> <br />
+			<?php echo lang('edit_group_desc_label', 'group_description');?> <br />
 			<?php echo form_input($group_description);?>
 		</p>
 
