@@ -1,33 +1,20 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Dinas extends CI_Controller {
+class Migration extends CI_Controller {
 
-	/**
-	* name of the folder responsible for the views
-	* which are manipulated by this controller
-	* @constant string
-	*/
-	const VIEW_FOLDER = 'dinas';
-
-	/* pagination setting */
-	private $per_page = 8;
-
-	/**
-	* Responsable for auto load the model
-	* @return void
-	*/
+	
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('dinas_model');
+		$this->load->model('Database_migration_model');
 		//$this->load->library(array('ion_auth','form_validation'));
-		$this->config->load('pagination', TRUE);
+		//$this->config->load('pagination', TRUE);
 		//$this->load->helper('site_helper');
+	}
 
-		if ( ! $this->ion_auth->in_group('Dinas'))
-		{
-			redirect('auth/logout');
-		}
+	public function fill_table_gedung_dinas()
+	{
+		$data['datas'] = $this->Database_migration_model->get_all_import_data();
 	}
 
 	public function home()
