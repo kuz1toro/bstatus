@@ -20,8 +20,8 @@ class Dinas extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('dinas_model');
-		//$this->load->library(array('ion_auth','form_validation'));
-		$this->config->load('pagination', TRUE);
+		$this->load->library(array('ion_auth','form_validation'));
+		//$this->config->load('pagination', TRUE);
 		//$this->load->helper('site_helper');
 
 		if ( ! $this->ion_auth->in_group('Dinas'))
@@ -32,9 +32,10 @@ class Dinas extends CI_Controller {
 
 	public function home()
 	{
-		$this->load->view('dinas/includes/header');
-		$this->load->view('dinas/home');
-		$this->load->view('dinas/includes/footer');
+		//$this->load->view('dinas/includes/header');
+		//$this->load->view('dinas/home');
+		//$this->load->view('dinas/includes/footer');
+		$this->load->view('dinas/includes/chartjs');
 	}
 
 	/**

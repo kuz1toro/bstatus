@@ -84,8 +84,15 @@ class Auth extends CI_Controller
 				//redirect them back to the home page
 				//$id = $this->session->userdata('user_id');
 				//$group = $this->ion_auth->group($id)->row();
-				$this->session->set_flashdata('message', $this->ion_auth->messages());
-				redirect('auth/index', 'refresh');
+				if ($this->ion_auth->is_admin())
+				{
+					$this->session->set_flashdata('message', $this->ion_auth->messages());
+					redirect('auth/index', 'refresh');
+				}
+				elseif ($this->ion_auth->in_group('Dinas'))
+				{
+					redirect('dinas/home', 'refresh');
+				}
 			}
 			else
 			{
