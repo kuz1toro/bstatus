@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 25, 2019 at 05:48 PM
+-- Generation Time: Mar 27, 2019 at 11:08 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -5287,8 +5287,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_selector`, `activation_code`, `forgotten_password_selector`, `forgotten_password_code`, `forgotten_password_time`, `remember_selector`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
-(1, '127.0.0.1', 'administrator', '$2y$12$zSuLaAF.NWlcQ/HKyBQSredavdW6dypVdLE5ZaF5C3EdzkaWWWJJ2', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1553411526, 1, 'Admin', 'istrator', 'ADMIN', '0'),
-(2, '127.0.0.1', 'kuz1toro@gmail.com', '$2y$10$S04bKi5r0iZxpDnERsdFC.zPg6Fk747ntkcGPiWi7z4q1.UVbQQxa', 'kuz1toro@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1553171182, NULL, 1, 'Bidang-Pencegahan', 'Dinas', 'Dinas Penanggulangan Kebakaran dan Penyelamatan', '087802089254');
+(1, '127.0.0.1', 'admin', '$2y$12$zSuLaAF.NWlcQ/HKyBQSredavdW6dypVdLE5ZaF5C3EdzkaWWWJJ2', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1553604879, 1, 'Admin', 'istrator', 'ADMIN', '0'),
+(2, '127.0.0.1', 'kuz1toro@gmail.com', '$2y$10$S04bKi5r0iZxpDnERsdFC.zPg6Fk747ntkcGPiWi7z4q1.UVbQQxa', 'kuz1toro@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1553171182, NULL, 1, 'Bidang-Pencegahan', 'Dinas', 'Dinas Penanggulangan Kebakaran dan Penyelamatan', '087802089254'),
+(3, '127.0.0.1', 'dinas', '$2y$10$UNFQJOc8jLVHVoWWtsx5GuOc5IFQg3Qv6VGJH6BAYpN8btbooqraC', 'bidangpencegahan@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1553604578, 1553724248, 1, 'Bidang Pencegahan', 'Dinas', 'Dinas Penanggulangan Kebakaran dan Penyelamatan', '021');
 
 -- --------------------------------------------------------
 
@@ -5310,7 +5311,9 @@ INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES
 (4, 1, 1),
 (5, 1, 2),
 (10, 2, 2),
-(11, 2, 3);
+(11, 2, 3),
+(13, 3, 2),
+(14, 3, 3);
 
 --
 -- Indexes for dumped tables
@@ -5435,7 +5438,8 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `uc_email` (`email`),
   ADD UNIQUE KEY `uc_activation_selector` (`activation_selector`),
   ADD UNIQUE KEY `uc_forgotten_password_selector` (`forgotten_password_selector`),
-  ADD UNIQUE KEY `uc_remember_selector` (`remember_selector`);
+  ADD UNIQUE KEY `uc_remember_selector` (`remember_selector`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- Indexes for table `users_groups`
@@ -5460,7 +5464,7 @@ ALTER TABLE `ci_cookies`
 -- AUTO_INCREMENT for table `gedung_dinas`
 --
 ALTER TABLE `gedung_dinas`
-  MODIFY `id_gdg_dinas` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1024;
+  MODIFY `id_gdg_dinas` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=921;
 
 --
 -- AUTO_INCREMENT for table `groups`
@@ -5550,13 +5554,13 @@ ALTER TABLE `tabel_wilayah`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users_groups`
 --
 ALTER TABLE `users_groups`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
