@@ -49,15 +49,15 @@ function showSuccessMessage() {
 
 function showConfirmMessage() {
     swal({
-        title: "Are you sure?",
-        text: "You will not be able to recover this imaginary file!",
+        title: "Konfirmasi",
+        text: "Apakah anda yakin untuk keluar?",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonText: "Yes, I am",
         closeOnConfirm: false
     }, function () {
-        swal("Deleted!", "Your imaginary file has been deleted.", "success");
+        window.location = base_url + "/dinas/logout";
     });
 }
 

@@ -38,6 +38,11 @@ class Dinas extends CI_Controller {
 		$this->load->view('dinas/includes/chartjs');
 	}
 
+	public function logout()
+	{
+		redirect('auth/logout');
+	}
+
 	/**
 	* Load the main view with all the current model model's data.
 	* @return void
