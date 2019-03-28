@@ -32,10 +32,9 @@ class Dinas extends CI_Controller {
 
 	public function home()
 	{
-		//$this->load->view('dinas/includes/header');
-		//$this->load->view('dinas/home');
-		//$this->load->view('dinas/includes/footer');
-		$this->load->view('dinas/includes/chartjs');
+		$this->load->view('dinas/includes/header');
+		$this->load->view('dinas/home');
+		$this->load->view('dinas/includes/footer');
 	}
 
 	public function logout()

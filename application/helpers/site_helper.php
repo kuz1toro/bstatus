@@ -214,6 +214,8 @@ if(!function_exists('trv_state'))
 		}elseif ($page==='users' && $url1==='admin' && $url2==='index') {
 			echo 'active';
 		}elseif ($page==='groups' && $url1==='admin' && $url2==='show_groups') {
+			echo 'active';
+		}elseif ($page==='dinas' && $url1==='dinas' && $url2==='home') {
 			echo 'active';	
 		}else{
 			echo '';

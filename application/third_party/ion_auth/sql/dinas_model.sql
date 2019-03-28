@@ -18,6 +18,7 @@ CREATE TABLE `gedung_dinas` (
   `jml_tower` tinyint(5)  unsigned DEFAULT NULL,
   `jml_lantai` tinyint(5)  unsigned DEFAULT NULL,
   `jml_basement` tinyint(3)  unsigned DEFAULT NULL,
+  `tinggi_gedung` tinyint(3)  unsigned DEFAULT NULL,
   `pokja` tinyint(2)  DEFAULT NULL,
   `latitude` varchar(100)  DEFAULT NULL,
   `longitude` varchar(100)  DEFAULT NULL,
@@ -35,15 +36,20 @@ CREATE TABLE `pemeriksaan_dinas` (
   `jalur_info` varchar(255)  DEFAULT NULL,
   `hasil_pemeriksaan` varchar(100)  DEFAULT NULL,
   `status_gedung` varchar(100)  DEFAULT NULL,
-  `tgl_berlaku` date  DEFAULT NULL,
-  `tgl_expired` date  DEFAULT NULL,
-  `tgl_ptsp` date  DEFAULT NULL,
+  `tgl_berlaku` varchar(50)  DEFAULT NULL,
+  `tgl_expired` varchar(50)  DEFAULT NULL,
+  `next_status` varchar(100)  DEFAULT NULL,
+  `tgl_ptsp` varchar(50)  DEFAULT NULL,
   `nama_pengelola` varchar(150) DEFAULT NULL,
   `alamat_pengelola` varchar(255)  DEFAULT NULL,
   `no_telp_pengelola` varchar(50) DEFAULT NULL,
+  `catatan` varchar(255)  DEFAULT NULL,
   PRIMARY KEY (`id_pemeriksaan_dinas`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+# fill table gedung_dinas
+INSERT INTO pemeriksaan_dinas (no_gedung,jalur_info,hasil_pemeriksaan,status_gedung,tgl_berlaku,tgl_expired,next_status,catatan)
+SELECT no_gedung,jalur_info,hasil_pemeriksaan,status_gedung,tgl_berlaku,tgl_expired,next_status,catatan FROM import;
 
 CREATE TABLE `FSM` (
   `id_FSM` int(11) unsigned NOT NULL AUTO_INCREMENT,
