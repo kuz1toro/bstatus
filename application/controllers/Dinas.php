@@ -42,6 +42,13 @@ class Dinas extends CI_Controller {
 		redirect('auth/logout');
 	}
 
+	public function database_operation()
+	{
+		$this->load->view('dinas/includes/header');
+		$this->load->view('dinas/database');
+		$this->load->view('dinas/includes/footer');
+	}
+
 	/**
 	* Load the main view with all the current model model's data.
 	* @return void

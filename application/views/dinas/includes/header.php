@@ -112,7 +112,7 @@
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
                     <li class="<?php trv_state('dinas', $url1, $url2);?>">
-                        <a href="../../index.html">
+                        <a href="<?php echo base_url(); ?>dinas/home">
                             <i class="material-icons">home</i>
                             <span>Home</span>
                         </a>
@@ -168,6 +168,12 @@
                                 </ul>
                             </li>
                         </ul>
+                    </li>
+                    <li>
+                        <a href="<?php echo base_url(); ?>dinas/database_operation">
+                            <i class="material-icons">text_fields</i>
+                            <span>Database</span>
+                        </a>
                     </li>
                 </ul>
             </div>
