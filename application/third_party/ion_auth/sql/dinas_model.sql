@@ -47,9 +47,54 @@ CREATE TABLE `pemeriksaan_dinas` (
   PRIMARY KEY (`id_pemeriksaan_dinas`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# fill table gedung_dinas
+# fill table pemeriksaan_dinas
 INSERT INTO pemeriksaan_dinas (no_gedung,jalur_info,hasil_pemeriksaan,status_gedung,tgl_berlaku,tgl_expired,next_status,catatan)
 SELECT no_gedung,jalur_info,hasil_pemeriksaan,status_gedung,tgl_berlaku,tgl_expired,next_status,catatan FROM import;
+
+CREATE TABLE `tabel_kolom_jalurInfo` (
+  `id_kolom_jalurInfo` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `nama_kolom_jalurInfo` varchar(100) NOT NULL,
+  `keterangan_kolom_jalurInfo` varchar(255)  DEFAULT NULL,
+  PRIMARY KEY (`id_kolom_jalurInfo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# fill tabel_kolom_jalurInfo
+INSERT INTO `tabel_kolom_jalurInfo` (`nama_kolom_jalurInfo`, `keterangan_kolom_jalurInfo`) VALUES
+('Permintaan Gedung','Berdasarkan permohonan rekomtek PTSP'),
+('Pemeriksaan DAMKAR','Pemeriksaan sewaktu-waktu');
+
+CREATE TABLE `tabel_kolom_hslPemeriksaan` (
+  `id_kolom_hslPemeriksaan` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `nama_kolom_hslPemeriksaan` varchar(100) NOT NULL,
+  `keterangan_kolom_hslPemeriksaan` varchar(255)  DEFAULT NULL,
+  PRIMARY KEY (`id_kolom_hslPemeriksaan`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# fill tabel_kolom_hslPemeriksaan
+INSERT INTO `tabel_kolom_hslPemeriksaan` (`nama_kolom_hslPemeriksaan`, `keterangan_kolom_hslPemeriksaan`) VALUES
+('Memenuhi','Memenuhi persyaratan keselamatan kebakaran'),
+('Tidak memenuhi','Tidak memenuhi persyaratan keselamatan kebakaran');
+
+CREATE TABLE `tabel_kolom_statusGedung` (
+  `id_kolom_statusGedung` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `nama_kolom_statusGedung` varchar(100) NOT NULL,
+  `kategori_kolomHslPemeriksaan` varchar(100) NOT NULL,
+  `keterangan_kolom_statusGedung` varchar(255)  DEFAULT NULL,
+  PRIMARY KEY (`id_kolom_statusGedung`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# fill tabel_kolom_statusGedung
+INSERT INTO `tabel_kolom_statusGedung` (`id_kolom_statusGedung`, `nama_kolom_statusGedung`, `kategori_kolomHslPemeriksaan`, `keterangan_kolom_statusGedung`) VALUES
+(NULL, 'LHP Min', 'Tidak Memenuhi', NULL), 
+(NULL, 'LHP Plus', 'Memenuhi', NULL),
+(NULL,'Penangguhan SKK','Tidak Memenuhi',NULL),
+(NULL,'Penangguhan SLF','Tidak Memenuhi',NULL),
+(NULL,'Pengawasan','Tidak memenuhi',NULL),
+(NULL,'SKK','Memenuhi',NULL),
+(NULL,'SLF','Memenuhi',NULL),
+(NULL,'SP1','Tidak Memenuhi',NULL),
+(NULL,'SP2','Tidak Memenuhi',NULL),
+(NULL,'SP3','Tidak Memenuhi',NULL)
 
 CREATE TABLE `FSM` (
   `id_FSM` int(11) unsigned NOT NULL AUTO_INCREMENT,

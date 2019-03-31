@@ -21,8 +21,13 @@
     <!-- Animation Css -->
     <link href="<?php echo base_url(); ?>assets/vendor_new/animate-css/animate.css" rel="stylesheet" />
 
-     <!-- Sweetalert Css -->
-     <link href="<?php echo base_url(); ?>assets/vendor_new/sweetalert/sweetalert.css" rel="stylesheet" />
+    <!-- Sweetalert Css -->
+    <link href="<?php echo base_url(); ?>assets/vendor_new/sweetalert/sweetalert.css" rel="stylesheet" />
+
+    <!-- Bootstrap Select -->
+    <?php if ($attributeFooter['bootstrapSelect']){
+        echo '<link href="'.base_url().'assets/vendor_new/bootstrap-select/css/bootstrap-select.css" rel="stylesheet">';
+    } ?>
 
     <!-- Custom Css -->
     <link href="<?php echo base_url(); ?>assets/vendor_new/adminBSB/css/style.css" rel="stylesheet">
@@ -49,7 +54,7 @@
                     </div>
                 </div>
             </div>
-            <p>Please wait...</p>
+            <p>Tunggu Bentar Coy...</p>
         </div>
     </div>
     <!-- #END# Page Loader -->
@@ -75,10 +80,10 @@
             <div class="navbar-header">
             <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand">B-STATUS</a>
+                <a class="navbar-brand">B-STATUS | Sistem Informasi Status Keselamatan Kebakaran Bangunan Gedung di DKI Jakarta</a>
             </div> 
             <div class=" collapse navbar-collapse navbar-nav navbar-right js-sweetalert" id="navbar-collapse"  style="padding: 5px 7px">
-                <button type="button" class="btn bg-red btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="logout" data-type="confirm">
+                <button type="button" class="btn bg-red btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="logout" data-type="confirm_logout">
                     <i class="material-icons">logout</i>
                 </button>
             </div>
@@ -106,12 +111,12 @@
             <!-- Menu -->
             <?php 	
 	            $url1=$this->uri->segment(1);
-	            $url2=$this->uri->segment(2); 
+                $url2=$this->uri->segment(2); 
             ?>
             <div class="menu">
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
-                    <li class="<?php trv_state('dinas', $url1, $url2);?>">
+                    <li class="<?php trv_state('home', $url1, $url2);?>">
                         <a href="<?php echo base_url(); ?>dinas/home">
                             <i class="material-icons">home</i>
                             <span>Home</span>
@@ -166,6 +171,29 @@
                                         <a href="../../pages/widgets/infobox/infobox-5.html">Infobox-5</a>
                                     </li>
                                 </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="<?php trv_state('setting', $url1, $url2);?>">
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">settings_input_component</i>
+                            <span>Setting Input</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li class="<?php trv_state('jalurInfo', $url1, $url2);?>">
+                                <a href="<?php echo base_url(); ?>dinas/list_jalurInfo" class="waves-effect waves-block">
+                                    <span>Jalur Informasi</span>
+                                </a>
+                            </li>
+                            <li class="<?php trv_state('hslPemeriksaan', $url1, $url2);?>">
+                                <a href="<?php echo base_url(); ?>dinas/list_hslPemeriksaan" class="waves-effect waves-block">
+                                    <span>Hasil Pemeriksaan</span>
+                                </a>
+                            </li>
+                            <li class="<?php trv_state('statusGedung', $url1, $url2);?>">
+                                <a href="<?php echo base_url(); ?>dinas/list_statusGedung" class="waves-effect waves-block">
+                                    <span>Status Gedung</span>
+                                </a>
                             </li>
                         </ul>
                     </li>

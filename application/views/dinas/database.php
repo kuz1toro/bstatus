@@ -6,11 +6,15 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                Migrasi Database <small>later</small>
+                                Migrasi Database <small><?php echo $message; ?></small>
                             </h2>
                         </div>
                         <div class="body">
-                            Quis pharetra a pharetra fames blandit. Risus faucibus velit Risus imperdiet mattis neque volutpat, etiam lacinia netus dictum magnis per facilisi sociosqu. Volutpat. Ridiculus nostra.
+                            <a href="jalurInfo_operation" type="button" class="btn bg-red waves-effect">jalur info</a>
+                            <a href="hasilPemeriksaan_operation" type="button" class="btn bg-red waves-effect">hasil pemeriksaan</a>
+                            <a href="statusGedung_operation" type="button" class="btn bg-red waves-effect">status gedung</a>
+                            <a type="button" class="btn bg-red waves-effect">next status</a>
+                            <a href="tglBerlakuExpired_operation" type="button" class="btn bg-red waves-effect">tgl berlaku & expired</a>
                         </div>
                     </div>
                 </div>

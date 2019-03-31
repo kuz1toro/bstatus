@@ -13,15 +13,38 @@
 <!-- Waves Effect Plugin Js -->
 <script src="<?php echo base_url(); ?>assets/vendor_new/node-waves/waves.js"></script>
 
-<!-- Chart Plugins Js -->
-<script src="<?php echo base_url(); ?>assets/vendor_new/chartjs/Chart.bundle.js"></script>
+<!-- Jquery DataTable Plugin Js -->
+<?php if ($attributeFooter['dataTable']){
+    echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/jquery.dataTables.js"></script>';
+    echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>';
+    echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/tables/jquery-datatable.js"></script>';
+} ?>
 
  <!-- SweetAlert Plugin Js -->
  <script src="<?php echo base_url(); ?>assets/vendor_new/sweetalert/sweetalert.min.js"></script>
 
 <!-- Custom Js -->
 <script src="<?php echo base_url(); ?>assets/vendor_new/adminBSB/js/admin.js"></script>
-<script src="<?php echo base_url(); ?>assets/vendor_new/adminBSB/js/pages/charts/chartjs.js"></script>
+
+<!-- Chart Plugins Js -->
+<!-- Chart Js content -->
+<?php if ($attributeFooter['chartJS']){
+    echo '<script src="'.base_url().'assets/vendor_new/chartjs/Chart.bundle.js"></script>';
+    echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/charts/chartjs.js"></script>';
+} ?>
+
+<!-- Jquery Validation -->
+<?php if ($attributeFooter['JqueryValidation']){
+    echo '<script src="'.base_url().'assets/vendor_new/jquery-validation/jquery.validate.js"></script>';
+    echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/form-validation.js"></script>';
+} ?>
+
+<!-- bootstrap select -->
+<?php if ($attributeFooter['bootstrapSelect']){
+    echo '<script src="'.base_url().'assets/vendor_new/bootstrap-select/js/bootstrap-select.js"></script>';
+    //echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/form-validation.js"></script>';
+} ?>
+
 <script src="<?php echo base_url(); ?>assets/vendor_new/adminBSB/js/pages/ui/dialogs.js"></script>
 
  <!-- tooltips -->

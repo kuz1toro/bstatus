@@ -64,15 +64,15 @@ if(!function_exists('pesanModal'))
 {
 	function pesanModal()
 	{
-		$pesan = array('Sukses Ndan', 'Mantab Kali', '"86"', 'good job', 'well done', 'nice one', 'very good', 'very nice', 'awesome', 'keep up the good work');
+		$pesan = array('Sukses Ndan', 'Mantab Kali', 'berhasil', 'good job', 'well done', 'nice one', 'very good', 'very nice', 'awesome', 'keep up the good work');
 		echo '<div class="modal fade" id="sukses" role="dialog">
 			<div class="modal-dialog modal-sm ">
-				<div class="modal-content">
+				<div class="modal-content  modal-col-green">
 					<div class="modal-body">
 						<h3>'.$pesan[rand(0, 9)].'</h3>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-link waves-effect" data-dismiss="modal">Close</button>
 					</div>
 				</div>
 			</div>
@@ -91,24 +91,24 @@ if(!function_exists('pesanModal'))
 		</div>
 		<div class="modal fade" id="deleted" role="dialog">
 			<div class="modal-dialog modal-sm ">
-				<div class="modal-content">
+				<div class="modal-content modal-col-red">
 					<div class="modal-body">
-						<h3>Data yang terpilih berhasil dihapus</h3>
+						<h3>Lapor, Data yang terpilih berhasil dihapus</h3>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-link waves-effect" data-dismiss="modal">Close</button>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="modal fade" id="updated" role="dialog">
 			<div class="modal-dialog modal-sm ">
-				<div class="modal-content">
+				<div class="modal-content modal-col-orange">
 					<div class="modal-body">
-						<h3>Sukses, data berhasil dirubah</h3>
+						<h3>Sukses Ndan, data berhasil dirubah</h3>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-link waves-effect" data-dismiss="modal">Close</button>
 					</div>
 				</div>
 			</div>
@@ -120,7 +120,7 @@ if(!function_exists('pesanModal'))
 						<h3>Crap, data tidak berhasil dirubah</h3>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-link waves-effect" data-dismiss="modal">Close</button>
 					</div>
 				</div>
 			</div>
@@ -215,8 +215,14 @@ if(!function_exists('trv_state'))
 			echo 'active';
 		}elseif ($page==='groups' && $url1==='admin' && $url2==='show_groups') {
 			echo 'active';
-		}elseif ($page==='dinas' && $url1==='dinas' && $url2==='home') {
+		}elseif ($page==='home' && $url1==='dinas' && $url2==='home') {
 			echo 'active';	
+		}elseif (($page==='setting' || $page==='jalurInfo') && $url1==='dinas' && ($url2==='list_jalurInfo' || $url2==='edit_jalurInfo' || $url2==='add_jalurInfo')) {
+			echo 'active';	
+		}elseif (($page==='setting' || $page==='hslPemeriksaan') && $url1==='dinas' && ($url2==='list_hslPemeriksaan'|| $url2==='edit_hslPemeriksaan' || $url2==='add_hslPemeriksaan')) {
+			echo 'active';
+		}elseif (($page==='setting' || $page==='statusGedung') && $url1==='dinas' && ($url2==='list_statusGedung'|| $url2==='edit_statusGedung' || $url2==='add_statusGedung')) {
+			echo 'active';
 		}else{
 			echo '';
 		}

@@ -10,11 +10,98 @@ class Dinas_model extends CI_Model {
 		$this->load->database();
 	}
 
+	public function get_all_setting($nama_table)
+	{
+		$this->db->select('*');
+		$this->db->from($nama_table);
+		$this->db->where('deleted', 0);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function get_setting_byId($nama_table, $column, $id)
+	{
+		$this->db->select('*');
+		$this->db->from($nama_table);
+		$this->db->where($column, $id);
+		$query = $this->db->get();
+		return $query->row_array();
+	}
+
+	function update_setting($nama_table, $id_table, $id, $data)
+	{
+		$this->db->where($id_table, $id);
+		if ($this->db->update($nama_table, $data)){
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	function soft_delete_setting($nama_table, $id_table, $id){
+		$update_data = array(
+			'deleted' => 1
+		);
+		$this->db->where($id_table, $id);
+		if ($this->db->update($nama_table, $update_data)){
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	function add_setting($nama_table, $data)
+	{
+		if ($this->db->insert($nama_table, $data)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function get_hslPemeriksaan($nama_table, $column)
+	{
+		$this->db->select($column);
+		$this->db->from($nama_table);
+		$this->db->where('deleted', 0);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 	/**
 	* Get product by his is
 	* @param int $product_id
 	* @return array
 	*/
+
+	public function get_migrateData()
+	{
+		$this->db->select('id_pemeriksaan_dinas');
+		$this->db->select('jalur_info1');
+		$this->db->select('hasil_pemeriksaan1');
+		$this->db->select('status_gedung1');
+		$this->db->select('next_status1');
+		$this->db->from('pemeriksaan_dinas');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function get_migrateTgl()
+	{
+		$this->db->select('id_pemeriksaan_dinas');
+		$this->db->select('tgl_berlaku1');
+		$this->db->select('tgl_expired1');
+		$this->db->from('pemeriksaan_dinas');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	function fill_column($id, $data)
+	{
+		$this->db->where('id_pemeriksaan_dinas', $id);
+		$this->db->update('pemeriksaan_dinas', $data);
+	}
+
 	public function get_gedung_by_id($id)
 	{
 		$this->db->select('*');

@@ -21,9 +21,7 @@ class Dinas extends CI_Controller {
 		parent::__construct();
 		$this->load->model('dinas_model');
 		$this->load->library(array('ion_auth','form_validation'));
-		//$this->config->load('pagination', TRUE);
-		//$this->load->helper('site_helper');
-
+		// verifikasi pangilan
 		if ( ! $this->ion_auth->in_group('Dinas'))
 		{
 			redirect('auth/logout');
@@ -32,9 +30,14 @@ class Dinas extends CI_Controller {
 
 	public function home()
 	{
-		$this->load->view('dinas/includes/header');
-		$this->load->view('dinas/home');
-		$this->load->view('dinas/includes/footer');
+		$data['attributeFooter'] = array(
+			'chartJS' => TRUE,
+			'dataTable' => TRUE,
+			'JqueryValidation' => FALSE,
+			'bootstrapSelect' => FALSE
+		);
+		$data['main_content'] = 'dinas/home';
+		$this->load->view('dinas/includes/template', $data);
 	}
 
 	public function logout()
@@ -42,11 +45,590 @@ class Dinas extends CI_Controller {
 		redirect('auth/logout');
 	}
 
+	public function list_jalurInfo()
+	{
+		$data['attributeFooter'] = array(
+			'chartJS' => FALSE,
+			'dataTable' => FALSE,
+			'JqueryValidation' => FALSE,
+			'bootstrapSelect' => FALSE
+		);
+		$data['thead'] = array(
+			'No','Jalur Informasi', 'Keterangan', 'Aksi'
+		);
+		$data['dhead'] = array(
+			'nama_kolom_jalurInfo', 'keterangan_kolom_jalurInfo'
+		);
+		$data['id_table'] = 'id_kolom_jalurInfo';
+		$data['header'] = 'Jalur Informasi';
+		$data['edit_url'] = 'edit_jalurInfo';
+		$data['delete_url'] = 'delete_jalurInfo';
+		$data['add_url'] = 'add_jalurInfo';
+		$nama_table = 'tabel_kolom_jalurInfo';
+		$data['data_jalurInfo'] = $this->dinas_model->get_all_setting($nama_table);
+		$data['main_content'] = 'dinas/list_setting';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function edit_jalurInfo()
+	{
+		$id = $this->uri->segment(3);
+		$nama_table = 'tabel_kolom_jalurInfo';
+		$id_table = 'id_kolom_jalurInfo';
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			$this->form_validation->set_rules('nama_kolom_jalurInfo', 'nama_kolom_jalurInfo', 'required');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			//if the form has passed through the validation
+			if ($this->form_validation->run())
+			{
+				$data_to_store = array(
+					'nama_kolom_jalurInfo' => $this->input->post('nama_kolom_jalurInfo'),
+					'keterangan_kolom_jalurInfo' => $this->input->post('keterangan_kolom_jalurInfo')
+				);
+				//if the insert has returned true then we show the flash message
+				if($this->dinas_model->update_setting($nama_table, $id_table, $id, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'updated');
+				}else{
+					$this->session->set_flashdata('flash_message', 'not_updated');
+				}
+
+				//redirect('Prainspeksi_gedung/update/'.$id.'');
+				redirect('dinas/list_jalurInfo');
+
+			}//validation run
+
+		}
+		$data['attributeFooter'] = array(
+			'chartJS' => FALSE,
+			'dataTable' => FALSE,
+			'JqueryValidation' => TRUE,
+			'bootstrapSelect' => FALSE
+		);
+		$data['dhead'] = array(
+			'nama_kolom_jalurInfo', 'keterangan_kolom_jalurInfo'
+		);
+		$data['thead'] = array(
+			'Jalur Informasi', 'Keterangan'
+		);
+		$data['header'] = 'Edit Jalur Informasi';
+		$data['contrl_url'] = 'edit_jalurInfo';
+		$data['cancel_url'] = 'list_jalurInfo';
+		$data['data_jalurInfo'] = $this->dinas_model->get_setting_byId($nama_table, $id_table, $id);
+		$data['main_content'] = 'dinas/edit_setting';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function delete_jalurInfo()
+	{
+		//product id
+		$id = $this->uri->segment(3);
+		$nama_table = 'tabel_kolom_jalurInfo';
+		$id_table = 'id_kolom_jalurInfo';
+		if ($this->dinas_model->soft_delete_setting($nama_table, $id_table, $id)){
+			$this->session->set_flashdata('flash_message', 'deleted');
+		}
+		else{
+			$this->session->set_flashdata('flash_message', 'failed');
+		}
+		redirect('dinas/list_jalurInfo');
+	}
+
+	public function add_jalurInfo()
+	{
+		$nama_table = 'tabel_kolom_jalurInfo';
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			$this->form_validation->set_rules('nama_kolom_jalurInfo', 'nama_kolom_jalurInfo', 'required');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			//if the form has passed through the validation
+			if ($this->form_validation->run())
+			{
+				$data_to_store = array(
+					'nama_kolom_jalurInfo' => $this->input->post('nama_kolom_jalurInfo'),
+					'keterangan_kolom_jalurInfo' => $this->input->post('keterangan_kolom_jalurInfo')
+				);
+				//if the insert has returned true then we show the flash message
+				if($this->dinas_model->add_setting($nama_table, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'sukses');
+				}else{
+					$this->session->set_flashdata('flash_message', 'failed');
+				}
+
+				//redirect('Prainspeksi_gedung/update/'.$id.'');
+				redirect('dinas/list_jalurInfo');
+
+			}//validation run
+
+		}
+		$data['attributeFooter'] = array(
+			'chartJS' => FALSE,
+			'dataTable' => FALSE,
+			'JqueryValidation' => TRUE,
+			'bootstrapSelect' => FALSE
+		);
+		$data['dhead'] = array(
+			'nama_kolom_jalurInfo', 'keterangan_kolom_jalurInfo'
+		);
+		$data['thead'] = array(
+			'Jalur Informasi', 'Keterangan'
+		);
+		$data['header'] = 'Tambah Jalur Informasi';
+		$data['contrl_url'] = 'add_jalurInfo';
+		$data['cancel_url'] = 'list_jalurInfo';
+		$data['main_content'] = 'dinas/add_setting';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function list_hslPemeriksaan()
+	{
+		$data['attributeFooter'] = array(
+			'chartJS' => FALSE,
+			'dataTable' => FALSE,
+			'JqueryValidation' => FALSE,
+			'bootstrapSelect' => FALSE
+		);
+		$data['thead'] = array(
+			'No','Hasil Pemeriksaan', 'Keterangan', 'Aksi'
+		);
+		$data['dhead'] = array(
+			'nama_kolom_hslPemeriksaan', 'keterangan_kolom_hslPemeriksaan'
+		);
+		$data['id_table'] = 'id_kolom_hslPemeriksaan';
+		$data['header'] = 'Hasil Pemeriksaan';
+		$data['edit_url'] = 'edit_hslPemeriksaan';
+		$data['delete_url'] = 'delete_hslPemeriksaan';
+		$data['add_url'] = 'add_hslPemeriksaan';
+		$nama_table = 'tabel_kolom_hslPemeriksaan';
+		$data['data_jalurInfo'] = $this->dinas_model->get_all_setting($nama_table);
+		$data['main_content'] = 'dinas/list_setting';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function edit_hslPemeriksaan()
+	{
+		$id = $this->uri->segment(3);
+		$nama_table = 'tabel_kolom_hslPemeriksaan';
+		$id_table = 'id_kolom_hslPemeriksaan';
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			$this->form_validation->set_rules('nama_kolom_hslPemeriksaan', 'nama_kolom_hslPemeriksaan', 'required');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			//if the form has passed through the validation
+			if ($this->form_validation->run())
+			{
+				$data_to_store = array(
+					'nama_kolom_hslPemeriksaan' => $this->input->post('nama_kolom_hslPemeriksaan'),
+					'keterangan_kolom_hslPemeriksaan' => $this->input->post('keterangan_kolom_hslPemeriksaan')
+				);
+				//if the insert has returned true then we show the flash message
+				if($this->dinas_model->update_setting($nama_table, $id_table, $id, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'updated');
+				}else{
+					$this->session->set_flashdata('flash_message', 'not_updated');
+				}
+
+				//redirect('Prainspeksi_gedung/update/'.$id.'');
+				redirect('dinas/list_hslPemeriksaan');
+
+			}//validation run
+
+		}
+		$data['attributeFooter'] = array(
+			'chartJS' => FALSE,
+			'dataTable' => FALSE,
+			'JqueryValidation' => TRUE,
+			'bootstrapSelect' => FALSE
+		);
+		$data['dhead'] = array(
+			'nama_kolom_hslPemeriksaan', 'keterangan_kolom_hslPemeriksaan'
+		);
+		$data['thead'] = array(
+			'Hasil Pemeriksaan', 'Keterangan'
+		);
+		$data['header'] = 'Edit Hasil Pemeriksaan';
+		$data['contrl_url'] = 'edit_hslPemeriksaan';
+		$data['cancel_url'] = 'list_hslPemeriksaan';
+		$data['data_jalurInfo'] = $this->dinas_model->get_setting_byId($nama_table, $id_table, $id);
+		$data['main_content'] = 'dinas/edit_setting';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function delete_hslPemeriksaan()
+	{
+		//product id
+		$id = $this->uri->segment(3);
+		$nama_table = 'tabel_kolom_hslPemeriksaan';
+		$id_table = 'id_kolom_hslPemeriksaan';
+		if ($this->dinas_model->soft_delete_setting($nama_table, $id_table, $id)){
+			$this->session->set_flashdata('flash_message', 'deleted');
+		}
+		else{
+			$this->session->set_flashdata('flash_message', 'failed');
+		}
+		redirect('dinas/list_hslPemeriksaan');
+	}
+
+	public function add_hslPemeriksaan()
+	{
+		$nama_table = 'tabel_kolom_hslPemeriksaan';
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			$this->form_validation->set_rules('nama_kolom_hslPemeriksaan', 'nama_kolom_hslPemeriksaan', 'required');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			//if the form has passed through the validation
+			if ($this->form_validation->run())
+			{
+				$data_to_store = array(
+					'nama_kolom_hslPemeriksaan' => $this->input->post('nama_kolom_hslPemeriksaan'),
+					'keterangan_kolom_hslPemeriksaan' => $this->input->post('keterangan_kolom_hslPemeriksaan')
+				);
+				//if the insert has returned true then we show the flash message
+				if($this->dinas_model->add_setting($nama_table, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'sukses');
+				}else{
+					$this->session->set_flashdata('flash_message', 'failed');
+				}
+
+				//redirect('Prainspeksi_gedung/update/'.$id.'');
+				redirect('dinas/list_hslPemeriksaan');
+
+			}//validation run
+
+		}
+		$data['attributeFooter'] = array(
+			'chartJS' => FALSE,
+			'dataTable' => FALSE,
+			'JqueryValidation' => TRUE,
+			'bootstrapSelect' => FALSE
+		);
+		$data['dhead'] = array(
+			'nama_kolom_hslPemeriksaan', 'keterangan_kolom_hslPemeriksaan'
+		);
+		$data['thead'] = array(
+			'Hasil Pemeriksaan', 'Keterangan'
+		);
+		$data['header'] = 'Tambah Hasil Pemeriksaan';
+		$data['contrl_url'] = 'add_hslPemeriksaan';
+		$data['cancel_url'] = 'list_hslPemeriksaan';
+		$data['main_content'] = 'dinas/add_setting';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function list_statusGedung()
+	{
+		$data['attributeFooter'] = array(
+			'chartJS' => FALSE,
+			'dataTable' => FALSE,
+			'JqueryValidation' => FALSE,
+			'bootstrapSelect' => FALSE
+		);
+		$data['thead'] = array(
+			'No','Status Gedung', 'Kategori Keselamatan Kebakaran', 'Keterangan', 'Aksi'
+		);
+		$data['dhead'] = array(
+			'nama_kolom_statusGedung', 'kategori_kolomHslPemeriksaan', 'keterangan_kolom_statusGedung'
+		);
+		$data['id_table'] = 'id_kolom_statusGedung';
+		$data['header'] = 'Status Gedung';
+		$data['edit_url'] = 'edit_statusGedung';
+		$data['delete_url'] = 'delete_statusGedung';
+		$data['add_url'] = 'add_statusGedung';
+		$nama_table = 'tabel_kolom_statusGedung';
+		$data['data_jalurInfo'] = $this->dinas_model->get_all_setting($nama_table);
+		$data['main_content'] = 'dinas/list_setting';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function edit_statusGedung()
+	{
+		$id = $this->uri->segment(3);
+		$nama_table = 'tabel_kolom_statusGedung';
+		$id_table = 'id_kolom_statusGedung';
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			$this->form_validation->set_rules('nama_kolom_statusGedung', 'nama_kolom_statusGedung', 'required');
+			$this->form_validation->set_rules('kategori_kolomHslPemeriksaan', 'kategori_kolomHslPemeriksaan', 'required');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			//if the form has passed through the validation
+			if ($this->form_validation->run())
+			{
+				$data_to_store = array(
+					'nama_kolom_statusGedung' => $this->input->post('nama_kolom_statusGedung'),
+					'kategori_kolomHslPemeriksaan' => $this->input->post('kategori_kolomHslPemeriksaan'),
+					'keterangan_kolom_statusGedung' => $this->input->post('keterangan_kolom_statusGedung')
+				);
+				//if the insert has returned true then we show the flash message
+				if($this->dinas_model->update_setting($nama_table, $id_table, $id, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'updated');
+				}else{
+					$this->session->set_flashdata('flash_message', 'not_updated');
+				}
+
+				//redirect('Prainspeksi_gedung/update/'.$id.'');
+				redirect('dinas/list_statusGedung');
+
+			}//validation run
+
+		}
+		$data['attributeFooter'] = array(
+			'chartJS' => FALSE,
+			'dataTable' => FALSE,
+			'JqueryValidation' => TRUE,
+			'bootstrapSelect' => TRUE
+		);
+		$data['dhead'] = array(
+			'nama_kolom_statusGedung', 'kategori_kolomHslPemeriksaan', 'keterangan_kolom_statusGedung'
+		);
+		$data['thead'] = array(
+			'Status Gedung', 'Kategori Keselamatan Kebakaran', 'Keterangan'
+		);
+		$data['header'] = 'Edit Status Gedung';
+		$data['contrl_url'] = 'edit_statusGedung';
+		$data['cancel_url'] = 'list_statusGedung';
+		$data['data_hslPemeriksaan'] = $this->dinas_model->get_hslPemeriksaan('tabel_kolom_hslPemeriksaan', 'nama_kolom_hslPemeriksaan');
+		$data['data_jalurInfo'] = $this->dinas_model->get_setting_byId($nama_table, $id_table, $id);
+		$data['main_content'] = 'dinas/edit_setting_statGedung';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function delete_statusGedung()
+	{
+		//product id
+		$id = $this->uri->segment(3);
+		$nama_table = 'tabel_kolom_statusGedung';
+		$id_table = 'id_kolom_statusGedung';
+		if ($this->dinas_model->soft_delete_setting($nama_table, $id_table, $id)){
+			$this->session->set_flashdata('flash_message', 'deleted');
+		}
+		else{
+			$this->session->set_flashdata('flash_message', 'failed');
+		}
+		redirect('dinas/list_statusGedung');
+	}
+
+	public function add_statusGedung()
+	{
+		$nama_table = 'tabel_kolom_statusGedung';
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			$this->form_validation->set_rules('nama_kolom_statusGedung', 'nama_kolom_statusGedung', 'required');
+			$this->form_validation->set_rules('kategori_kolomHslPemeriksaan', 'kategori_kolomHslPemeriksaan', 'required');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			//if the form has passed through the validation
+			if ($this->form_validation->run())
+			{
+				$data_to_store = array(
+					'nama_kolom_statusGedung' => $this->input->post('nama_kolom_statusGedung'),
+					'kategori_kolomHslPemeriksaan' => $this->input->post('kategori_kolomHslPemeriksaan'),
+					'keterangan_kolom_statusGedung' => $this->input->post('keterangan_kolom_statusGedung')
+				);
+				//if the insert has returned true then we show the flash message
+				if($this->dinas_model->add_setting($nama_table, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'sukses');
+				}else{
+					$this->session->set_flashdata('flash_message', 'failed');
+				}
+				redirect('dinas/list_statusGedung');
+			}//validation run
+
+		}
+		$data['attributeFooter'] = array(
+			'chartJS' => FALSE,
+			'dataTable' => FALSE,
+			'JqueryValidation' => TRUE,
+			'bootstrapSelect' => TRUE
+		);
+		$data['dhead'] = array(
+			'nama_kolom_statusGedung', 'kategori_kolomHslPemeriksaan', 'keterangan_kolom_statusGedung'
+		);
+		$data['thead'] = array(
+			'Status Gedung', 'Kategori Keselamatan Kebakaran', 'Keterangan'
+		);
+		$data['header'] = 'Tambah Status Gedung';
+		$data['contrl_url'] = 'add_statusGedung';
+		$data['cancel_url'] = 'list_statusGedung';
+		$data['data_hslPemeriksaan'] = $this->dinas_model->get_hslPemeriksaan('tabel_kolom_hslPemeriksaan', 'nama_kolom_hslPemeriksaan');
+		$data['main_content'] = 'dinas/add_setting_statGedung';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+
+
+
+
+
+
+
 	public function database_operation()
 	{
-		$this->load->view('dinas/includes/header');
-		$this->load->view('dinas/database');
-		$this->load->view('dinas/includes/footer');
+		$data['attributeFooter'] = array(
+			'chartJS' => FALSE,
+			'dataTable' => FALSE,
+			'JqueryValidation' => FALSE,
+			'bootstrapSelect' => FALSE
+		);
+		$data['message']='none';
+		$data['main_content'] = 'dinas/database';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function jalurInfo_operation()
+	{
+		$data_jalurInfo = $this->dinas_model->get_migrateData();
+		//$count = 0;
+		//print_r($data_jalurInfo);
+		 
+		foreach ($data_jalurInfo as $row)
+		{
+			$id = $row['id_pemeriksaan_dinas'];
+			$jalur_info1 = $row['jalur_info1'];
+			if($jalur_info1=='Permintaan Gedung')
+			{
+				$jalur_info = 1;
+			}
+			elseif($jalur_info1=='Pemeriksaan DAMKAR')
+			{
+				$jalur_info = 2;
+			}
+			else
+			{
+				$jalur_info = NULL;
+			}
+			$data_to_store = array(
+				'jalur_info' => $jalur_info
+			);
+			$this->dinas_model->fill_column($id, $data_to_store);
+		} 
+		$data['message']='sukses';
+		$data['main_content'] = 'dinas/database';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function hasilPemeriksaan_operation()
+	{
+		$data_pemeriksaan = $this->dinas_model->get_migrateData();		 
+		foreach ($data_pemeriksaan as $row)
+		{
+			$id = $row['id_pemeriksaan_dinas'];
+			$hasil_pemeriksaan1 = $row['hasil_pemeriksaan1'];
+			if($hasil_pemeriksaan1=='Memenuhi')
+			{
+				$hasil_pemeriksaan = 1;
+			}
+			elseif($hasil_pemeriksaan1=='Tidak Memenuhi')
+			{
+				$hasil_pemeriksaan = 2;
+			}
+			else
+			{
+				$hasil_pemeriksaan = NULL;
+			}
+			$data_to_store = array(
+				'hasil_pemeriksaan' => $hasil_pemeriksaan
+			);
+			$this->dinas_model->fill_column($id, $data_to_store);
+		} 
+		$data['message']='sukses';
+		$data['main_content'] = 'dinas/database';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function statusGedung_operation()
+	{
+		$data_pemeriksaan = $this->dinas_model->get_migrateData();		 
+		foreach ($data_pemeriksaan as $row)
+		{
+			$id = $row['id_pemeriksaan_dinas'];
+			$status_gedung1 = $row['status_gedung1'];
+			if($status_gedung1=='LHP Min')
+			{
+				$status_gedung = 1;
+			}
+			elseif($status_gedung1=='LHP Plus')
+			{
+				$status_gedung = 2;
+			}
+			elseif($status_gedung1=='Penangguhan SKK')
+			{
+				$status_gedung = 3;
+			}
+			elseif($status_gedung1=='Penangguhan SLF')
+			{
+				$status_gedung = 4;
+			}
+			elseif($status_gedung1=='Pengawasan')
+			{
+				$status_gedung = 5;
+			}
+			elseif($status_gedung1=='SKK')
+			{
+				$status_gedung = 6;
+			}
+			elseif($status_gedung1=='SLF')
+			{
+				$status_gedung = 7;
+			}
+			elseif($status_gedung1=='SP1')
+			{
+				$status_gedung = 8;
+			}
+			elseif($status_gedung1=='SP2')
+			{
+				$status_gedung = 9;
+			}
+			elseif($status_gedung1=='SP3')
+			{
+				$status_gedung = 10;
+			}
+			else
+			{
+				$status_gedung = NULL;
+			}
+			$data_to_store = array(
+				'status_gedung' => $status_gedung
+			);
+			$this->dinas_model->fill_column($id, $data_to_store);
+		} 
+		$data['message']='sukses';
+		$data['main_content'] = 'dinas/database';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function tglBerlakuExpired_operation()
+	{
+		$data_pemeriksaan = $this->dinas_model->get_migrateTgl();
+		$count = 0;		 
+		foreach ($data_pemeriksaan as $row)
+		{
+			$id = $row['id_pemeriksaan_dinas'];
+			$hasil_pemeriksaan1 = $row['tgl_berlaku1'];
+			$hasil_pemeriksaan2 = $row['tgl_expired1'];
+			$time1 = strtotime($hasil_pemeriksaan1);
+			$time2 = strtotime($hasil_pemeriksaan2);
+			$time1 = date('Y-m-d',$time1);
+			$time2 = date('Y-m-d',$time2);
+			$data_to_store = array(
+				'tgl_berlaku' => $time1,
+				'tgl_expired' => $time2
+			);
+			$this->dinas_model->fill_column($id, $data_to_store);
+		} 
+		$data['message']='sukses';
+		$data['main_content'] = 'dinas/database';
+		$this->load->view('dinas/includes/template', $data);
 	}
 
 	/**

@@ -1,6 +1,7 @@
 $(function () {
     $('.js-sweetalert button').on('click', function () {
         var type = $(this).data('type');
+        window.id = $(this).val();
         if (type === 'basic') {
             showBasicMessage();
         }
@@ -10,8 +11,11 @@ $(function () {
         else if (type === 'success') {
             showSuccessMessage();
         }
-        else if (type === 'confirm') {
-            showConfirmMessage();
+        else if (type === 'confirm_logout') {
+            showConfirmLogoutMessage();
+        }
+        else if (type === 'confirm_del_settingInput') {
+            showDeleteSettingInputMessage();
         }
         else if (type === 'cancel') {
             showCancelMessage();
@@ -47,7 +51,7 @@ function showSuccessMessage() {
     swal("Good job!", "You clicked the button!", "success");
 }
 
-function showConfirmMessage() {
+function showConfirmLogoutMessage() {
     swal({
         title: "Konfirmasi",
         text: "Apakah anda yakin untuk keluar?",
@@ -58,6 +62,20 @@ function showConfirmMessage() {
         closeOnConfirm: false
     }, function () {
         window.location = base_url + "/dinas/logout";
+    });
+}
+
+function showDeleteSettingInputMessage() {
+    swal({
+        title: "Konfirmasi",
+        text: "Yakin di hapus nih boss?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes",
+        closeOnConfirm: false
+    }, function () {
+        window.location = page_url+id;
     });
 }
 
