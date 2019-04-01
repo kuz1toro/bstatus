@@ -19,10 +19,12 @@ CREATE TABLE `gedung_dinas` (
   `jml_lantai` tinyint(5)  unsigned DEFAULT NULL,
   `jml_basement` tinyint(3)  unsigned DEFAULT NULL,
   `tinggi_gedung` tinyint(3)  unsigned DEFAULT NULL,
+  `mkkg` int(11)  unsigned DEFAULT NULL,
   `pokja` tinyint(2)  DEFAULT NULL,
   `latitude` varchar(100)  DEFAULT NULL,
   `longitude` varchar(100)  DEFAULT NULL,
   `catatan_gedung` varchar(255)  DEFAULT NULL,
+  `deleted` BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`id_gdg_dinas`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -96,6 +98,20 @@ INSERT INTO `tabel_kolom_statusGedung` (`id_kolom_statusGedung`, `nama_kolom_sta
 (NULL,'SP2','Tidak Memenuhi',NULL),
 (NULL,'SP3','Tidak Memenuhi',NULL)
 
+CREATE TABLE `tabel_kolom_penyebabFire` (
+  `id_penyebabFire` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `penyebab` varchar(100) NOT NULL,
+  `keterangan_penyebab` varchar(255)  DEFAULT NULL,
+  `deleted` BOOLEAN NOT NULL DEFAULT FALSE,
+  PRIMARY KEY (`id_penyebabFire`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# fill tabel_kolom_penyebabFire
+INSERT INTO `tabel_kolom_penyebabFire` (`id_penyebabFire`, `penyebab`, `keterangan_penyebab`, `deleted`) VALUES
+(NULL, 'Listrik', NULL, 0), 
+(NULL, 'Gas', NULL, 0),
+(NULL, 'Arson', NULL, 0)
+
 CREATE TABLE `FSM` (
   `id_FSM` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `nama_FSM` varchar(150) DEFAULT NULL,
@@ -109,8 +125,8 @@ CREATE TABLE `FSM` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `pokja_dinas` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `nama_pokja` varchar(10) NOT NULL,
+  `id_pokja` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `nama_pokja` varchar(50) NOT NULL,
   `ketua_pokja` varchar(100) NOT NULL,
   `anggota_1` varchar(100)  DEFAULT NULL,
   `anggota_2` varchar(100)  DEFAULT NULL,
@@ -118,19 +134,19 @@ CREATE TABLE `pokja_dinas` (
   `anggota_4` varchar(100)  DEFAULT NULL,
   `anggota_5` varchar(100)  DEFAULT NULL,
   `anggota_6` varchar(100)  DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `deleted` BOOLEAN NOT NULL DEFAULT FALSE,
+  PRIMARY KEY (`id_pokja`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `riwayat_kebakaran` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `riwayat_kebakaran_gdd_dinas` (
+  `id_fireHistDinas` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `no_gedung` varchar(10) NOT NULL,
-  `nama_gedung` varchar(100) NOT NULL,
-  'tgl_kejadian' varchar(255)  DEFAULT NULL,
-  'dugaan_penyebab' varchar(100)  DEFAULT NULL,
-  'jam_kejadian' varchar(100)  DEFAULT NULL,
-  'jumlah_unit_pompa' varchar(6)  DEFAULT NULL,
-  'jumlah_unit_tangga' varchar(100)  DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `waktu_kejadian` DATETIME NULL DEFAULT NULL,
+  `dugaan_penyebab` TINYINT UNSIGNED NULL DEFAULT NULL,
+  `jumlah_unit` varchar(255)  DEFAULT NULL,
+  `keterangan` VARCHAR(255) DEFAULT NULL
+  `deleted` BOOLEAN NOT NULL DEFAULT FALSE,
+  PRIMARY KEY (`id_fireHistDinas`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #  'jalur_info' varchar(100) NULL,

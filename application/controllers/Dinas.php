@@ -11,6 +11,13 @@ class Dinas extends CI_Controller {
 
 	/* pagination setting */
 	private $per_page = 8;
+	var $attributeFooter = array(
+			'chartJS' => FALSE,
+			'dataTable' => FALSE,
+			'JqueryValidation' => FALSE,
+			'bootstrapSelect' => FALSE,
+			'DatetimePicker' => FALSE
+		);
 
 	/**
 	* Responsable for auto load the model
@@ -30,12 +37,10 @@ class Dinas extends CI_Controller {
 
 	public function home()
 	{
-		$data['attributeFooter'] = array(
-			'chartJS' => TRUE,
-			'dataTable' => TRUE,
-			'JqueryValidation' => FALSE,
-			'bootstrapSelect' => FALSE
-		);
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['chartJS'] = TRUE;
+		$attributeFooter['dataTable'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
 		$data['main_content'] = 'dinas/home';
 		$this->load->view('dinas/includes/template', $data);
 	}
@@ -47,12 +52,8 @@ class Dinas extends CI_Controller {
 
 	public function list_jalurInfo()
 	{
-		$data['attributeFooter'] = array(
-			'chartJS' => FALSE,
-			'dataTable' => FALSE,
-			'JqueryValidation' => FALSE,
-			'bootstrapSelect' => FALSE
-		);
+		$attributeFooter = $this->attributeFooter;
+		$data['attributeFooter'] = $attributeFooter;
 		$data['thead'] = array(
 			'No','Jalur Informasi', 'Keterangan', 'Aksi'
 		);
@@ -66,7 +67,7 @@ class Dinas extends CI_Controller {
 		$data['add_url'] = 'add_jalurInfo';
 		$nama_table = 'tabel_kolom_jalurInfo';
 		$data['data_jalurInfo'] = $this->dinas_model->get_all_setting($nama_table);
-		$data['main_content'] = 'dinas/list_setting';
+		$data['main_content'] = 'dinas/setting_input/list_setting';
 		$this->load->view('dinas/includes/template', $data);
 	}
 
@@ -101,12 +102,9 @@ class Dinas extends CI_Controller {
 			}//validation run
 
 		}
-		$data['attributeFooter'] = array(
-			'chartJS' => FALSE,
-			'dataTable' => FALSE,
-			'JqueryValidation' => TRUE,
-			'bootstrapSelect' => FALSE
-		);
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
 		$data['dhead'] = array(
 			'nama_kolom_jalurInfo', 'keterangan_kolom_jalurInfo'
 		);
@@ -117,7 +115,7 @@ class Dinas extends CI_Controller {
 		$data['contrl_url'] = 'edit_jalurInfo';
 		$data['cancel_url'] = 'list_jalurInfo';
 		$data['data_jalurInfo'] = $this->dinas_model->get_setting_byId($nama_table, $id_table, $id);
-		$data['main_content'] = 'dinas/edit_setting';
+		$data['main_content'] = 'dinas/setting_input/edit_setting';
 		$this->load->view('dinas/includes/template', $data);
 	}
 
@@ -165,12 +163,9 @@ class Dinas extends CI_Controller {
 			}//validation run
 
 		}
-		$data['attributeFooter'] = array(
-			'chartJS' => FALSE,
-			'dataTable' => FALSE,
-			'JqueryValidation' => TRUE,
-			'bootstrapSelect' => FALSE
-		);
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
 		$data['dhead'] = array(
 			'nama_kolom_jalurInfo', 'keterangan_kolom_jalurInfo'
 		);
@@ -180,18 +175,14 @@ class Dinas extends CI_Controller {
 		$data['header'] = 'Tambah Jalur Informasi';
 		$data['contrl_url'] = 'add_jalurInfo';
 		$data['cancel_url'] = 'list_jalurInfo';
-		$data['main_content'] = 'dinas/add_setting';
+		$data['main_content'] = 'dinas/setting_input/add_setting';
 		$this->load->view('dinas/includes/template', $data);
 	}
 
 	public function list_hslPemeriksaan()
 	{
-		$data['attributeFooter'] = array(
-			'chartJS' => FALSE,
-			'dataTable' => FALSE,
-			'JqueryValidation' => FALSE,
-			'bootstrapSelect' => FALSE
-		);
+		$attributeFooter = $this->attributeFooter;
+		$data['attributeFooter'] = $attributeFooter;
 		$data['thead'] = array(
 			'No','Hasil Pemeriksaan', 'Keterangan', 'Aksi'
 		);
@@ -205,7 +196,7 @@ class Dinas extends CI_Controller {
 		$data['add_url'] = 'add_hslPemeriksaan';
 		$nama_table = 'tabel_kolom_hslPemeriksaan';
 		$data['data_jalurInfo'] = $this->dinas_model->get_all_setting($nama_table);
-		$data['main_content'] = 'dinas/list_setting';
+		$data['main_content'] = 'dinas/setting_input/list_setting';
 		$this->load->view('dinas/includes/template', $data);
 	}
 
@@ -240,12 +231,9 @@ class Dinas extends CI_Controller {
 			}//validation run
 
 		}
-		$data['attributeFooter'] = array(
-			'chartJS' => FALSE,
-			'dataTable' => FALSE,
-			'JqueryValidation' => TRUE,
-			'bootstrapSelect' => FALSE
-		);
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
 		$data['dhead'] = array(
 			'nama_kolom_hslPemeriksaan', 'keterangan_kolom_hslPemeriksaan'
 		);
@@ -256,7 +244,7 @@ class Dinas extends CI_Controller {
 		$data['contrl_url'] = 'edit_hslPemeriksaan';
 		$data['cancel_url'] = 'list_hslPemeriksaan';
 		$data['data_jalurInfo'] = $this->dinas_model->get_setting_byId($nama_table, $id_table, $id);
-		$data['main_content'] = 'dinas/edit_setting';
+		$data['main_content'] = 'dinas/setting_input/edit_setting';
 		$this->load->view('dinas/includes/template', $data);
 	}
 
@@ -304,12 +292,9 @@ class Dinas extends CI_Controller {
 			}//validation run
 
 		}
-		$data['attributeFooter'] = array(
-			'chartJS' => FALSE,
-			'dataTable' => FALSE,
-			'JqueryValidation' => TRUE,
-			'bootstrapSelect' => FALSE
-		);
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
 		$data['dhead'] = array(
 			'nama_kolom_hslPemeriksaan', 'keterangan_kolom_hslPemeriksaan'
 		);
@@ -319,18 +304,14 @@ class Dinas extends CI_Controller {
 		$data['header'] = 'Tambah Hasil Pemeriksaan';
 		$data['contrl_url'] = 'add_hslPemeriksaan';
 		$data['cancel_url'] = 'list_hslPemeriksaan';
-		$data['main_content'] = 'dinas/add_setting';
+		$data['main_content'] = 'dinas/setting_input/add_setting';
 		$this->load->view('dinas/includes/template', $data);
 	}
 
 	public function list_statusGedung()
 	{
-		$data['attributeFooter'] = array(
-			'chartJS' => FALSE,
-			'dataTable' => FALSE,
-			'JqueryValidation' => FALSE,
-			'bootstrapSelect' => FALSE
-		);
+		$attributeFooter = $this->attributeFooter;
+		$data['attributeFooter'] = $attributeFooter;
 		$data['thead'] = array(
 			'No','Status Gedung', 'Kategori Keselamatan Kebakaran', 'Keterangan', 'Aksi'
 		);
@@ -344,7 +325,7 @@ class Dinas extends CI_Controller {
 		$data['add_url'] = 'add_statusGedung';
 		$nama_table = 'tabel_kolom_statusGedung';
 		$data['data_jalurInfo'] = $this->dinas_model->get_all_setting($nama_table);
-		$data['main_content'] = 'dinas/list_setting';
+		$data['main_content'] = 'dinas/setting_input/list_setting';
 		$this->load->view('dinas/includes/template', $data);
 	}
 
@@ -381,12 +362,10 @@ class Dinas extends CI_Controller {
 			}//validation run
 
 		}
-		$data['attributeFooter'] = array(
-			'chartJS' => FALSE,
-			'dataTable' => FALSE,
-			'JqueryValidation' => TRUE,
-			'bootstrapSelect' => TRUE
-		);
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$attributeFooter['bootstrapSelect'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
 		$data['dhead'] = array(
 			'nama_kolom_statusGedung', 'kategori_kolomHslPemeriksaan', 'keterangan_kolom_statusGedung'
 		);
@@ -398,7 +377,7 @@ class Dinas extends CI_Controller {
 		$data['cancel_url'] = 'list_statusGedung';
 		$data['data_hslPemeriksaan'] = $this->dinas_model->get_hslPemeriksaan('tabel_kolom_hslPemeriksaan', 'nama_kolom_hslPemeriksaan');
 		$data['data_jalurInfo'] = $this->dinas_model->get_setting_byId($nama_table, $id_table, $id);
-		$data['main_content'] = 'dinas/edit_setting_statGedung';
+		$data['main_content'] = 'dinas/setting_input/edit_setting_statGedung';
 		$this->load->view('dinas/includes/template', $data);
 	}
 
@@ -445,12 +424,10 @@ class Dinas extends CI_Controller {
 			}//validation run
 
 		}
-		$data['attributeFooter'] = array(
-			'chartJS' => FALSE,
-			'dataTable' => FALSE,
-			'JqueryValidation' => TRUE,
-			'bootstrapSelect' => TRUE
-		);
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$attributeFooter['bootstrapSelect'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
 		$data['dhead'] = array(
 			'nama_kolom_statusGedung', 'kategori_kolomHslPemeriksaan', 'keterangan_kolom_statusGedung'
 		);
@@ -461,7 +438,358 @@ class Dinas extends CI_Controller {
 		$data['contrl_url'] = 'add_statusGedung';
 		$data['cancel_url'] = 'list_statusGedung';
 		$data['data_hslPemeriksaan'] = $this->dinas_model->get_hslPemeriksaan('tabel_kolom_hslPemeriksaan', 'nama_kolom_hslPemeriksaan');
-		$data['main_content'] = 'dinas/add_setting_statGedung';
+		$data['main_content'] = 'dinas/setting_input/add_setting_statGedung';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function list_penyebabFire()
+	{
+		$attributeFooter = $this->attributeFooter;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['thead'] = array(
+			'No','Jenis Penyebab', 'Keterangan', 'Aksi'
+		);
+		$data['dhead'] = array(
+			'penyebab', 'keterangan_penyebab'
+		);
+		$data['id_table'] = 'id_penyebabFire';
+		$data['header'] = 'Daftar Penyebab Kebakaran';
+		$data['edit_url'] = 'edit_penyebabFire';
+		$data['delete_url'] = 'delete_penyebabFire';
+		$data['add_url'] = 'add_penyebabFire';
+		$nama_table = 'tabel_kolom_penyebabFire';
+		$data['data_jalurInfo'] = $this->dinas_model->get_all_setting($nama_table);
+		$data['main_content'] = 'dinas/setting_input/list_setting';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function edit_penyebabFire()
+	{
+		$id = $this->uri->segment(3);
+		$nama_table = 'tabel_kolom_penyebabFire';
+		$id_table = 'id_penyebabFire';
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			$this->form_validation->set_rules('penyebab', 'penyebab', 'required');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			//if the form has passed through the validation
+			if ($this->form_validation->run())
+			{
+				$data_to_store = array(
+					'penyebab' => $this->input->post('penyebab'),
+					'keterangan_penyebab' => $this->input->post('keterangan_penyebab')
+				);
+				//if the insert has returned true then we show the flash message
+				if($this->dinas_model->update_setting($nama_table, $id_table, $id, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'updated');
+				}else{
+					$this->session->set_flashdata('flash_message', 'not_updated');
+				}
+
+				//redirect('Prainspeksi_gedung/update/'.$id.'');
+				redirect('dinas/list_penyebabFire');
+
+			}//validation run
+
+		}
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['dhead'] = array(
+			'penyebab', 'keterangan_penyebab'
+		);
+		$data['thead'] = array(
+			'Jenis Penyebab', 'Keterangan'
+		);
+		$data['header'] = 'Edit Data Penyebab Kebakaran';
+		$data['contrl_url'] = 'edit_penyebabFire';
+		$data['cancel_url'] = 'list_penyebabFire';
+		$data['data_jalurInfo'] = $this->dinas_model->get_setting_byId($nama_table, $id_table, $id);
+		$data['main_content'] = 'dinas/setting_input/edit_setting';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function delete_penyebabFire()
+	{
+		//product id
+		$id = $this->uri->segment(3);
+		$nama_table = 'tabel_kolom_penyebabFire';
+		$id_table = 'id_penyebabFire';
+		if ($this->dinas_model->soft_delete_setting($nama_table, $id_table, $id)){
+			$this->session->set_flashdata('flash_message', 'deleted');
+		}
+		else{
+			$this->session->set_flashdata('flash_message', 'failed');
+		}
+		redirect('dinas/list_penyebabFire');
+	}
+
+	public function add_penyebabFire()
+	{
+		$nama_table = 'tabel_kolom_penyebabFire';
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			$this->form_validation->set_rules('penyebab', 'penyebab', 'required');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			//if the form has passed through the validation
+			if ($this->form_validation->run())
+			{
+				$data_to_store = array(
+					'penyebab' => $this->input->post('penyebab'),
+					'keterangan_penyebab' => $this->input->post('keterangan_penyebab')
+				);
+				//if the insert has returned true then we show the flash message
+				if($this->dinas_model->add_setting($nama_table, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'sukses');
+				}else{
+					$this->session->set_flashdata('flash_message', 'failed');
+				}
+
+				//redirect('Prainspeksi_gedung/update/'.$id.'');
+				redirect('dinas/list_penyebabFire');
+
+			}//validation run
+
+		}
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['dhead'] = array(
+			'penyebab', 'keterangan_penyebab'
+		);
+		$data['thead'] = array(
+			'Jenis Penyebab', 'Keterangan'
+		);
+		$data['header'] = 'Tambah Penyebab Kebakaran';
+		$data['contrl_url'] = 'add_penyebabFire';
+		$data['cancel_url'] = 'list_penyebabFire';
+		$data['main_content'] = 'dinas/setting_input/add_setting';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+
+
+	public function list_pokja()
+	{
+		$attributeFooter = $this->attributeFooter;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['thead'] = array(
+			'No','Nama Pokja', 'Ketua Pokja', 'Aksi'
+		);
+		$data['dhead'] = array(
+			'nama_pokja', 'ketua_pokja'
+		);
+		$data['id_table'] = 'id_pokja';
+		$data['header'] = 'Daftar Pokja';
+		$data['edit_url'] = 'edit_pokja';
+		$data['delete_url'] = 'delete_pokja';
+		$data['add_url'] = 'add_pokja';
+		$nama_table = 'pokja_dinas';
+		$data['data'] = $this->dinas_model->get_all_setting($nama_table);
+		$data['main_content'] = 'dinas/pokja/list_pokja';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function add_pokja()
+	{
+		$nama_table = 'pokja_dinas';
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			$this->form_validation->set_rules('nama_pokja', 'nama_pokja', 'required');
+			$this->form_validation->set_rules('ketua_pokja', 'ketua_pokja', 'required');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			//if the form has passed through the validation
+			if ($this->form_validation->run())
+			{
+				$data_to_store = array(
+					'nama_pokja' => $this->input->post('nama_pokja'),
+					'ketua_pokja' => $this->input->post('ketua_pokja'),
+					'anggota_1' => $this->input->post('anggota_1'),
+					'anggota_2' => $this->input->post('anggota_2'),
+					'anggota_3' => $this->input->post('anggota_3'),
+					'anggota_4' => $this->input->post('anggota_4'),
+					'anggota_5' => $this->input->post('anggota_5'),
+					'anggota_6' => $this->input->post('anggota_6')
+				);
+				//if the insert has returned true then we show the flash message
+				if($this->dinas_model->add_setting($nama_table, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'sukses');
+				}else{
+					$this->session->set_flashdata('flash_message', 'failed');
+				}
+
+				//redirect('Prainspeksi_gedung/update/'.$id.'');
+				redirect('dinas/list_pokja');
+
+			}//validation run
+
+		}
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['dhead'] = array(
+			'nama_pokja', 'ketua_pokja', 'anggota_1', 'anggota_2', 'anggota_3', 'anggota_4', 'anggota_5', 'anggota_6'
+		);
+		$data['thead'] = array(
+			'Nama Pokja', 'Ketua Pokja', 'Anggota 1', 'Anggota 2', 'Anggota 3', 'Anggota 4', 'Anggota 5', 'Anggota 6'
+		);
+		$data['header'] = 'Tambah Data Pokja';
+		$data['contrl_url'] = 'add_pokja';
+		$data['cancel_url'] = 'list_pokja';
+		$data['main_content'] = 'dinas/pokja/add_pokja';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function edit_pokja()
+	{
+		$id = $this->uri->segment(3);
+		$nama_table = 'pokja_dinas';
+		$id_table = 'id_pokja';
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			$this->form_validation->set_rules('nama_pokja', 'nama_pokja', 'required');
+			$this->form_validation->set_rules('ketua_pokja', 'ketua_pokja', 'required');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			//if the form has passed through the validation
+			if ($this->form_validation->run())
+			{
+				$data_to_store = array(
+					'nama_pokja' => $this->input->post('nama_pokja'),
+					'ketua_pokja' => $this->input->post('ketua_pokja'),
+					'anggota_1' => $this->input->post('anggota_1'),
+					'anggota_2' => $this->input->post('anggota_2'),
+					'anggota_3' => $this->input->post('anggota_3'),
+					'anggota_4' => $this->input->post('anggota_4'),
+					'anggota_5' => $this->input->post('anggota_5'),
+					'anggota_6' => $this->input->post('anggota_6')
+				);
+				//if the insert has returned true then we show the flash message
+				if($this->dinas_model->update_setting($nama_table, $id_table, $id, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'updated');
+				}else{
+					$this->session->set_flashdata('flash_message', 'not_updated');
+				}
+
+				//redirect('Prainspeksi_gedung/update/'.$id.'');
+				redirect('dinas/list_pokja');
+
+			}//validation run
+
+		}
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['dhead'] = array(
+			'nama_pokja', 'ketua_pokja', 'anggota_1', 'anggota_2', 'anggota_3', 'anggota_4', 'anggota_5', 'anggota_6'
+		);
+		$data['thead'] = array(
+			'Nama Pokja', 'Ketua Pokja', 'Anggota 1', 'Anggota 2', 'Anggota 3', 'Anggota 4', 'Anggota 5', 'Anggota 6'
+		);
+		$data['header'] = 'Edit Data Pokja';
+		$data['contrl_url'] = 'edit_pokja';
+		$data['cancel_url'] = 'list_pokja';
+		$data['data'] = $this->dinas_model->get_setting_byId($nama_table, $id_table, $id);
+		$data['main_content'] = 'dinas/pokja/edit_pokja';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function delete_pokja()
+	{
+		$id = $this->uri->segment(3);
+		$nama_table = 'pokja_dinas';
+		$id_table = 'id_pokja';
+		if ($this->dinas_model->soft_delete_setting($nama_table, $id_table, $id)){
+			$this->session->set_flashdata('flash_message', 'deleted');
+		}
+		else{
+			$this->session->set_flashdata('flash_message', 'failed');
+		}
+		redirect('dinas/list_pokja');
+	}
+
+	public function list_fireHist()
+	{
+		$attributeFooter = $this->attributeFooter;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['thead'] = array(
+			'No','Gedung', 'Waktu Kejadian', 'Penyebab', 'Jumlah Unit', 'Keterangan', 'Aksi'
+		);
+		$data['dhead'] = array(
+			'no_gedung', 'waktu_kejadian', 'dugaan_penyebab', 'jumlah_unit', 'keterangan'
+		);
+		$data['id_table'] = 'id_fireHistDinas';
+		$data['header'] = 'Riwayat Kebakaran';
+		$data['edit_url'] = 'edit_fireHist';
+		$data['delete_url'] = 'delete_fireHist';
+		$data['add_url'] = 'add_fireHist';
+		$table_fireHist = 'riwayat_kebakaran_gdd_dinas';
+		$table_gedung = 'gedung_dinas';
+		$data['data'] = $this->dinas_model->get_list_fireHist($table_fireHist, $table_gedung);
+		$data['main_content'] = 'dinas/fire_hist/list_fireHist';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function add_fireHist()
+	{
+		$table_fireHist = 'riwayat_kebakaran_gdd_dinas';
+		$table_gedung = 'gedung_dinas';
+		$table_penyebab = 'tabel_kolom_penyebabFire';
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			$this->form_validation->set_rules('no_gedung', 'no_gedung', 'required');
+			$this->form_validation->set_rules('waktu_kejadian', 'waktu_kejadian', 'required');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			//if the form has passed through the validation
+			if ($this->form_validation->run())
+			{
+				$data_to_store = array(
+					'no_gedung' => $this->input->post('no_gedung'),
+					'waktu_kejadian' => $this->input->post('waktu_kejadian'),
+					'dugaan_penyebab' => $this->input->post('dugaan_penyebab'),
+					'jumlah_unit' => $this->input->post('jumlah_unit'),
+					'keterangan' => $this->input->post('keterangan')
+				);
+				//if the insert has returned true then we show the flash message
+				if($this->dinas_model->add_setting($table_fireHist, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'sukses');
+				}else{
+					$this->session->set_flashdata('flash_message', 'failed');
+				}
+
+				//redirect('Prainspeksi_gedung/update/'.$id.'');
+				redirect('dinas/list_fireHist');
+
+			}//validation run
+
+		}
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$attributeFooter['bootstrapSelect'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['dhead'] = array(
+			'no_gedung', 'waktu_kejadian', 'dugaan_penyebab', 'jumlah_unit', 'keterangan'
+		);
+		$data['thead'] = array(
+			'Gedung', 'Waktu Kejadian', 'Penyebab', 'Jumlah Unit', 'Keterangan'
+		);
+		$data['header'] = 'Tambah Riwayat Kebakaran';
+		$data['contrl_url'] = 'add_fireHist';
+		$data['cancel_url'] = 'list_fireHist';
+		$column_penyebab = array ('id_penyebabFire', 'penyebab');
+		$data['list_penyebab'] = $this->dinas_model->get_hslPemeriksaan($table_penyebab, $column_penyebab);
+		$column_gedung = array ('no_gedung', 'nama_gedung');
+		$data['list_gedung'] = $this->dinas_model->get_hslPemeriksaan($table_gedung, $column_gedung);
+		$data['main_content'] = 'dinas/fire_hist/add_fireHist';
 		$this->load->view('dinas/includes/template', $data);
 	}
 
@@ -472,14 +800,15 @@ class Dinas extends CI_Controller {
 
 
 
+
+
+
+
+
 	public function database_operation()
 	{
-		$data['attributeFooter'] = array(
-			'chartJS' => FALSE,
-			'dataTable' => FALSE,
-			'JqueryValidation' => FALSE,
-			'bootstrapSelect' => FALSE
-		);
+		$attributeFooter = $this->attributeFooter;
+		$data['attributeFooter'] = $attributeFooter;
 		$data['message']='none';
 		$data['main_content'] = 'dinas/database';
 		$this->load->view('dinas/includes/template', $data);

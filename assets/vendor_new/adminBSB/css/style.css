@@ -2441,16 +2441,17 @@ section.content {
   border: none;
   outline: none !important;
   overflow: hidden;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   -ms-border-radius: 50%;
   border-radius: 50%; }
   .btn-circle i {
-    font-size: 18px;
+    font-size: 14px;
     position: relative;
-    left: -1px; }
+    left: -4px;
+    bottom: 6px; }
 
 .btn-link {
   font-weight: bold;

@@ -68,6 +68,21 @@ class Dinas_model extends CI_Model {
 		return $query->result_array();
 	}
 
+	public function get_list_fireHist($table_fireHist, $table_gedung)
+	{
+		$this->db->select('*');
+		$this->db->from($table_fireHist);
+		$this->db->select($table_gedung.'.nama_gedung');
+		$this->db->join($table_gedung, $table_fireHist.'.no_gedung ='.$table_gedung.'.no_gedung', 'left');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+
+
+
+	
+
 	/**
 	* Get product by his is
 	* @param int $product_id

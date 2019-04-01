@@ -223,6 +223,10 @@ if(!function_exists('trv_state'))
 			echo 'active';
 		}elseif (($page==='setting' || $page==='statusGedung') && $url1==='dinas' && ($url2==='list_statusGedung'|| $url2==='edit_statusGedung' || $url2==='add_statusGedung')) {
 			echo 'active';
+		}elseif (($page==='setting' || $page==='penyebabFire') && $url1==='dinas' && ($url2==='list_penyebabFire'|| $url2==='edit_penyebabFire' || $url2==='add_penyebabFire')) {
+			echo 'active';
+		}elseif ($page==='pokja' && $url1==='dinas' && ($url2==='list_pokja'|| $url2==='edit_pokja' || $url2==='add_pokja')) {
+			echo 'active';
 		}else{
 			echo '';
 		}
