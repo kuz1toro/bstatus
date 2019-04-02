@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 01, 2019 at 07:48 PM
+-- Generation Time: Apr 02, 2019 at 10:42 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -3187,7 +3187,8 @@ INSERT INTO `pokja_dinas` (`id_pokja`, `nama_pokja`, `ketua_pokja`, `anggota_1`,
 CREATE TABLE `riwayat_kebakaran_gdd_dinas` (
   `id_fireHistDinas` int(11) UNSIGNED NOT NULL,
   `no_gedung` varchar(10) NOT NULL,
-  `waktu_kejadian` datetime DEFAULT NULL,
+  `tgl_kejadian` date DEFAULT NULL,
+  `waktu_kejadian` time DEFAULT NULL,
   `dugaan_penyebab` tinyint(3) UNSIGNED DEFAULT NULL,
   `jumlah_unit` varchar(255) DEFAULT NULL,
   `keterangan` varchar(255) DEFAULT NULL,
@@ -6225,7 +6226,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_selector`, `activation_code`, `forgotten_password_selector`, `forgotten_password_code`, `forgotten_password_time`, `remember_selector`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
 (1, '127.0.0.1', 'admin', '$2y$12$zSuLaAF.NWlcQ/HKyBQSredavdW6dypVdLE5ZaF5C3EdzkaWWWJJ2', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1553604879, 1, 'Admin', 'istrator', 'ADMIN', '0'),
 (2, '127.0.0.1', 'kuz1toro@gmail.com', '$2y$10$S04bKi5r0iZxpDnERsdFC.zPg6Fk747ntkcGPiWi7z4q1.UVbQQxa', 'kuz1toro@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1553171182, NULL, 1, 'Bidang-Pencegahan', 'Dinas', 'Dinas Penanggulangan Kebakaran dan Penyelamatan', '087802089254'),
-(3, '127.0.0.1', 'dinas', '$2y$10$UNFQJOc8jLVHVoWWtsx5GuOc5IFQg3Qv6VGJH6BAYpN8btbooqraC', 'bidangpencegahan@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1553604578, 1554120396, 1, 'Bidang Pencegahan', 'Dinas', 'Dinas Penanggulangan Kebakaran dan Penyelamatan', '021');
+(3, '127.0.0.1', 'dinas', '$2y$10$UNFQJOc8jLVHVoWWtsx5GuOc5IFQg3Qv6VGJH6BAYpN8btbooqraC', 'bidangpencegahan@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1553604578, 1554190403, 1, 'Bidang Pencegahan', 'Dinas', 'Dinas Penanggulangan Kebakaran dan Penyelamatan', '021');
 
 -- --------------------------------------------------------
 
@@ -6477,7 +6478,7 @@ ALTER TABLE `tabel_kolom_jalurInfo`
 -- AUTO_INCREMENT for table `tabel_kolom_penyebabFire`
 --
 ALTER TABLE `tabel_kolom_penyebabFire`
-  MODIFY `id_penyebabFire` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_penyebabFire` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tabel_kolom_statusGedung`

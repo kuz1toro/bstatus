@@ -30,7 +30,7 @@
     } ?>
 
     <!-- Bootstrap Material Datetime Picker Css -->
-    <?php if ($attributeFooter['DatetimePicker']){
+    <?php if ($attributeFooter['datetimePicker']){
         echo '<link href="'.base_url().'assets/vendor_new/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">';
         echo '<link href="'.base_url().'assets/vendor_new/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">';
     } ?>

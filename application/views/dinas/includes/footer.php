@@ -45,11 +45,13 @@
     //echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/form-validation.js"></script>';
 } ?>
 
-<!-- Bootstrap Material Datetime Picker -->
-<?php if ($attributeFooter['DatetimePicker']){
+<!-- autosize, moment, Bootstrap Material Datetime Picker -->
+<?php if ($attributeFooter['datetimePicker']){
+    echo '<script src="'.base_url().'assets/vendor_new/autosize/autosize.js"></script>';
     echo '<script src="'.base_url().'assets/vendor_new/momentjs/moment.js"></script>';
     echo '<script src="'.base_url().'assets/vendor_new/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>';
     echo '<script src="'.base_url().'assets/vendor_new/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>';
+    echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/basic-form-elements.js"></script>';
 } ?>
 
 <script src="<?php echo base_url(); ?>assets/vendor_new/adminBSB/js/pages/ui/dialogs.js"></script>

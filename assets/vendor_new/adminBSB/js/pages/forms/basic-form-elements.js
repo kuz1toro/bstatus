@@ -6,7 +6,9 @@ $(function () {
     $('.datetimepicker').bootstrapMaterialDatePicker({
         format: 'dddd DD MMMM YYYY - HH:mm',
         clearButton: true,
-        weekStart: 1
+        weekStart: 1,
+        switchOnClick: true,
+        monthPicker: true
     });
 
     $('.datepicker').bootstrapMaterialDatePicker({
@@ -19,7 +21,9 @@ $(function () {
     $('.timepicker').bootstrapMaterialDatePicker({
         format: 'HH:mm',
         clearButton: true,
-        date: false
+        date: false,
+        switchOnClick: true,
+        nowText: true
     });
 
     //Bootstrap datepicker plugin

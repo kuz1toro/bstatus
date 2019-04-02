@@ -141,7 +141,8 @@ CREATE TABLE `pokja_dinas` (
 CREATE TABLE `riwayat_kebakaran_gdd_dinas` (
   `id_fireHistDinas` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `no_gedung` varchar(10) NOT NULL,
-  `waktu_kejadian` DATETIME NULL DEFAULT NULL,
+  `tgl_kejadian` DATE NULL DEFAULT NULL,
+  `waktu_kejadian` TIME NULL DEFAULT NULL,
   `dugaan_penyebab` TINYINT UNSIGNED NULL DEFAULT NULL,
   `jumlah_unit` varchar(255)  DEFAULT NULL,
   `keterangan` VARCHAR(255) DEFAULT NULL

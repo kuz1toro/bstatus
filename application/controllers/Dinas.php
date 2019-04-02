@@ -16,7 +16,7 @@ class Dinas extends CI_Controller {
 			'dataTable' => FALSE,
 			'JqueryValidation' => FALSE,
 			'bootstrapSelect' => FALSE,
-			'DatetimePicker' => FALSE
+			'datetimePicker' => FALSE
 		);
 
 	/**
@@ -720,10 +720,10 @@ class Dinas extends CI_Controller {
 		$attributeFooter = $this->attributeFooter;
 		$data['attributeFooter'] = $attributeFooter;
 		$data['thead'] = array(
-			'No','Gedung', 'Waktu Kejadian', 'Penyebab', 'Jumlah Unit', 'Keterangan', 'Aksi'
+			'No','Gedung', 'Tanggal Kejadian', 'Waktu Kejadian', 'Penyebab', 'Jumlah Unit yang diturunkan', 'Keterangan'
 		);
 		$data['dhead'] = array(
-			'no_gedung', 'waktu_kejadian', 'dugaan_penyebab', 'jumlah_unit', 'keterangan'
+			'no_gedung', 'tgl_kejadian', 'waktu_kejadian', 'dugaan_penyebab', 'jumlah_unit', 'keterangan'
 		);
 		$data['id_table'] = 'id_fireHistDinas';
 		$data['header'] = 'Riwayat Kebakaran';
@@ -775,12 +775,13 @@ class Dinas extends CI_Controller {
 		$attributeFooter = $this->attributeFooter;
 		$attributeFooter['JqueryValidation'] = TRUE;
 		$attributeFooter['bootstrapSelect'] = TRUE;
+		$attributeFooter['datetimePicker'] = TRUE;
 		$data['attributeFooter'] = $attributeFooter;
 		$data['dhead'] = array(
-			'no_gedung', 'waktu_kejadian', 'dugaan_penyebab', 'jumlah_unit', 'keterangan'
+			'no_gedung', 'tgl_kejadian', 'waktu_kejadian', 'dugaan_penyebab', 'jumlah_unit', 'keterangan'
 		);
 		$data['thead'] = array(
-			'Gedung', 'Waktu Kejadian', 'Penyebab', 'Jumlah Unit', 'Keterangan'
+			'Gedung', 'Tanggal Kejadian', 'Waktu Kejadian', 'Penyebab', 'Jumlah Unit yang diturunkan', 'Keterangan'
 		);
 		$data['header'] = 'Tambah Riwayat Kebakaran';
 		$data['contrl_url'] = 'add_fireHist';

@@ -32,18 +32,24 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-sm-12"> <!-- tgl kejadian -->
+                                    <div class="form-group form-float">
+                                        <div class="form-line" id="bs_datepicker_container">
+                                            <input type="text" class="form-control" name="<?php echo $dhead[1]; ?>" placeholder="<?php echo $thead[1]; ?>" required >
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-sm-12"> <!-- waktu kejadian -->
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                            <input type="text" class="form-control" name="<?php echo $dhead[1]; ?>" required>
-                                            <label class="form-label"><?php echo $thead[1]; ?></label>
+                                            <input type="text" class="timepicker form-control" name="<?php echo $dhead[2]; ?>" placeholder="<?php echo $thead[2]; ?>" >
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group form-float">
-                                        <label class="form-label font-12 font-normal col-grey"><?php echo $thead[2]; ?></label> 
-                                        <select class="form-control show-tick" name="<?php echo $dhead[2]; ?>" required>
+                                        <label class="form-label font-12 font-normal col-grey"><?php echo $thead[3]; ?></label> 
+                                        <select class="form-control show-tick" name="<?php echo $dhead[3]; ?>" required>
                                             <option value="">Silahkan Pilih Penyebab Kebakaran</option>
                                             <?php 
                                                 foreach($list_penyebab as $row)
@@ -57,16 +63,16 @@
                                 <div class="col-sm-12">
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                            <input type="text" class="form-control" name="<?php echo $dhead[3]; ?>">
-                                            <label class="form-label"><?php echo $thead[3]; ?></label>
+                                            <input type="text" class="form-control" name="<?php echo $dhead[4]; ?>">
+                                            <label class="form-label"><?php echo $thead[4]; ?></label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group form-float">
                                         <div class="form-line">
-                                            <textarea rows="4" class="form-control no-resize" name="<?php echo $dhead[4]; ?>"></textarea>
-                                            <label class="form-label"><?php echo $thead[4]; ?></label>
+                                            <textarea rows="4" class="form-control no-resize" name="<?php echo $dhead[5]; ?>"></textarea>
+                                            <label class="form-label"><?php echo $thead[5]; ?></label>
                                         </div>
                                     </div>
                                 </div>
