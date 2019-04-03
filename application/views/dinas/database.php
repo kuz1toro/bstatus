@@ -15,6 +15,8 @@
                             <a href="statusGedung_operation" type="button" class="btn bg-red waves-effect">status gedung</a>
                             <a type="button" class="btn bg-red waves-effect">next status</a>
                             <a href="tglBerlakuExpired_operation" type="button" class="btn bg-red waves-effect">tgl berlaku & expired</a>
+                            <a href="fungsiGedung_operation" type="button" class="btn bg-red waves-effect">Fungsi Gedung</a>
+                            <a href="kepemilikkan_operation" type="button" class="btn bg-red waves-effect">Kepemilikkan Gedung</a>
                         </div>
                     </div>
                 </div>

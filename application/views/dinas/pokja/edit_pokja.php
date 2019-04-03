@@ -2,7 +2,7 @@
 		<div class="container-fluid">
             <div class="row clearfix">
                 <!-- Content -->
-                <div class="col-lg-6 col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+                <div class="col-lg-8 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
                             <h2>

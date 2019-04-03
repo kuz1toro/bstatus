@@ -41,16 +41,16 @@
         <div class="container-fluid">
             <div class="row clearfix">
                 <!-- Content -->
-                <div class="col-lg-8 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
                             <h2>
-                                <?php echo $header; ?>
+                                <?php echo $header;  ?>
                             </h2>
                         </div>
                         <div class="body">
                             <div class="table-responsive"r>
-                                <table class="table table-bordered table-hover table-condensed ">
+                                <table class="table table-bordered table-striped table-hover dataTable js-exportable ">
                                     <thead>
                                         <tr>
                                             <th class="hidden">id</th>
@@ -85,7 +85,7 @@
                                                     </button>
                                                 </td>';
                                                 $count++;
-                                            echo '<tr>';
+                                            echo '</tr>';
                                         }
                                         ?>
                                     </tbody>

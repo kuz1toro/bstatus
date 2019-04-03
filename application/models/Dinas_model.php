@@ -68,12 +68,34 @@ class Dinas_model extends CI_Model {
 		return $query->result_array();
 	}
 
-	public function get_list_fireHist($table_fireHist, $table_gedung)
+	public function get_list_fireHist($table_fireHist, $table_gedung, $table_penyebabFire)
 	{
 		$this->db->select('*');
-		$this->db->from($table_fireHist);
+		$this->db->from($table_fireHist.' as riwayat');
 		$this->db->select($table_gedung.'.nama_gedung');
-		$this->db->join($table_gedung, $table_fireHist.'.no_gedung ='.$table_gedung.'.no_gedung', 'left');
+		$this->db->join($table_gedung, 'riwayat.no_gedung ='.$table_gedung.'.no_gedung', 'left');
+		$this->db->select($table_penyebabFire.'.penyebab');
+		$this->db->join($table_penyebabFire, 'riwayat.dugaan_penyebab ='.$table_penyebabFire.'.id_penyebabFire', 'left');
+		$this->db->where('riwayat.deleted', 0);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	function debug_db()
+	{
+		return $this->db->last_query();
+	}
+
+	public function get_list_gedung($table_gedung, $table_fungsi, $table_kepemilikkan, $coulum_table_gedung)
+	{
+		$this->db->select($coulum_table_gedung);
+		$this->db->from($table_gedung.' as tabelGedung');
+		$this->db->select($table_fungsi.'.fungsi_gedung');
+		$this->db->join($table_fungsi, 'tabelGedung.fungsi ='.$table_fungsi.'.id_fungsi_gedung', 'left');
+		$this->db->select($table_kepemilikkan.'.kepemilikkan_gedung');
+		$this->db->join($table_kepemilikkan, 'tabelGedung.kepemilikan ='.$table_kepemilikkan.'.id_kepemilikkan_gedung', 'left');
+		$this->db->where('tabelGedung.deleted', 0);
+		//$this->db->limit(10);
 		$query = $this->db->get();
 		return $query->result_array();
 	}

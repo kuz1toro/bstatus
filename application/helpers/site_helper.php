@@ -1,18 +1,78 @@
 <?php
+//Regex to check date is in YYYY-MM-DD format
+if(!function_exists('isValidDate'))
+{
+	function isValidDate($value)
+	{
+		if (preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$value)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
+if(!function_exists('msqlDate2html'))
+{
+	function msqlDate2html($value)
+	{
+		if(is_null($value) || empty($value) || !isValidDate($value))
+		{
+			return NULL;
+		}else
+		{
+			$date = date('Y-m-d',strtotime($value));
+			$split = explode('-', $date);
+            $tanggal = $split[2].'-'.$split[1].'-'.$split[0];
+			$temp = date('Y-m-d',strtotime("1500-01-01"));
+			if($date < $temp){
+				$tgl = NULL;
+			} else if ($date >= $temp) {
+				$tgl = $tanggal;
+			} else {
+				$tgl = NULL;
+			}
+			return ($tgl);
+		}
+	}
+}
 
 if(!function_exists('sqlDate2html'))
 {
 	function sqlDate2html($value)
 	{
-		$temp = date('Y-m-d',strtotime("1971-01-01"));
-		if($value < $temp){
-			$tgl = NULL;
-		} else if ($value >= $temp) {
-			$tgl = date('d-M-Y',strtotime("$value"));
-		} else {
-			$tgl = NULL;
+		if(is_null($value) || empty($value) || !isValidDate($value))
+		{
+			return NULL;
+		}else
+		{
+			$bulan = array ('01' => 'Januari',
+							'02' => 'Februari',
+							'03' => 'Maret',
+							'04' => 'April',
+							'05' => 'Mei',
+							'06' => 'Juni',
+							'07' => 'Juli',
+							'08' => 'Agustus',
+							'09' => 'September',
+							'10' => 'Oktober',
+							'11' => 'November',
+							'12' => 'Desember',
+							'00' => NULL
+			);
+			$date = date('Y-m-d',strtotime($value));
+			$split = explode('-', $date);
+			$tanggal = $split[2].'-'.$bulan[$split[1]].'-'.$split[0];
+			$temp = date('Y-m-d',strtotime("1500-01-01"));
+			if($date < $temp){
+				$tgl = NULL;
+			} else if ($date >= $temp) {
+				$tgl = $tanggal;
+			} else {
+				$tgl = NULL;
+			}
+			return ($tgl);
 		}
-		return ($tgl);
 	}
 }
 
@@ -20,8 +80,23 @@ if(!function_exists('htmlDate2sqlDate'))
 {
 	function htmlDate2sqlDate($value)
 	{
-		$temp = date('Y-m-d',strtotime("1971-01-01"));
-		$value = date('Y-m-d',strtotime("$value"));
+		$bulan = array ('Januari' => '01',
+						'Februari' => '02',
+						'Maret' => '03',
+						'April' => '04',
+						'Mei' => '05',
+						'Juni' => '06',
+						'Juli' => '07',
+						'Agustus' => '08',
+						'September' => '09',
+						'Oktober' => '10',
+						'November' => '11',
+						'Desember' => '12'
+		);
+		$split = explode('-', $value);
+		$date = $split[0].'-'.$bulan[$split[1]].'-'.$split[2];
+		$temp = date('Y-m-d',strtotime("1500-01-01"));
+		$value = date('Y-m-d',strtotime("$date"));
 		if($value < $temp){
 			$tgl = NULL;
 		} else if ($value >= $temp) {
@@ -217,6 +292,12 @@ if(!function_exists('trv_state'))
 			echo 'active';
 		}elseif ($page==='home' && $url1==='dinas' && $url2==='home') {
 			echo 'active';	
+		}elseif ($page==='gedung' && $url1==='dinas' && ($url2==='list_gedung' || $url2==='edit_fungsiGedung' || $url2==='add_fungsiGedung')) {
+			echo 'active';
+		}elseif (($page==='setting' || $page==='fungsiGedung') && $url1==='dinas' && ($url2==='list_fungsiGedung' || $url2==='edit_fungsiGedung' || $url2==='add_fungsiGedung')) {
+			echo 'active';
+		}elseif (($page==='setting' || $page==='kepemilknGedung') && $url1==='dinas' && ($url2==='list_kepemilknGedung' || $url2==='edit_kepemilknGedung' || $url2==='add_kepemilknGedung')) {
+			echo 'active';
 		}elseif (($page==='setting' || $page==='jalurInfo') && $url1==='dinas' && ($url2==='list_jalurInfo' || $url2==='edit_jalurInfo' || $url2==='add_jalurInfo')) {
 			echo 'active';	
 		}elseif (($page==='setting' || $page==='hslPemeriksaan') && $url1==='dinas' && ($url2==='list_hslPemeriksaan'|| $url2==='edit_hslPemeriksaan' || $url2==='add_hslPemeriksaan')) {
@@ -226,6 +307,8 @@ if(!function_exists('trv_state'))
 		}elseif (($page==='setting' || $page==='penyebabFire') && $url1==='dinas' && ($url2==='list_penyebabFire'|| $url2==='edit_penyebabFire' || $url2==='add_penyebabFire')) {
 			echo 'active';
 		}elseif ($page==='pokja' && $url1==='dinas' && ($url2==='list_pokja'|| $url2==='edit_pokja' || $url2==='add_pokja')) {
+			echo 'active';
+		}elseif ($page==='fireHist' && $url1==='dinas' && ($url2==='list_fireHist'|| $url2==='edit_fireHist' || $url2==='add_fireHist')) {
 			echo 'active';
 		}else{
 			echo '';

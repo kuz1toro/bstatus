@@ -17,6 +17,13 @@
 <?php if ($attributeFooter['dataTable']){
     echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/jquery.dataTables.js"></script>';
     echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>';
+    echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>';
+    echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/buttons.flash.min.js"></script>';
+    echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/jszip.min.js"></script>';
+    echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/pdfmake.min.js"></script>';
+    echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/vfs_fonts.js"></script>';
+    echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/buttons.html5.min.js"></script>';
+    echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/buttons.print.min.js"></script>';
     echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/tables/jquery-datatable.js"></script>';
 } ?>
 
@@ -51,6 +58,7 @@
     echo '<script src="'.base_url().'assets/vendor_new/momentjs/moment.js"></script>';
     echo '<script src="'.base_url().'assets/vendor_new/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>';
     echo '<script src="'.base_url().'assets/vendor_new/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>';
+    echo '<script src="'.base_url().'assets/vendor_new/bootstrap-datepicker/locales/bootstrap-datepicker.id.min.js"></script>';
     echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/basic-form-elements.js"></script>';
 } ?>
 

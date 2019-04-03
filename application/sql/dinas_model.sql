@@ -14,6 +14,7 @@ CREATE TABLE `gedung_dinas` (
   `kelurahan` varchar(100)  DEFAULT NULL,
   `kodepos` varchar(6)  DEFAULT NULL,
   `peruntukan` varchar(100)  DEFAULT NULL,
+  `fungsi` SMALLINT(6) UNSIGNED NULL DEFAULT NULL,
   `kepemilikan` varchar(100)  DEFAULT NULL,
   `jml_tower` tinyint(5)  unsigned DEFAULT NULL,
   `jml_lantai` tinyint(5)  unsigned DEFAULT NULL,
@@ -52,6 +53,41 @@ CREATE TABLE `pemeriksaan_dinas` (
 # fill table pemeriksaan_dinas
 INSERT INTO pemeriksaan_dinas (no_gedung,jalur_info,hasil_pemeriksaan,status_gedung,tgl_berlaku,tgl_expired,next_status,catatan)
 SELECT no_gedung,jalur_info,hasil_pemeriksaan,status_gedung,tgl_berlaku,tgl_expired,next_status,catatan FROM import;
+
+CREATE TABLE `tabel_kolom_fungsi_gedung` (
+  `id_fungsi_gedung` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `fungsi_gedung` varchar(100) NOT NULL,
+  `keterangan_fungsiGdg` varchar(255)  DEFAULT NULL,
+  PRIMARY KEY (`id_fungsi_gedung`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# fill tabel_kolom_fungsi_gedung
+INSERT INTO `tabel_kolom_fungsi_gedung` (`fungsi_gedung`, `keterangan_fungsiGdg`) VALUES
+('Apartemen',NULL),
+('Bisnis Lainnya',NULL),
+('Hotel',NULL),
+('Hunian lainnya',NULL),
+('Kesehatan',NULL),
+('Mall',NULL),
+('Pendidikan',NULL),
+('Perkantoran',NULL),
+('Pusat Perdagangan',NULL),
+('Rumah Susun',NULL),
+('SosBud Lainnya',NULL);
+
+CREATE TABLE `tabel_kolom_kepemilikkan_gedung` (
+  `id_kepemilikkan_gedung` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `kepemilikkan_gedung` varchar(100) NOT NULL,
+  `keterangan_kepemilikkan_gedung` varchar(255)  DEFAULT NULL,
+  `deleted` BOOLEAN NOT NULL DEFAULT FALSE,
+  PRIMARY KEY (`id_kepemilikkan_gedung`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# fill tabel_kolom_kepemilikkan_gedung
+INSERT INTO `tabel_kolom_kepemilikkan_gedung` (`kepemilikkan_gedung`, `keterangan_kepemilikkan_gedung`) VALUES
+('Pemda DKI',NULL),
+('Pemerintah Non-DKI',NULL),
+('Swasta',NULL);
 
 CREATE TABLE `tabel_kolom_jalurInfo` (
   `id_kolom_jalurInfo` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -142,7 +178,7 @@ CREATE TABLE `riwayat_kebakaran_gdd_dinas` (
   `id_fireHistDinas` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `no_gedung` varchar(10) NOT NULL,
   `tgl_kejadian` DATE NULL DEFAULT NULL,
-  `waktu_kejadian` TIME NULL DEFAULT NULL,
+  `waktu_kejadian` VARCHAR(5) NULL DEFAULT NULL,
   `dugaan_penyebab` TINYINT UNSIGNED NULL DEFAULT NULL,
   `jumlah_unit` varchar(255)  DEFAULT NULL,
   `keterangan` VARCHAR(255) DEFAULT NULL

@@ -2,7 +2,7 @@
 		<div class="container-fluid">
             <div class="row clearfix">
                 <!-- Content -->
-                <div class="col-lg-6 col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+                <div class="col-lg-8 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
                             <h2>
@@ -13,7 +13,7 @@
                             <?php
                                 //form data
                                 //print_r($list_gedung);
-                                //print_r ($test);
+                                //print_r ($testDate);
                                 $attributes = array('id' => 'form_validation');
                                 echo form_open('dinas/'.$contrl_url.'', $attributes);
                             ?>
@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="col-sm-12"> <!-- tgl kejadian -->
                                     <div class="form-group form-float">
-                                        <div class="form-line" id="bs_datepicker_container">
+                                        <div class="form-line " id="bs_datepicker_container">
                                             <input type="text" class="form-control" name="<?php echo $dhead[1]; ?>" placeholder="<?php echo $thead[1]; ?>" required >
                                         </div>
                                     </div>

@@ -128,6 +128,12 @@
                             <span>Home</span>
                         </a>
                     </li>
+                    <li class="<?php trv_state('gedung', $url1, $url2);?>">
+                        <a href="<?php echo base_url(); ?>dinas/list_gedung">
+                            <i class="material-icons">receipt</i>
+                            <span>Data Gedung</span>
+                        </a>
+                    </li>
                     <li class="<?php trv_state('pokja', $url1, $url2);?>">
                         <a href="<?php echo base_url(); ?>dinas/list_pokja">
                             <i class="material-icons">group</i>
@@ -146,6 +152,16 @@
                             <span>Setting Input</span>
                         </a>
                         <ul class="ml-menu">
+                            <li class="<?php trv_state('fungsiGedung', $url1, $url2);?>">
+                                <a href="<?php echo base_url(); ?>dinas/list_fungsiGedung" class="waves-effect waves-block">
+                                    <span>Fungsi Gedung</span>
+                                </a>
+                            </li>
+                            <li class="<?php trv_state('kepemilknGedung', $url1, $url2);?>">
+                                <a href="<?php echo base_url(); ?>dinas/list_kepemilknGedung" class="waves-effect waves-block">
+                                    <span>Kepemilikkan Gedung</span>
+                                </a>
+                            </li>
                             <li class="<?php trv_state('jalurInfo', $url1, $url2);?>">
                                 <a href="<?php echo base_url(); ?>dinas/list_jalurInfo" class="waves-effect waves-block">
                                     <span>Jalur Informasi</span>

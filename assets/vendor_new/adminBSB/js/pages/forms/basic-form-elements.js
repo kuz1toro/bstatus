@@ -26,9 +26,14 @@ $(function () {
         nowText: true
     });
 
+    
     //Bootstrap datepicker plugin
     $('#bs_datepicker_container input').datepicker({
         autoclose: true,
+        format: "dd-MM-yyyy",
+        todayBtn: "linked",
+        clearBtn: true,
+        language: "id",
         container: '#bs_datepicker_container'
     });
 
