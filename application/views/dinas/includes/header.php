@@ -35,8 +35,17 @@
         echo '<link href="'.base_url().'assets/vendor_new/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">';
     } ?>
 
+    <!-- jquery datatable Css -->
+    <?php if ($attributeFooter['dataTable']){
+        echo '<link href="'.base_url().'assets/vendor_new/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">';
+    } ?>
+
     <!-- Custom Css -->
-    <link href="<?php echo base_url(); ?>assets/vendor_new/adminBSB/css/style.css" rel="stylesheet">
+    <?php if ($attributeFooter['dataTable']){
+        echo '<link href="'.base_url().'assets/vendor_new/adminBSB/css/style.dataTable.css" rel="stylesheet">';
+    }else{
+        echo '<link href="'.base_url().'assets/vendor_new/adminBSB/css/style.css" rel="stylesheet">';
+    } ?>
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="<?php echo base_url(); ?>assets/vendor_new/adminBSB/css/themes/theme-red.min.css" rel="stylesheet" />

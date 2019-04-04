@@ -100,6 +100,45 @@ class Dinas_model extends CI_Model {
 		return $query->result_array();
 	}
 
+	public function get_list_gedung_byId($table_gedung, $table_fungsi, $table_kepemilikkan, $id_gedung, $id)
+	{
+		$this->db->select('*');
+		$this->db->from($table_gedung.' as tabelGedung');
+		$this->db->select($table_fungsi.'.fungsi_gedung');
+		$this->db->join($table_fungsi, 'tabelGedung.fungsi ='.$table_fungsi.'.id_fungsi_gedung', 'left');
+		$this->db->select($table_kepemilikkan.'.kepemilikkan_gedung');
+		$this->db->join($table_kepemilikkan, 'tabelGedung.kepemilikan ='.$table_kepemilikkan.'.id_kepemilikkan_gedung', 'left');
+		$this->db->where($id_gedung, $id);
+		//$this->db->limit(10);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function get_no_gdg_byId($table_gedung, $id_gedung, $id)
+	{
+		$this->db->select('no_gedung');
+		$this->db->from($table_gedung);
+		$this->db->where($id_gedung, $id);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function get_list_pemeriksaan_byNoGdg($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $no_gedung_tblPemeriksaan, $no_gedung)
+	{
+		$this->db->select('*');
+		$this->db->from($table_pemeriksaan.' as tabelPemeriksaan');
+		$this->db->select($table_jalurInfo.'.nama_kolom_jalurInfo');
+		$this->db->join($table_jalurInfo, 'tabelPemeriksaan.jalur_info ='.$table_jalurInfo.'.id_kolom_jalurInfo', 'left');
+		$this->db->select($table_hslPemeriksaan.'.nama_kolom_hslPemeriksaan');
+		$this->db->join($table_hslPemeriksaan, 'tabelPemeriksaan.hasil_pemeriksaan ='.$table_hslPemeriksaan.'.id_kolom_hslPemeriksaan', 'left');
+		$this->db->select($table_statusGdg.'.nama_kolom_statusGedung');
+		$this->db->join($table_hslPemeriksaan, 'tabelPemeriksaan.status_gedung ='.$table_hslPemeriksaan.'.id_kolom_hslPemeriksaan', 'left');
+		$this->db->where($id_gedung, $id);
+		//$this->db->limit(10);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 
 
 

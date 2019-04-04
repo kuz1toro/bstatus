@@ -1157,13 +1157,12 @@ class Dinas extends CI_Controller {
 
 	public function list_gedung()
 	{
-		$user = $this->ion_auth->user()->row();
-		$userName = $user->username;
 		$attributeFooter = $this->attributeFooter;
 		$attributeFooter['dataTable'] = TRUE;
 		$data['attributeFooter'] = $attributeFooter;
+		//console_log( $attributeFooter );
 		$data['thead'] = array(
-			'No','No Gedung', 'Nama Gedung', 'Alamat', 'Wilayah', 'Fungsi', 'Kepemilikkan', 'Aksi'
+			'No','No Gdg', 'Nama Gedung', 'Alamat', 'Wilayah', 'Fungsi', 'Kepemilikkan', 'Aksi'
 		);
 		$data['dhead'] = array(
 			'no_gedung', 'nama_gedung', 'alamat_gedung', 'wilayah', 'fungsi_gedung', 'kepemilikkan_gedung'
@@ -1171,6 +1170,7 @@ class Dinas extends CI_Controller {
 		$id_gedung = 'id_gdg_dinas';
 		$data['id_table'] = $id_gedung;
 		$data['header'] = 'Data Gedung';
+		$data['read_url'] = 'read_gedung';
 		$data['edit_url'] = 'edit_gedung';
 		$data['delete_url'] = 'delete_gedung';
 		$data['add_url'] = 'add_gedung';
@@ -1182,6 +1182,45 @@ class Dinas extends CI_Controller {
 
 		//load the view
 		$data['main_content'] = 'dinas/gedung/list_gedung';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function read_gedung()
+	{
+		$id = $this->uri->segment(3);
+		//$user = $this->ion_auth->user()->row();
+		//$userName = $user->username;
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['dataTable'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
+		//console_log( $attributeFooter );
+		$data['lname'] = array(
+			'No','No Gdg', 'Nama Gedung', 'Alamat', 'Wilayah', 'Kecamatan', 'Kelurahan', 'Kodepos','Fungsi', 'Kepemilikkan', 'Jumlah Tower', 'Jumlah Lantai', 'Jumlah Basement', 'Ketinggian', 'Pokja Pemeriksa', 'Penginput', 'Waktu Input', 'Pengedit', 'Waktu Edit'
+		);
+		$data['lcontent'] = array(
+			'no_gedung', 'nama_gedung', 'alamat_gedung', 'wilayah', 'kecamatan', 'kelurahan', 'kodepos', 'fungsi_gedung', 'kepemilikkan_gedung', 'jml_tower', 'jml_lantai', 'jml_basement', 'tinggi_gedung', 'pokja', 'created_by', 'create_at', 'edit_by', 'edit_at'
+		);
+
+		$id_gedung = 'id_gdg_dinas';
+		$no_gedung_tblPemeriksaan = 'no_gedung';
+		$data['header'] = 'Data Gedung';
+		$data['read_url'] = 'read_gedung';
+		$data['edit_url'] = 'edit_gedung';
+		$data['delete_url'] = 'delete_gedung';
+		$data['add_url'] = 'add_gedung';
+		$table_gedung = 'gedung_dinas';
+		$table_fungsi = 'tabel_kolom_fungsi_gedung';
+		$table_kepemilikkan = 'tabel_kolom_kepemilikkan_gedung';
+		$data['data_gedung'] = $this->dinas_model->get_list_gedung_byId($table_gedung, $table_fungsi, $table_kepemilikkan, $id_gedung, $id);
+		$no_gedung = $this->dinas_model->get_no_gdg_byId($table_gedung, $id_gedung, $id);
+		$table_pemeriksaan = 'pemeriksaan_dinas';
+		$table_jalurInfo = 'tabel_kolom_jalurInfo';
+		$table_hslPemeriksaan = 'tabel_kolom_hslPemeriksaan';
+		$table_statusGdg = 'tabel_kolom_statusGedung';
+		$data['data_pemeriksaan'] = $this->dinas_model->get_list_pemeriksaan_byNoGdg($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $no_gedung_tblPemeriksaan, $no_gedung);
+
+		//load the view
+		$data['main_content'] = 'dinas/gedung/read_gedung';
 		$this->load->view('dinas/includes/template', $data);
 	}
 

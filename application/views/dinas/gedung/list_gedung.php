@@ -47,10 +47,15 @@
                             <h2>
                                 <?php echo $header;  ?>
                             </h2>
+                            <ul class="header-dropdown m-r--5">
+                                <li>
+                                    <a href="<?php echo $add_url; ?>" class="btn btn-primary waves-effect"><i class="material-icons">queue</i><span>Tambah</span></a>
+                                </li>
+                            </ul>
                         </div>
                         <div class="body">
-                            <div class="table-responsive"r>
-                                <table class="table table-bordered table-striped table-hover dataTable js-exportable ">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover table-condensed dataTable js-basic-example">
                                     <thead>
                                         <tr>
                                             <th class="hidden">id</th>
@@ -78,7 +83,8 @@
                                                         echo $row[$col].'</td>';
                                                     }
                                                 }
-                                                echo '<td class="js-sweetalert">
+                                                echo '<td class="js-sweetalert col-lg-1">
+                                                    <a href="'.$read_url.'/'.$row[$id_table].'" class="btn bg-green btn-circle waves-effect waves-circle waves-float" data-toggle="tooltip" title="lihat"><i class="material-icons">remove_red_eye</i></a>
                                                     <a href="'.$edit_url.'/'.$row[$id_table].'" class="btn bg-blue btn-circle waves-effect waves-circle waves-float" data-toggle="tooltip" title="Edit"><i class="material-icons">edit</i></a>
                                                     <button type="button" class="btn bg-red btn-circle waves-effect waves-circle waves-float" value="'.$row[$id_table].'" data-toggle="tooltip" title="Hapus" data-type="confirm_del_settingInput">
                                                         <i class="material-icons">delete</i>
@@ -91,9 +97,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="m-t-10 align-right">
-                                <a href="<?php echo $add_url; ?>" class="btn btn-primary waves-effect"><i class="material-icons">queue</i><span>Tambah</span></a>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
