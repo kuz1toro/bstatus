@@ -1194,16 +1194,23 @@ class Dinas extends CI_Controller {
 		$attributeFooter['dataTable'] = TRUE;
 		$data['attributeFooter'] = $attributeFooter;
 		//console_log( $attributeFooter );
-		$data['lname'] = array(
-			'No','No Gdg', 'Nama Gedung', 'Alamat', 'Wilayah', 'Kecamatan', 'Kelurahan', 'Kodepos','Fungsi', 'Kepemilikkan', 'Jumlah Tower', 'Jumlah Lantai', 'Jumlah Basement', 'Ketinggian', 'Pokja Pemeriksa', 'Penginput', 'Waktu Input', 'Pengedit', 'Waktu Edit'
+		$data['gnames'] = array(
+			'No Gedung', 'Nama Gedung', 'Alamat', 'Wilayah', 'Kecamatan', 'Kelurahan', 'Kodepos','Fungsi', 'Kepemilikkan', 'Jumlah Tower', 'Jumlah Lantai', 'Jumlah Basement', 'Ketinggian', 'Pokja Pemeriksa', 'Penginput', 'Waktu Input', 'Pengedit', 'Waktu Edit'
 		);
-		$data['lcontent'] = array(
+		$data['gcontents'] = array(
 			'no_gedung', 'nama_gedung', 'alamat_gedung', 'wilayah', 'kecamatan', 'kelurahan', 'kodepos', 'fungsi_gedung', 'kepemilikkan_gedung', 'jml_tower', 'jml_lantai', 'jml_basement', 'tinggi_gedung', 'pokja', 'created_by', 'create_at', 'edit_by', 'edit_at'
+		);
+		$data['pnames'] = array(
+			'Nama Pengelola', 'Alamat Pengelola', 'No Telp Pengelola', 'Jalur Info', 'Hasil Pemeriksaan', 'Status Gedung', 'Tanggal Berlaku', 'Tanggal Habis'
+		);
+		$data['pcontents'] = array(
+			'nama_pengelola', 'alamat_pengelola', 'no_telp_pengelola', 'nama_kolom_jalurInfo', 'nama_kolom_hslPemeriksaan', 'nama_kolom_statusGedung', 'tgl_berlaku', 'tgl_expired'
 		);
 
 		$id_gedung = 'id_gdg_dinas';
 		$no_gedung_tblPemeriksaan = 'no_gedung';
-		$data['header'] = 'Data Gedung';
+		$data['header1'] = 'Data Gedung';
+		$data['header2'] = 'Data Pemeriksaan';
 		$data['read_url'] = 'read_gedung';
 		$data['edit_url'] = 'edit_gedung';
 		$data['delete_url'] = 'delete_gedung';
@@ -1217,7 +1224,7 @@ class Dinas extends CI_Controller {
 		$table_jalurInfo = 'tabel_kolom_jalurInfo';
 		$table_hslPemeriksaan = 'tabel_kolom_hslPemeriksaan';
 		$table_statusGdg = 'tabel_kolom_statusGedung';
-		$data['data_pemeriksaan'] = $this->dinas_model->get_list_pemeriksaan_byNoGdg($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $no_gedung_tblPemeriksaan, $no_gedung);
+		$data['data_pemeriksaan'] = $this->dinas_model->get_list_pemeriksaan_byNoGdg($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $no_gedung_tblPemeriksaan, $no_gedung[0]['no_gedung']);
 
 		//load the view
 		$data['main_content'] = 'dinas/gedung/read_gedung';

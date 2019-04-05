@@ -132,8 +132,8 @@ class Dinas_model extends CI_Model {
 		$this->db->select($table_hslPemeriksaan.'.nama_kolom_hslPemeriksaan');
 		$this->db->join($table_hslPemeriksaan, 'tabelPemeriksaan.hasil_pemeriksaan ='.$table_hslPemeriksaan.'.id_kolom_hslPemeriksaan', 'left');
 		$this->db->select($table_statusGdg.'.nama_kolom_statusGedung');
-		$this->db->join($table_hslPemeriksaan, 'tabelPemeriksaan.status_gedung ='.$table_hslPemeriksaan.'.id_kolom_hslPemeriksaan', 'left');
-		$this->db->where($id_gedung, $id);
+		$this->db->join($table_statusGdg, 'tabelPemeriksaan.status_gedung ='.$table_statusGdg.'.id_kolom_statusGedung', 'left');
+		$this->db->where('tabelPemeriksaan.'.$no_gedung_tblPemeriksaan, $no_gedung);
 		//$this->db->limit(10);
 		$query = $this->db->get();
 		return $query->result_array();
