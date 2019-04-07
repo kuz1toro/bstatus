@@ -148,7 +148,7 @@ INSERT INTO `tabel_kolom_penyebabFire` (`id_penyebabFire`, `penyebab`, `keterang
 (NULL, 'Gas', NULL, 0),
 (NULL, 'Arson', NULL, 0)
 
-CREATE TABLE `FSM` (
+CREATE TABLE `FSM_dinas` (
   `id_FSM` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `nama_FSM` varchar(150) DEFAULT NULL,
   `alamat_FSM` varchar(255)  DEFAULT NULL,
@@ -157,6 +157,7 @@ CREATE TABLE `FSM` (
   `tgl_sert_berlaku` date  DEFAULT NULL,
   `tgl_sert_expired` date  DEFAULT NULL,
   `no_gedung` varchar(10) DEFAULT NULL,
+  `deleted` BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`id_FSM`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

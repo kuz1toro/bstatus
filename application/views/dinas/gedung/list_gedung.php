@@ -83,12 +83,8 @@
                                                         echo $row[$col].'</td>';
                                                     }
                                                 }
-                                                echo '<td class="js-sweetalert col-lg-1">
-                                                    <a href="'.$read_url.'/'.$row[$id_table].'" class="btn bg-green btn-circle waves-effect waves-circle waves-float" data-toggle="tooltip" title="lihat"><i class="material-icons">remove_red_eye</i></a>
-                                                    <a href="'.$edit_url.'/'.$row[$id_table].'" class="btn bg-blue btn-circle waves-effect waves-circle waves-float" data-toggle="tooltip" title="Edit"><i class="material-icons">edit</i></a>
-                                                    <button type="button" class="btn bg-red btn-circle waves-effect waves-circle waves-float" value="'.$row[$id_table].'" data-toggle="tooltip" title="Hapus" data-type="confirm_del_settingInput">
-                                                        <i class="material-icons">delete</i>
-                                                    </button>
+                                                echo '<td class="js-sweetalert">
+                                                    <a href="'.$read_url.'/'.$row[$id_table].'" class="btn bg-green btn-circle waves-effect waves-circle waves-float" data-toggle="tooltip" title="lihat"><i class="material-icons">open_in_new</i></a>
                                                 </td>';
                                                 $count++;
                                             echo '</tr>';

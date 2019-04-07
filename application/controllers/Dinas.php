@@ -16,7 +16,8 @@ class Dinas extends CI_Controller {
 			'dataTable' => FALSE,
 			'JqueryValidation' => FALSE,
 			'bootstrapSelect' => FALSE,
-			'datetimePicker' => FALSE
+			'datetimePicker' => FALSE,
+			'kecamatanKelurahan' => FALSE
 		);
 
 	/**
@@ -27,6 +28,7 @@ class Dinas extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('dinas_model');
+		$this->load->model('pelengkap_model');
 		$this->load->library(array('ion_auth','form_validation'));
 		// verifikasi pangilan
 		if ( ! $this->ion_auth->in_group('Dinas'))
@@ -1191,26 +1193,41 @@ class Dinas extends CI_Controller {
 		//$user = $this->ion_auth->user()->row();
 		//$userName = $user->username;
 		$attributeFooter = $this->attributeFooter;
-		$attributeFooter['dataTable'] = TRUE;
+		//$attributeFooter['dataTable'] = TRUE;
 		$data['attributeFooter'] = $attributeFooter;
 		//console_log( $attributeFooter );
 		$data['gnames'] = array(
-			'No Gedung', 'Nama Gedung', 'Alamat', 'Wilayah', 'Kecamatan', 'Kelurahan', 'Kodepos','Fungsi', 'Kepemilikkan', 'Jumlah Tower', 'Jumlah Lantai', 'Jumlah Basement', 'Ketinggian', 'Pokja Pemeriksa', 'Penginput', 'Waktu Input', 'Pengedit', 'Waktu Edit'
+			'No Gedung', 'Nama Gedung', 'Alamat', 'Wilayah', 'Kecamatan', 'Kelurahan', 'Kodepos','Fungsi', 'Kepemilikkan', 'Jumlah Tower', 'Jumlah Lantai', 'Jumlah Basement', 'Ketinggian', 'Penginput', 'Waktu Input', 'Pengedit', 'Waktu Edit'
 		);
 		$data['gcontents'] = array(
-			'no_gedung', 'nama_gedung', 'alamat_gedung', 'wilayah', 'kecamatan', 'kelurahan', 'kodepos', 'fungsi_gedung', 'kepemilikkan_gedung', 'jml_tower', 'jml_lantai', 'jml_basement', 'tinggi_gedung', 'pokja', 'created_by', 'create_at', 'edit_by', 'edit_at'
+			'no_gedung', 'nama_gedung', 'alamat_gedung', 'wilayah', 'kecamatan', 'kelurahan', 'kodepos', 'fungsi_gedung', 'kepemilikkan_gedung', 'jml_tower', 'jml_lantai', 'jml_basement', 'tinggi_gedung', 'created_by', 'create_at', 'edit_by', 'edit_at'
 		);
 		$data['pnames'] = array(
-			'Nama Pengelola', 'Alamat Pengelola', 'No Telp Pengelola', 'Jalur Info', 'Hasil Pemeriksaan', 'Status Gedung', 'Tanggal Berlaku', 'Tanggal Habis'
+			'Nama Pengelola', 'Alamat Pengelola', 'No Telp Pengelola', 'Jalur Info', 'Hasil Pemeriksaan', 'Status Gedung', 'Tanggal Berlaku', 'Tanggal Habis', 'Catatan Pemeriksaan', 'Pokja Pemeriksa'
 		);
 		$data['pcontents'] = array(
-			'nama_pengelola', 'alamat_pengelola', 'no_telp_pengelola', 'nama_kolom_jalurInfo', 'nama_kolom_hslPemeriksaan', 'nama_kolom_statusGedung', 'tgl_berlaku', 'tgl_expired'
+			'nama_pengelola', 'alamat_pengelola', 'no_telp_pengelola', 'nama_kolom_jalurInfo', 'nama_kolom_hslPemeriksaan', 'nama_kolom_statusGedung', 'tgl_berlaku', 'tgl_expired', 'catatan', 'pokja'
+		);
+		$data['fsm_names'] = array(
+			'Nama FSM', 'Alamat FSM', 'No Telp FSM', 'No Sertifikat FSM', 'Tanggal Berlaku', 'Tanggal Expired'
+		);
+		$data['fsm_contents'] = array(
+			'nama_FSM', 'alamat_FSM', 'no_telp_FSM', 'no_sert_FSM', 'tgl_sert_berlaku', 'tgl_sert_expired'
+		);
+		$data['fire_names'] = array(
+			'No', 'Tanggal Kejadian', 'Waktu', 'Penyebab', 'Jumlah Unit', 'Keterangan'
+		);
+		$data['fire_contents'] = array(
+			'tgl_kejadian', 'waktu_kejadian', 'dugaan_penyebab', 'jumlah_unit', 'keterangan'
 		);
 
 		$id_gedung = 'id_gdg_dinas';
 		$no_gedung_tblPemeriksaan = 'no_gedung';
 		$data['header1'] = 'Data Gedung';
 		$data['header2'] = 'Data Pemeriksaan';
+		$data['header3'] = 'Data FSM';
+		$data['header4'] = 'Data Riwayat Kebakaran';
+		$data['list_url'] = 'list_gedung';
 		$data['read_url'] = 'read_gedung';
 		$data['edit_url'] = 'edit_gedung';
 		$data['delete_url'] = 'delete_gedung';
@@ -1225,10 +1242,268 @@ class Dinas extends CI_Controller {
 		$table_hslPemeriksaan = 'tabel_kolom_hslPemeriksaan';
 		$table_statusGdg = 'tabel_kolom_statusGedung';
 		$data['data_pemeriksaan'] = $this->dinas_model->get_list_pemeriksaan_byNoGdg($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $no_gedung_tblPemeriksaan, $no_gedung[0]['no_gedung']);
+		$table_fsm ='FSM_dinas';
+		$data['data_fsm'] = $this->dinas_model->get_all_byNoGdg($table_fsm, $no_gedung[0]['no_gedung']);
+		$table_fireHist ='riwayat_kebakaran_gdd_dinas';
+		$data['fireHist'] = $this->dinas_model->get_all_byNoGdg($table_fireHist, $no_gedung[0]['no_gedung']);
 
 		//load the view
 		$data['main_content'] = 'dinas/gedung/read_gedung';
 		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function no_gedung($id_wilayah,$id_kepemilikkan,$id_fungsi)
+	{
+		$table_gedung = 'gedung_dinas';
+		$kode1 = $this->dinas_model->get_kodeGdg_byId('tabel_wilayah', 'kode1', 'id', $id_wilayah);
+		$kode2 = $this->dinas_model->get_kodeGdg_byId('tabel_kolom_kepemilikkan_gedung', 'kode2', 'id_kepemilikkan_gedung', $id_kepemilikkan);
+		$kode3 = $this->dinas_model->get_kodeGdg_byId('tabel_kolom_fungsi_gedung', 'kode3', 'id_fungsi_gedung', $id_fungsi);
+		$kode1stPart = $kode1['kode1'].$kode2['kode2'].$kode3['kode3'];
+		//$list_noGedung = $this->dinas_model->get_listKodeGdg_by1stPart($table_gedung, $kode1stPart);
+		//$kode2ndPart = substr($list_noGedung['no_gedung'], 5);
+		//$kode2ndPart = (int)$kode2ndPart + 1;
+		$list_noGedung = $this->dinas_model->get_hslPemeriksaan($table_gedung, 'no_gedung');
+		$kode2ndPart_array = array();
+		foreach($list_noGedung as $row)
+		{
+			$kode2ndPartExist = substr($row['no_gedung'], 5);
+			$kode2ndPartExist = (int)$kode2ndPartExist;
+			array_push($kode2ndPart_array, $kode2ndPartExist);
+		}
+		$max_exist_kode2ndPart = max($kode2ndPart_array);
+		$kode2ndPart = $max_exist_kode2ndPart + 1;
+		if(strlen($kode2ndPart) ==1)
+		{
+			$kode2ndPart = '000'.$kode2ndPart;
+		}elseif (strlen($kode2ndPart) ==2)
+		{
+			$kode2ndPart = '00'.$kode2ndPart;
+		}elseif (strlen($kode2ndPart) ==3)
+		{
+			$kode2ndPart = '0'.$kode2ndPart;
+		}else
+		{
+			$kode2ndPart = NULL;
+		}
+		$noGedung = $kode1stPart.'-'.$kode2ndPart;
+		return $noGedung;
+	}
+
+	public function add_gedung()
+	{
+		$this->load->helper('date');
+		$table_gedung = 'gedung_dinas';
+		$table_fungsi = 'tabel_kolom_fungsi_gedung';
+		$table_kepemilikkan = 'tabel_kolom_kepemilikkan_gedung';
+		$table_statusGdg = 'tabel_kolom_statusGedung';
+		$table_wilayah = 'tabel_wilayah';
+		$id_wilayah = $this->dinas_model->get_id_byWilayah($this->input->post('wilayah'));
+		//if (is_null(NULL)){$tes = 'kus';}else{$tes = 'wan'; }
+		$list_noGedung = $this->dinas_model->get_hslPemeriksaan($table_gedung, 'no_gedung');
+		$kode2ndPart_array = array();
+		foreach($list_noGedung as $row)
+		{
+			$kode2ndPart = substr($row['no_gedung'], 5);
+			$kode2ndPart = (int)$kode2ndPart;
+			array_push($kode2ndPart_array, $kode2ndPart);
+		}
+		$max_exist_noGdg = max($kode2ndPart_array);
+		$data['tes'] = $max_exist_noGdg;
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			//$this->form_validation->set_rules('no_gedung', 'no_gedung', 'required');
+			$this->form_validation->set_rules('nama_gedung', 'nama_gedung', 'required');
+			$this->form_validation->set_rules('alamat_gedung', 'alamat_gedung', 'required');
+			$this->form_validation->set_rules('wilayah', 'wilayah', 'required');
+			$this->form_validation->set_rules('fungsi_gedung', 'fungsi', 'required');
+			$this->form_validation->set_rules('kepemilikkan_gedung', 'kepemilikan', 'required');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			
+			//if the form has passed through the validation
+			if ($this->form_validation->run())
+			{
+				//no_gedung logic
+				$id_kepemilikkan = $this->input->post('kepemilikkan_gedung');
+				$id_fungsi = $this->input->post('fungsi_gedung');
+				$noGedung = $this ->no_gedung($id_wilayah['id'],$id_kepemilikkan,$id_fungsi);
+				$userName = $this->ion_auth->user()->row()->username;
+				$my_time = date("Y-m-d H:i:s", now('Asia/Jakarta'));
+				$data_to_store = array(
+					'no_gedung' => $noGedung,
+					'nama_gedung' => isZonk($this->input->post('nama_gedung')),
+					'alamat_gedung' => isZonk($this->input->post('alamat_gedung')),
+					'wilayah' => isZonk($this->input->post('wilayah')),
+					'kecamatan' => isZonk($this->input->post('kecamatan')),
+					'kelurahan' => isZonk($this->input->post('kelurahan')),
+					'kodepos' => isZonk($this->input->post('kodepos')),
+					'fungsi' => isZonk($this->input->post('fungsi_gedung')),
+					'kepemilikan' => isZonk($this->input->post('kepemilikkan_gedung')),
+					'jml_tower' => isZonk($this->input->post('jml_tower')),
+					'jml_lantai' => isZonk($this->input->post('jml_lantai')),
+					'jml_basement' => isZonk($this->input->post('jml_basement')),
+					'tinggi_gedung' => isZonk($this->input->post('tinggi_gedung')),
+					'latitude' => isZonk($this->input->post('latitude')),
+					'longitude' => isZonk($this->input->post('longitude')),
+					'catatan_gedung' => isZonk($this->input->post('catatan_gedung')),
+					'created_by' => $userName,
+					'create_at' => $my_time
+				);
+				//if the insert has returned true then we show the flash message
+				if($this->dinas_model->add_setting($table_gedung, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'sukses');
+				}else{
+					$this->session->set_flashdata('flash_message', 'failed');
+				}
+
+				//redirect('Prainspeksi_gedung/update/'.$id.'');
+				redirect('dinas/list_gedung');
+
+			}//validation run
+
+		}
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$attributeFooter['bootstrapSelect'] = TRUE;
+		$attributeFooter['kecamatanKelurahan'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['dhead'] = array(
+			'nama_gedung', 'alamat_gedung', 'wilayah', 'kecamatan', 'kelurahan', 'kodepos', 'fungsi_gedung', 'kepemilikkan_gedung', 'jml_tower', 'jml_lantai', 'jml_basement', 'tinggi_gedung', 'catatan_gedung', 'latitude', 'longitude'
+		);
+		$data['thead'] = array(
+			'Nama Gedung*', 'Alamat*', 'Wilayah*', 'Kecamatan', 'Kelurahan', 'Kodepos','Fungsi*', 'Kepemilikan*', 'Jumlah Tower', 'Jumlah Lantai', 'Jumlah Basement', 'Ketinggian', 'Catatan', 'latitude', 'longitude'
+		);
+		$data['header'] = 'Tambah Data Gedung';
+		$data['contrl_url'] = 'add_gedung';
+		$data['cancel_url'] = 'list_gedung';
+		$column_fungsi = array ('id_fungsi_gedung', 'fungsi_gedung');
+		$data['list_fungsi'] = $this->dinas_model->get_hslPemeriksaan($table_fungsi, $column_fungsi);
+		$column_kepemilikkan = array ('id_kepemilikkan_gedung', 'kepemilikkan_gedung');
+		$data['list_kepemilikkan'] = $this->dinas_model->get_hslPemeriksaan($table_kepemilikkan, $column_kepemilikkan);
+		$column_wilayah = 'Wilayah';
+		$data['list_wil'] = $this->dinas_model->get_hslPemeriksaan($table_wilayah, $column_wilayah);
+		$data['main_content'] = 'dinas/gedung/add_gedung';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function edit_no_gedung($id_wilayah,$id_kepemilikkan,$id_fungsi,$existingKode)
+	{
+		$table_gedung = 'gedung_dinas';
+		$kode1 = $this->dinas_model->get_kodeGdg_byId('tabel_wilayah', 'kode1', 'id', $id_wilayah);
+		$kode2 = $this->dinas_model->get_kodeGdg_byId('tabel_kolom_kepemilikkan_gedung', 'kode2', 'id_kepemilikkan_gedung', $id_kepemilikkan);
+		$kode3 = $this->dinas_model->get_kodeGdg_byId('tabel_kolom_fungsi_gedung', 'kode3', 'id_fungsi_gedung', $id_fungsi);
+		$kode1stPart = $kode1['kode1'].$kode2['kode2'].$kode3['kode3'];
+		//$list_noGedung = $this->dinas_model->get_listKodeGdg_by1stPart($table_gedung, $kode1stPart);
+		$kode2ndPart = substr($existingKode, 5);
+		//$kode2ndPart = (int)$kode2ndPart + 1;
+		$noGedung = $kode1stPart.'-'.$kode2ndPart;
+		return $noGedung;
+	}
+
+	public function edit_gedung()
+	{
+		$this->load->helper('date');
+		$id = $this->uri->segment(3);
+		$table_gedung = 'gedung_dinas';
+		$table_fungsi = 'tabel_kolom_fungsi_gedung';
+		$table_kepemilikkan = 'tabel_kolom_kepemilikkan_gedung';
+		$table_statusGdg = 'tabel_kolom_statusGedung';
+		$table_wilayah = 'tabel_wilayah';
+		$id_wilayah = $this->dinas_model->get_id_byWilayah($this->input->post('wilayah'));
+		$id_table = 'id_gdg_dinas';
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			$this->form_validation->set_rules('nama_gedung', 'nama_gedung', 'required');
+			$this->form_validation->set_rules('alamat_gedung', 'alamat_gedung', 'required');
+			$this->form_validation->set_rules('wilayah', 'wilayah', 'required');
+			$this->form_validation->set_rules('fungsi_gedung', 'fungsi', 'required');
+			$this->form_validation->set_rules('kepemilikkan_gedung', 'kepemilikan', 'required');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			//if the form has passed through the validation
+			if ($this->form_validation->run())
+			{
+				//no_gedung logic
+				$id_kepemilikkan = $this->input->post('kepemilikkan_gedung');
+				$id_fungsi = $this->input->post('fungsi_gedung');
+				$existingKode = $this->input->post('no_gedung');
+				$noGedung = $this ->edit_no_gedung($id_wilayah['id'],$id_kepemilikkan,$id_fungsi,$existingKode);
+				$userName = $this->ion_auth->user()->row()->username;
+				$my_time = date("Y-m-d H:i:s", now('Asia/Jakarta'));
+				$data_to_store = array(
+					'no_gedung' => $noGedung,
+					'nama_gedung' => isZonk($this->input->post('nama_gedung')),
+					'alamat_gedung' => isZonk($this->input->post('alamat_gedung')),
+					'wilayah' => isZonk($this->input->post('wilayah')),
+					'kecamatan' => isZonk($this->input->post('kecamatan')),
+					'kelurahan' => isZonk($this->input->post('kelurahan')),
+					'kodepos' => isZonk($this->input->post('kodepos')),
+					'fungsi' => isZonk($this->input->post('fungsi_gedung')),
+					'kepemilikan' => isZonk($this->input->post('kepemilikkan_gedung')),
+					'jml_tower' => isZonk($this->input->post('jml_tower')),
+					'jml_lantai' => isZonk($this->input->post('jml_lantai')),
+					'jml_basement' => isZonk($this->input->post('jml_basement')),
+					'tinggi_gedung' => isZonk($this->input->post('tinggi_gedung')),
+					'latitude' => isZonk($this->input->post('latitude')),
+					'longitude' => isZonk($this->input->post('longitude')),
+					'catatan_gedung' => isZonk($this->input->post('catatan_gedung')),
+					'edit_by' => $userName,
+					'edit_at' => $my_time
+				);
+				//console_log($id);
+				//if the insert has returned true then we show the flash message
+				if($this->dinas_model->update_setting($table_gedung, $id_table, $id, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'updated');
+				}else{
+					$this->session->set_flashdata('flash_message', 'failed');
+				}
+
+				//redirect('Prainspeksi_gedung/update/'.$id.'');
+				//redirect('dinas/list_gedung');
+				redirect('dinas/read_gedung/'.$id);
+
+			}//validation run
+
+		}
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$attributeFooter['bootstrapSelect'] = TRUE;
+		$attributeFooter['kecamatanKelurahan'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['dhead'] = array(
+			'nama_gedung', 'alamat_gedung', 'wilayah', 'kecamatan', 'kelurahan', 'kodepos', 'fungsi_gedung', 'kepemilikkan_gedung', 'jml_tower', 'jml_lantai', 'jml_basement', 'tinggi_gedung', 'catatan_gedung', 'latitude', 'longitude', 'no_gedung'
+		);
+		$data['thead'] = array(
+			'Nama Gedung*', 'Alamat*', 'Wilayah*', 'Kecamatan', 'Kelurahan', 'Kodepos','Fungsi*', 'Kepemilikan*', 'Jumlah Tower', 'Jumlah Lantai', 'Jumlah Basement', 'Ketinggian', 'Catatan', 'latitude', 'longitude'
+		);
+		$data['header'] = 'Edit Data Gedung';
+		$data['contrl_url'] = 'edit_gedung';
+		$data['cancel_url'] = 'list_gedung';
+		$column_fungsi = array ('id_fungsi_gedung', 'fungsi_gedung');
+		$data['list_fungsi'] = $this->dinas_model->get_hslPemeriksaan($table_fungsi, $column_fungsi);
+		$column_kepemilikkan = array ('id_kepemilikkan_gedung', 'kepemilikkan_gedung');
+		$data['list_kepemilikkan'] = $this->dinas_model->get_hslPemeriksaan($table_kepemilikkan, $column_kepemilikkan);
+		$column_wilayah = 'Wilayah';
+		$data['list_wil'] = $this->dinas_model->get_hslPemeriksaan($table_wilayah, $column_wilayah);
+		$data['data_gedung'] = $this->dinas_model->get_list_gedung_byId($table_gedung, $table_fungsi, $table_kepemilikkan, $id_table, $id);
+		$data['main_content'] = 'dinas/gedung/edit_gedung';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function delete_gedung()
+	{
+		$id = $this->uri->segment(3);
+		$nama_table = 'gedung_dinas';
+		$id_table = 'id_gdg_dinas';
+		if ($this->dinas_model->hard_delete($nama_table, $id_table, $id)){
+			$this->session->set_flashdata('flash_message', 'deleted');
+		}
+		else{
+			$this->session->set_flashdata('flash_message', 'failed');
+		}
+		redirect('dinas/list_gedung');
 	}
 
 
@@ -1677,6 +1952,26 @@ class Dinas extends CI_Controller {
 		$data['stack'] = $stack;
 		$data['main_content'] = 'prainspeksi/gedung/pembagianGedung';
 		$this->load->view('prainspeksi/includes/template', $data);
+	}
+
+	public function loadData()
+	{
+		$loadType=$_POST['loadType'];
+		$loadId=$_POST['loadId'];
+		//$this->load->model('model');
+		$result=$this->pelengkap_model->getData($loadType,$loadId);
+		$HTML=null;
+
+		if($loadType=='kodepos'){
+			foreach($result->result() as $list){
+				$HTML.="".$list->name.""; }
+			}
+		else if($result->num_rows() > 0){
+			foreach($result->result() as $list){
+				$HTML.="<option value='".$list->name."'>".$list->name."</option>";
+			}
+		}
+		echo $HTML;
 	}
 
 }

@@ -1,0 +1,6 @@
+To do
+1. table and chart
+2. gmaps picker
+3. export data
+4. responsive design
+5. sudin app

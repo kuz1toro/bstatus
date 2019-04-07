@@ -134,9 +134,59 @@ class Dinas_model extends CI_Model {
 		$this->db->select($table_statusGdg.'.nama_kolom_statusGedung');
 		$this->db->join($table_statusGdg, 'tabelPemeriksaan.status_gedung ='.$table_statusGdg.'.id_kolom_statusGedung', 'left');
 		$this->db->where('tabelPemeriksaan.'.$no_gedung_tblPemeriksaan, $no_gedung);
+		$this->db->where('tabelPemeriksaan.deleted', 0);
 		//$this->db->limit(10);
 		$query = $this->db->get();
 		return $query->result_array();
+	}
+
+	public function get_all_byNoGdg($table, $no_gedung)
+	{
+		$this->db->select('*');
+		$this->db->from($table);
+		$this->db->where('no_gedung', $no_gedung);
+		$this->db->where('deleted', 0);
+		//$this->db->limit(10);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function get_kodeGdg_byId($table, $kodeName, $idName, $id)
+	{
+		$this->db->select($kodeName);
+		$this->db->from($table);
+		$this->db->where($idName, $id);
+		$query = $this->db->get();
+		return $query->row_array();
+	}
+
+	public function get_listKodeGdg_by1stPart($table, $kode1stP)
+	{
+		$this->db->select('no_gedung');
+		$this->db->from($table);
+		$this->db->like('no_gedung', $kode1stP);
+		$this->db->order_by('no_gedung', 'Desc');
+		$query = $this->db->get();
+		return $query->row_array();
+	}
+
+	public function get_id_byWilayah($wilayah)
+	{
+		$this->db->select('id');
+		$this->db->from('tabel_wilayah');
+		$this->db->where('Wilayah', $wilayah);
+		$query = $this->db->get();
+		return $query->row_array();
+	}
+
+	function hard_delete($nama_table, $id_table, $id)
+	{
+		$this->db->where($id_table, $id);
+		if ($this->db->delete($nama_table)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 
@@ -284,14 +334,7 @@ class Dinas_model extends CI_Model {
 	* @param int $id - manufacture id
 	* @return boolean
 	*/
-	function delete_gedung($id){
-		$this->db->where('id', $id);
-		if ($this->db->delete('tabel_gedung')){
-			return true;
-		}else{
-			return false;
-		}
-	}
+	
 
 	/**
 	* cari no id terakhir

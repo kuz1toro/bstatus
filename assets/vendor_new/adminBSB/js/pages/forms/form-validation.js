@@ -19,6 +19,8 @@ $(function () {
         }
     });
 
+    
+
     //Advanced Form Validation
     $('#form_advanced_validation').validate({
         rules: {

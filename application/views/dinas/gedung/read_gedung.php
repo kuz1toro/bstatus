@@ -1,4 +1,5 @@
 ﻿    <section class="content" >
+        <script>var page_url = '<?php echo base_url().'dinas/'.$delete_url.'/'; ?>';</script>
         <?php
         //Modal alert
         pesanModal();
@@ -38,7 +39,7 @@
 			</script>';
 		} ?>
         <div class="container-fluid">
-            <div class="row clearfix">
+            <div class="row clearfix ">
                 <!-- Content -->
                  <!-- Data Gedung -->
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -49,7 +50,13 @@
                             </h2>
                             <ul class="header-dropdown m-r--5">
                                 <li>
-                                    <a href="<?php echo $add_url; ?>" class="btn btn-primary waves-effect"><i class="material-icons">queue</i><span>Tambah</span></a>
+                                    <div class="btn-group js-sweetalert" role="group">
+                                        <a href="<?php echo base_url().'dinas/'.$list_url; ?>" class="btn btn-info waves-effect" data-toggle="tooltip" title="Kembali ke halaman sebelumnya"><i class="material-icons">keyboard_backspace</i></a>
+                                        <a href="<?php echo base_url().'dinas/'.$edit_url.'/'.$this->uri->segment(3); ?>" class="btn btn-warning waves-effect" data-toggle="tooltip" title="Edit"><i class="material-icons">edit</i></a>
+                                        <button type="button" class="btn btn-danger waves-effect" value="<?php echo $this->uri->segment(3); ?>" data-type="confirm_del_settingInput" data-toggle="tooltip" title="Hapus">
+                                            <i class="material-icons">delete</i>
+                                        </button>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -63,10 +70,10 @@
                                 <?php
                                     foreach($data_gedung as $row)
                                     {
-                                        for($i=0; $i<=17; $i++)
+                                        for($i=0; $i<=16; $i++)
                                         {
                                             echo '<tr>';
-                                            echo '<td>'.$gnames[$i].'</td>';
+                                            echo '<td class="col-xs-4">'.$gnames[$i].'</td>';
                                             echo '<td>: &nbsp'.$row[$gcontents[$i]].'</td>';
                                             echo '</tr>';
                                         }
@@ -113,10 +120,10 @@
                                         $active = FALSE;
                                         echo '<table class="table">';
                                         echo '<tbody>';
-                                            for($i=0; $i<=7; $i++)
+                                            for($i=0; $i<=9; $i++)
                                             {
                                                 echo '<tr>';
-                                                echo '<td>'.$pnames[$i].'</td>';
+                                                echo '<td class="col-xs-4">'.$pnames[$i].'</td>';
                                                 echo '<td>: &nbsp'.$row[$pcontents[$i]].'</td>';
                                                 echo '</tr>';
                                             }
@@ -125,6 +132,95 @@
                                     }
                                 ?>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+                 <!-- Data FSM -->
+            <div class="row clearfix p-l-10">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                <?php echo $header3;  ?>
+                            </h2>
+                        </div>
+                        <div class="body table-responsive">
+                            <div class="table-responsive">
+                                <?php //print_r($data_fsm); 
+                                 //print_r($data_pemeriksaan); ?>
+                            </div>
+                            <table class="table">
+                                <tbody>
+                                <?php
+                                    if (empty($data_fsm)) {
+                                        // list is empty.
+                                        for($i=0; $i<=5; $i++)
+                                        {
+                                            echo '<tr>';
+                                            echo '<td class="col-xs-4">'.$fsm_names[$i].'</td>';
+                                            echo '<td>: &nbsp </td>';
+                                            echo '</tr>';
+                                        }
+                                    }
+                                    foreach($data_fsm as $row)
+                                    {
+                                        for($i=0; $i<=5; $i++)
+                                        {
+                                            echo '<tr>';
+                                            echo '<td class="col-xs-4">'.$fsm_names[$i].'</td>';
+                                            echo '<td>: &nbsp'.$row[$fsm_contents[$i]].'</td>';
+                                            echo '</tr>';
+                                        }
+                                    }
+                                ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Data Riwayat Kebakaran -->
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                <?php echo $header4;  ?>
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <table class="table table-bordered table-striped table-hover table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <?php foreach($fire_names as $row)
+                                                    {
+                                                        echo '<th>'.$row.'</th>';
+                                                    }
+                                            ?>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $count = 1;
+                                        foreach($fireHist as $row)
+                                        {
+                                            echo '<tr>';
+                                                echo '<td>'.$count.'</td>';
+                                                foreach($fire_contents as $col)
+                                                {
+                                                    echo '<td>';
+                                                    if ($col == 'tgl_kejadian'){
+                                                        echo msqlDate2html($row[$col]);
+                                                    }else{
+                                                        echo $row[$col].'</td>';
+                                                    }
+                                                }
+                                                $count++;
+                                            echo '</tr>';
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
                         </div>
                     </div>
                 </div>

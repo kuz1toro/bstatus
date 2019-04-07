@@ -66,6 +66,12 @@
  <!-- tooltips -->
 <script src="<?php echo base_url(); ?>assets/vendor_new/adminBSB/js/pages/ui/tooltips-popovers.js"></script>
 
+<!-- kecamatan kelurahan kodepos select -->
+<?php if ($attributeFooter['kecamatanKelurahan']){
+    echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/script.js"></script>';
+    //echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/form-validation.js"></script>';
+} ?>
+
 <!-- Demo Js -->
 <script src="<?php echo base_url(); ?>assets/vendor_new/adminBSB/js/demo.js"></script>
 </body>

@@ -292,7 +292,7 @@ if(!function_exists('trv_state'))
 			echo 'active';
 		}elseif ($page==='home' && $url1==='dinas' && $url2==='home') {
 			echo 'active';	
-		}elseif ($page==='gedung' && $url1==='dinas' && ($url2==='list_gedung' || $url2==='edit_fungsiGedung' || $url2==='add_fungsiGedung')) {
+		}elseif ($page==='gedung' && $url1==='dinas' && ($url2==='list_gedung' || $url2==='read_gedung' || $url2==='add_gedung' || $url2==='edit_gedung')) {
 			echo 'active';
 		}elseif (($page==='setting' || $page==='fungsiGedung') && $url1==='dinas' && ($url2==='list_fungsiGedung' || $url2==='edit_fungsiGedung' || $url2==='add_fungsiGedung')) {
 			echo 'active';
@@ -355,6 +355,20 @@ if(!function_exists('jdl_hal'))
 			echo 'Validasi Permohonan';
 		}else{
 			echo '';
+		}
+	}
+}
+
+//chek for empty and null post
+if(!function_exists('isZonk'))
+{
+	function isZonk( $post ){
+		if (empty($post) || is_null($post))
+		{
+			return NULL;
+		}else
+		{
+			return $post;
 		}
 	}
 }

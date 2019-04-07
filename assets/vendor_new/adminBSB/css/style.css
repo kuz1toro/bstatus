@@ -2969,7 +2969,7 @@ section.content {
         display: inline-block; }
       .card .header .header-dropdown i {
         font-size: 20px;
-        color: #999;
+        color: rgb(255, 255, 255);
         -moz-transition: all 0.5s;
         -o-transition: all 0.5s;
         -webkit-transition: all 0.5s;
@@ -5135,7 +5135,7 @@ section.content {
       border-bottom: 2px solid #1f91f3; }
     .form-group .form-line .form-label {
       font-weight: normal;
-      color: #aaa;
+      color: rgb(87, 87, 87);
       position: absolute;
       top: 10px;
       left: 0;
@@ -8214,3 +8214,4 @@ html.ie11 .dropdown-menu ul.menu li a {
 
 html.ie11 .bs-searchbox .form-control {
   width: 90%; }
+

@@ -41,11 +41,9 @@
     } ?>
 
     <!-- Custom Css -->
-    <?php if ($attributeFooter['dataTable']){
-        echo '<link href="'.base_url().'assets/vendor_new/adminBSB/css/style.dataTable.css" rel="stylesheet">';
-    }else{
+    <?php 
         echo '<link href="'.base_url().'assets/vendor_new/adminBSB/css/style.css" rel="stylesheet">';
-    } ?>
+    ?>
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="<?php echo base_url(); ?>assets/vendor_new/adminBSB/css/themes/theme-red.min.css" rel="stylesheet" />
@@ -139,8 +137,20 @@
                     </li>
                     <li class="<?php trv_state('gedung', $url1, $url2);?>">
                         <a href="<?php echo base_url(); ?>dinas/list_gedung">
-                            <i class="material-icons">receipt</i>
+                            <i class="material-icons">business</i>
                             <span>Data Gedung</span>
+                        </a>
+                    </li>
+                    <li class="<?php trv_state('pemeriksaan', $url1, $url2);?>">
+                        <a href="<?php echo base_url(); ?>dinas/list_gedung">
+                            <i class="material-icons">assessment</i>
+                            <span>Data Pemeriksaan</span>
+                        </a>
+                    </li>
+                    <li class="<?php trv_state('fsm', $url1, $url2);?>">
+                        <a href="<?php echo base_url(); ?>dinas/list_gedung">
+                            <i class="material-icons">pages</i>
+                            <span>Data FSM</span>
                         </a>
                     </li>
                     <li class="<?php trv_state('pokja', $url1, $url2);?>">

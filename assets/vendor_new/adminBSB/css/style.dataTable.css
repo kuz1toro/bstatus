@@ -2451,7 +2451,7 @@ section.content {
     font-size: 14px;
     position: relative;
     left: -4px;
-    bottom: -1px; }
+    bottom: 6px; }
 
 
 .btn-link {
@@ -2969,7 +2969,7 @@ section.content {
         display: inline-block; }
       .card .header .header-dropdown i {
         font-size: 20px;
-        color: #999;
+        color: rgb(255, 255, 255);
         -moz-transition: all 0.5s;
         -o-transition: all 0.5s;
         -webkit-transition: all 0.5s;
