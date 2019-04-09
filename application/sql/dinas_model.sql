@@ -46,7 +46,7 @@ CREATE TABLE `pemeriksaan_dinas` (
   `nama_pengelola` varchar(150) DEFAULT NULL,
   `alamat_pengelola` varchar(255)  DEFAULT NULL,
   `no_telp_pengelola` varchar(50) DEFAULT NULL,
-  `catatan` varchar(255)  DEFAULT NULL,
+  `catatan` LONGTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_pemeriksaan_dinas`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

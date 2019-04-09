@@ -45,11 +45,6 @@
     echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/form-validation.js"></script>';
 } ?>
 
-<!-- bootstrap select -->
-<?php if ($attributeFooter['bootstrapSelect']){
-    echo '<script src="'.base_url().'assets/vendor_new/bootstrap-select/js/bootstrap-select.js"></script>';
-    //echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/form-validation.js"></script>';
-} ?>
 
 <!-- autosize, moment, Bootstrap Material Datetime Picker -->
 <?php if ($attributeFooter['datetimePicker']){
@@ -60,6 +55,19 @@
     echo '<script src="'.base_url().'assets/vendor_new/bootstrap-datepicker/locales/bootstrap-datepicker.id.min.js"></script>';
     echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/basic-form-elements.js"></script>';
 } ?>
+
+<!-- cke editor basic -->
+<?php if ($attributeFooter['ckeEditorBasic']){
+    echo '<script src="'.base_url().'assets/vendor_new/ckeditor-basic/ckeditor.js"></script>';
+    echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/editors.js"></script>';
+} ?>
+
+<!-- bootstrap select -->
+<?php if ($attributeFooter['bootstrapSelect']){
+    echo '<script src="'.base_url().'assets/vendor_new/bootstrap-select/js/bootstrap-select.js"></script>';
+    //echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/form-validation.js"></script>';
+} ?>
+
 
 <script src="<?php echo base_url(); ?>assets/vendor_new/adminBSB/js/pages/ui/dialogs.js"></script>
 

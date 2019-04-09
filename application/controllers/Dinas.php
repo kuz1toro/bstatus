@@ -17,7 +17,8 @@ class Dinas extends CI_Controller {
 			'JqueryValidation' => FALSE,
 			'bootstrapSelect' => FALSE,
 			'datetimePicker' => FALSE,
-			'kecamatanKelurahan' => FALSE
+			'kecamatanKelurahan' => FALSE,
+			'ckeEditorBasic' => FALSE
 		);
 
 	/**
@@ -1206,7 +1207,7 @@ class Dinas extends CI_Controller {
 			'Nama Pengelola', 'Alamat Pengelola', 'No Telp Pengelola', 'Jalur Info', 'Hasil Pemeriksaan', 'Status Gedung', 'Tanggal Berlaku', 'Tanggal Habis', 'Catatan Pemeriksaan', 'Pokja Pemeriksa'
 		);
 		$data['pcontents'] = array(
-			'nama_pengelola', 'alamat_pengelola', 'no_telp_pengelola', 'nama_kolom_jalurInfo', 'nama_kolom_hslPemeriksaan', 'nama_kolom_statusGedung', 'tgl_berlaku', 'tgl_expired', 'catatan', 'pokja'
+			'nama_pengelola', 'alamat_pengelola', 'no_telp_pengelola', 'nama_kolom_jalurInfo', 'nama_kolom_hslPemeriksaan', 'nama_kolom_statusGedung', 'tgl_berlaku', 'tgl_expired', 'catatan', 'nama_pokja'
 		);
 		$data['fsm_names'] = array(
 			'Nama FSM', 'Alamat FSM', 'No Telp FSM', 'No Sertifikat FSM', 'Tanggal Berlaku', 'Tanggal Expired'
@@ -1222,7 +1223,7 @@ class Dinas extends CI_Controller {
 		);
 
 		$id_gedung = 'id_gdg_dinas';
-		$no_gedung_tblPemeriksaan = 'no_gedung';
+		$no_gedung_tblPemeriksaan = 'no_gedungP';
 		$data['header1'] = 'Data Gedung';
 		$data['header2'] = 'Data Pemeriksaan';
 		$data['header3'] = 'Data FSM';
@@ -1241,7 +1242,8 @@ class Dinas extends CI_Controller {
 		$table_jalurInfo = 'tabel_kolom_jalurInfo';
 		$table_hslPemeriksaan = 'tabel_kolom_hslPemeriksaan';
 		$table_statusGdg = 'tabel_kolom_statusGedung';
-		$data['data_pemeriksaan'] = $this->dinas_model->get_list_pemeriksaan_byNoGdg($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $no_gedung_tblPemeriksaan, $no_gedung[0]['no_gedung']);
+		$table_pokja = 'pokja_dinas';
+		$data['data_pemeriksaan'] = $this->dinas_model->get_list_pemeriksaan_byNoGdg($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $table_pokja, $no_gedung_tblPemeriksaan, $no_gedung[0]['no_gedung']);
 		$table_fsm ='FSM_dinas';
 		$data['data_fsm'] = $this->dinas_model->get_all_byNoGdg($table_fsm, $no_gedung[0]['no_gedung']);
 		$table_fireHist ='riwayat_kebakaran_gdd_dinas';
@@ -1504,6 +1506,305 @@ class Dinas extends CI_Controller {
 			$this->session->set_flashdata('flash_message', 'failed');
 		}
 		redirect('dinas/list_gedung');
+	}
+
+	public function list_pemeriksaan()
+	{
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['dataTable'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
+		//console_log( $attributeFooter );
+		$data['thead'] = array(
+			'No','Gedung', 'Fungsi', 'Jalur Informasi', 'Hasil Pemeriksaan', 'Status Gedung', 'Berlaku', 'Sampai Dengan', 'Pokja', 'Aksi'
+		);
+		$data['dhead_gdg'] = array(
+			'no_gedungP', 'nama_gedung', 'alamat_gedung'
+		);
+		$data['dhead'] = array(
+			'fungsi_gedung', 'nama_kolom_jalurInfo', 'nama_kolom_hslPemeriksaan', 'nama_kolom_statusGedung', 'tgl_berlaku', 'tgl_expired', 'pokjaP'
+		);
+		$id_pemeriksaan = 'id_pemeriksaan_dinas';
+		$data['id_table'] = $id_pemeriksaan;
+		$data['header'] = 'Data Pemeriksaan';
+		$data['read_url'] = 'read_pemeriksaan';
+		$data['edit_url'] = 'edit_pemeriksaan';
+		$data['delete_url'] = 'delete_pemeriksaan';
+		$data['add_url'] = 'add_pemeriksaan';
+		$table_pemeriksaan = 'pemeriksaan_dinas';
+		$coulum_table_pemeriksaan = array ('id_pemeriksaan_dinas', 'no_gedungP', 'jalur_info', 'hasil_pemeriksaan', 'status_gedung', 'tgl_berlaku', 'tgl_expired','pokjaP');
+		$table_jalurInfo = 'tabel_kolom_jalurInfo';
+		$table_hslPemeriksaan = 'tabel_kolom_hslPemeriksaan';
+		$table_statGedung = 'tabel_kolom_statusGedung';
+		$table_gedung = 'gedung_dinas';
+		$table_fungsiGdg = 'tabel_kolom_fungsi_gedung';
+		$data['data'] = $this->dinas_model->get_list_pemeriksaan($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statGedung, $table_gedung, $table_fungsiGdg, $coulum_table_pemeriksaan);
+
+		//load the view
+		$data['main_content'] = 'dinas/pemeriksaan/list_pemeriksaan';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function read_pemeriksaan()
+	{
+		$id = $this->uri->segment(3);
+		$attributeFooter = $this->attributeFooter;
+		$data['attributeFooter'] = $attributeFooter;
+		//console_log( $attributeFooter );
+		$data['gnames'] = array(
+			'No Gedung', 'Nama Gedung', 'Alamat', 'Fungsi Gedung'
+		);
+		$data['gcontents'] = array(
+			'no_gedung', 'nama_gedung', 'alamat_gedung', 'fungsi_gedung'
+		);
+		$data['pnames'] = array(
+			'Nama Pengelola', 'Alamat Pengelola', 'No Telp Pengelola', 'Jalur Info', 'Hasil Pemeriksaan', 'Status Gedung', 'Tanggal Berlaku', 'Tanggal Habis', 'Catatan Pemeriksaan', 'Pokja Pemeriksa'
+		);
+		$data['pcontents'] = array(
+			'nama_pengelola', 'alamat_pengelola', 'no_telp_pengelola', 'nama_kolom_jalurInfo', 'nama_kolom_hslPemeriksaan', 'nama_kolom_statusGedung', 'tgl_berlaku', 'tgl_expired', 'catatan', 'nama_pokja'
+		);
+		
+		$id_gedung = 'id_gdg_dinas';
+		//$no_gedung_tblPemeriksaan = 'no_gedungP';
+		//$data['header1'] = 'Data Gedung';
+		$data['header'] = 'Data Pemeriksaan';
+		//$data['header3'] = 'Data FSM';
+		//$data['header4'] = 'Data Riwayat Kebakaran';
+		$data['list_url'] = 'list_pemeriksaan';
+		$data['read_url'] = 'read_pemeriksaan';
+		$data['edit_url'] = 'edit_pemeriksaan';
+		$data['delete_url'] = 'delete_pemeriksaan';
+		$data['add_url'] = 'add_pemeriksaan';
+		//$table_gedung = 'gedung_dinas';
+		//$table_fungsi = 'tabel_kolom_fungsi_gedung';
+		//$table_kepemilikkan = 'tabel_kolom_kepemilikkan_gedung';
+		//$data['data_gedung'] = $this->dinas_model->get_list_gedung_byId($table_gedung, $table_fungsi, $table_kepemilikkan, $id_gedung, $id);
+		//$no_gedung = $this->dinas_model->get_no_gdg_byId($table_gedung, $id_gedung, $id);
+		$table_pemeriksaan = 'pemeriksaan_dinas';
+		$table_jalurInfo = 'tabel_kolom_jalurInfo';
+		$table_hslPemeriksaan = 'tabel_kolom_hslPemeriksaan';
+		$table_statusGdg = 'tabel_kolom_statusGedung';
+		$table_gedung = 'gedung_dinas';
+		$table_fungsiGdg = 'tabel_kolom_fungsi_gedung';
+		$table_pokja = 'pokja_dinas';
+		$id_tblPemeriksaan = 'id_pemeriksaan_dinas';
+		$data['data_pemeriksaan'] = $this->dinas_model->get_list_pemeriksaan_byNoId($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $table_gedung, $table_fungsiGdg, $table_pokja, $id_tblPemeriksaan, $id);
+		//$table_fsm ='FSM_dinas';
+		//$data['data_fsm'] = $this->dinas_model->get_all_byNoGdg($table_fsm, $no_gedung[0]['no_gedung']);
+		//$table_fireHist ='riwayat_kebakaran_gdd_dinas';
+		//$data['fireHist'] = $this->dinas_model->get_all_byNoGdg($table_fireHist, $no_gedung[0]['no_gedung']);
+
+		//load the view
+		$data['main_content'] = 'dinas/pemeriksaan/read_pemeriksaan';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	function dataready($data) 
+	{
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+	}
+
+	public function add_pemeriksaan()
+	{
+		$this->load->helper('date');
+		$table_pemeriksaan = 'pemeriksaan_dinas';
+		//$coulum_table_pemeriksaan = array ('id_pemeriksaan_dinas', 'no_gedungP', 'jalur_info', 'hasil_pemeriksaan', 'status_gedung', 'tgl_berlaku', 'tgl_expired','pokjaP');
+		$table_jalurInfo = 'tabel_kolom_jalurInfo';
+		$column_jalurInfo = array ('id_kolom_jalurInfo', 'nama_kolom_jalurInfo');
+		$table_hslPemeriksaan = 'tabel_kolom_hslPemeriksaan';
+		$column_hslPemeriksaan = array ('id_kolom_hslPemeriksaan', 'nama_kolom_hslPemeriksaan');
+		$table_statGedung = 'tabel_kolom_statusGedung';
+		//$column_statGedung = array ('id_kolom_statusGedung', 'nama_kolom_statusGedung');
+		$table_gedung = 'gedung_dinas';
+		$column_table_gedung = array ('no_gedung', 'nama_gedung', 'alamat_gedung');
+		$table_pokja = 'pokja_dinas';
+		$column_pokja = array ('id_pokja', 'nama_pokja');
+		//$date = '02-April-2019'; 
+		//$date = htmlDate2sqlDate($date);
+		//$masa_berlaku = 2;
+		//$date = strtotime(date("Y-m-d", strtotime($date)) . " +".$masa_berlaku." years");
+		//$date = date("Y-m-d",$date);
+		//$data['date'] = $date;
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			//$this->form_validation->set_rules('no_gedung', 'no_gedung', 'required');
+			$this->form_validation->set_rules('no_gedungP', 'no_gedungP', 'required');
+			$this->form_validation->set_rules('hasil_pemeriksaan', 'hasil_pemeriksaan', 'required');
+			$this->form_validation->set_rules('status_gedung', 'status_gedung', 'required');
+			$this->form_validation->set_rules('tgl_berlaku', 'tgl_berlaku', 'required');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			
+			//if the form has passed through the validation
+			if ($this->form_validation->run())
+			{
+				$tgl_berlaku = $this->input->post('tgl_berlaku');
+				$tgl_berlaku = htmlDate2sqlDate($tgl_berlaku);
+				//hitung tanggal expired
+				$id_statusGedung = isZonk($this->input->post('status_gedung'));
+				$masa_berlaku = $this->dinas_model->get_masaBerlaku($table_statGedung, $id_statusGedung);
+				$masa_berlaku = $masa_berlaku['masa_berlaku'];
+				$tgl_expired = strtotime(date("Y-m-d", strtotime($tgl_berlaku)) . " +".$masa_berlaku." years");
+				$tgl_expired = date("Y-m-d",$tgl_expired);
+				//get catatan from cke editor
+				$catatan = $this -> dataready($this->input->post('catatan'));
+				//get username
+				$userName = $this->ion_auth->user()->row()->username;
+				$my_time = date("Y-m-d H:i:s", now('Asia/Jakarta'));
+				$data_to_store = array(
+					'no_gedungP' => isZonk($this->input->post('no_gedungP')),
+					'jalur_info' => isZonk($this->input->post('jalur_info')),
+					'hasil_pemeriksaan' => isZonk($this->input->post('hasil_pemeriksaan')),
+					'status_gedung' => $id_statusGedung,
+					'tgl_berlaku' => isZonk($tgl_berlaku),
+					'tgl_expired' => $tgl_expired,
+					'nama_pengelola' => isZonk($this->input->post('nama_pengelola')),
+					'alamat_pengelola' => isZonk($this->input->post('alamat_pengelola')),
+					'no_telp_pengelola' => isZonk($this->input->post('no_telp_pengelola')),
+					'catatan' => isZonk($catatan),
+					'pokjaP' => isZonk($this->input->post('pokjaP')),
+					'created_by' => $userName,
+					'created_at' => $my_time
+				);
+				//if the insert has returned true then we show the flash message
+				if($this->dinas_model->add_setting($table_pemeriksaan, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'sukses');
+				}else{
+					$this->session->set_flashdata('flash_message', 'failed');
+				}
+
+				//redirect('Prainspeksi_gedung/update/'.$id.'');
+				redirect('dinas/list_pemeriksaan');
+
+			}//validation run
+
+		}
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$attributeFooter['bootstrapSelect'] = TRUE;
+		$attributeFooter['datetimePicker'] = TRUE;
+		$attributeFooter['kecamatanKelurahan'] = TRUE;
+		$attributeFooter['ckeEditorBasic'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['dhead'] = array(
+			'no_gedungP', 'nama_pengelola', 'alamat_pengelola', 'no_telp_pengelola', 'jalur_info', 'hasil_pemeriksaan', 'status_gedung', 'catatan', 'tgl_berlaku', 'pokjaP'
+		);
+		$data['thead'] = array(
+			'Pilih Gedung*', 'Nama Pengelola', 'Alamat Pengelola', 'No Telp Pengelola', 'Jalur Info', 'Hasil Pemeriksaan*','Status Gedung*', 'Catatan Hasil Pemeriksaan', 'Tanggal Berlaku*', 'Pokja Pemeriksa'
+		);
+		$data['header'] = 'Tambah Data Pemeriksaan';
+		$data['contrl_url'] = 'add_pemeriksaan';
+		$data['cancel_url'] = 'list_pemeriksaan';
+		$column_fungsi = array ('id_fungsi_gedung', 'fungsi_gedung');
+		$data['list_jalurInfo'] = $this->dinas_model->get_hslPemeriksaan($table_jalurInfo, $column_jalurInfo);
+		$data['list_hslPemeriksaan'] = $this->dinas_model->get_hslPemeriksaan($table_hslPemeriksaan, $column_hslPemeriksaan);
+		$data['list_gedung'] = $this->dinas_model->get_hslPemeriksaan($table_gedung, $column_table_gedung);
+		$data['list_pokja'] = $this->dinas_model->get_hslPemeriksaan($table_pokja, $column_pokja);
+		$data['main_content'] = 'dinas/pemeriksaan/add_pemeriksaan';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function edit_pemeriksaan()
+	{
+		$this->load->helper('date');
+		$id = $this->uri->segment(3);
+		$table_pemeriksaan = 'pemeriksaan_dinas';
+		$id_tblPemeriksaan = 'id_pemeriksaan_dinas';
+		//$coulum_table_pemeriksaan = array ('id_pemeriksaan_dinas', 'no_gedungP', 'jalur_info', 'hasil_pemeriksaan', 'status_gedung', 'tgl_berlaku', 'tgl_expired','pokjaP');
+		$table_jalurInfo = 'tabel_kolom_jalurInfo';
+		$column_jalurInfo = array ('id_kolom_jalurInfo', 'nama_kolom_jalurInfo');
+		$table_hslPemeriksaan = 'tabel_kolom_hslPemeriksaan';
+		$column_hslPemeriksaan = array ('id_kolom_hslPemeriksaan', 'nama_kolom_hslPemeriksaan');
+		$table_statGedung = 'tabel_kolom_statusGedung';
+		//$column_statGedung = array ('id_kolom_statusGedung', 'nama_kolom_statusGedung');
+		$table_fungsiGdg = 'tabel_kolom_fungsi_gedung';
+		$table_gedung = 'gedung_dinas';
+		$column_table_gedung = array ('no_gedung', 'nama_gedung', 'alamat_gedung');
+		$table_pokja = 'pokja_dinas';
+		$column_pokja = array ('id_pokja', 'nama_pokja');
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			$this->form_validation->set_rules('no_gedungP', 'no_gedungP', 'required');
+			$this->form_validation->set_rules('hasil_pemeriksaan', 'hasil_pemeriksaan', 'required');
+			$this->form_validation->set_rules('status_gedung', 'status_gedung', 'required');
+			$this->form_validation->set_rules('tgl_berlaku', 'tgl_berlaku', 'required');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			//if the form has passed through the validation
+			if ($this->form_validation->run())
+			{
+				//no_gedung logic
+				$tgl_berlaku = $this->input->post('tgl_berlaku');
+				$tgl_berlaku = htmlDate2sqlDate($tgl_berlaku);
+				//hitung tanggal expired
+				$id_statusGedung = isZonk($this->input->post('status_gedung'));
+				$masa_berlaku = $this->dinas_model->get_masaBerlaku($table_statGedung, $id_statusGedung);
+				$masa_berlaku = $masa_berlaku['masa_berlaku'];
+				$tgl_expired = strtotime(date("Y-m-d", strtotime($tgl_berlaku)) . " +".$masa_berlaku." years");
+				$tgl_expired = date("Y-m-d",$tgl_expired);
+				//get catatan from cke editor
+				$catatan = $this -> dataready($this->input->post('catatan'));
+				//get username
+				$userName = $this->ion_auth->user()->row()->username;
+				$my_time = date("Y-m-d H:i:s", now('Asia/Jakarta'));
+				$data_to_store = array(
+					'no_gedungP' => isZonk($this->input->post('no_gedungP')),
+					'jalur_info' => isZonk($this->input->post('jalur_info')),
+					'hasil_pemeriksaan' => isZonk($this->input->post('hasil_pemeriksaan')),
+					'status_gedung' => $id_statusGedung,
+					'tgl_berlaku' => isZonk($tgl_berlaku),
+					'tgl_expired' => $tgl_expired,
+					'nama_pengelola' => isZonk($this->input->post('nama_pengelola')),
+					'alamat_pengelola' => isZonk($this->input->post('alamat_pengelola')),
+					'no_telp_pengelola' => isZonk($this->input->post('no_telp_pengelola')),
+					'catatan' => isZonk($catatan),
+					'pokjaP' => isZonk($this->input->post('pokjaP')),
+					'edit_by' => $userName,
+					'edit_at' => $my_time
+				);
+				//console_log($id);
+				//if the insert has returned true then we show the flash message
+				if($this->dinas_model->update_setting($table_pemeriksaan, $id_tblPemeriksaan, $id, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'updated');
+				}else{
+					$this->session->set_flashdata('flash_message', 'failed');
+				}
+
+				//redirect('Prainspeksi_gedung/update/'.$id.'');
+				//redirect('dinas/list_gedung');
+				redirect('dinas/read_pemeriksaan/'.$id);
+
+			}//validation run
+
+		}
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$attributeFooter['bootstrapSelect'] = TRUE;
+		$attributeFooter['datetimePicker'] = TRUE;
+		$attributeFooter['kecamatanKelurahan'] = TRUE;
+		$attributeFooter['ckeEditorBasic'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['dhead'] = array(
+			'no_gedungP', 'nama_pengelola', 'alamat_pengelola', 'no_telp_pengelola', 'jalur_info', 'hasil_pemeriksaan', 'status_gedung', 'catatan', 'tgl_berlaku', 'pokjaP'
+		);
+		$data['thead'] = array(
+			'Pilih Gedung*', 'Nama Pengelola', 'Alamat Pengelola', 'No Telp Pengelola', 'Jalur Info', 'Hasil Pemeriksaan*','Status Gedung*', 'Catatan Hasil Pemeriksaan', 'Tanggal Berlaku*', 'Pokja Pemeriksa'
+		);
+		$data['header'] = 'Tambah Data Pemeriksaan';
+		$data['contrl_url'] = 'add_pemeriksaan';
+		$data['cancel_url'] = 'list_pemeriksaan';
+		$column_fungsi = array ('id_fungsi_gedung', 'fungsi_gedung');
+		$data['list_jalurInfo'] = $this->dinas_model->get_hslPemeriksaan($table_jalurInfo, $column_jalurInfo);
+		$data['list_hslPemeriksaan'] = $this->dinas_model->get_hslPemeriksaan($table_hslPemeriksaan, $column_hslPemeriksaan);
+		$data['list_gedung'] = $this->dinas_model->get_hslPemeriksaan($table_gedung, $column_table_gedung);
+		$data['list_pokja'] = $this->dinas_model->get_hslPemeriksaan($table_pokja, $column_pokja);
+		$data['data_pemeriksaan'] = $this->dinas_model->get_list_pemeriksaan_byNoId($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statGedung, $table_gedung, $table_fungsiGdg, $table_pokja, $id_tblPemeriksaan, $id);
+		$data['main_content'] = 'dinas/pemeriksaan/edit_pemeriksaan';
+		$this->load->view('dinas/includes/template', $data);
 	}
 
 
@@ -1969,6 +2270,26 @@ class Dinas extends CI_Controller {
 		else if($result->num_rows() > 0){
 			foreach($result->result() as $list){
 				$HTML.="<option value='".$list->name."'>".$list->name."</option>";
+			}
+		}
+		echo $HTML;
+	}
+
+	public function loadStatus()
+	{
+		$loadType=$_POST['loadType'];
+		$loadId=$_POST['loadId'];
+		//$this->load->model('model');
+		$result=$this->pelengkap_model->getStatusGedung($loadType,$loadId);
+		$HTML=null;
+
+		if($loadType=='kodepos'){
+			foreach($result->result() as $list){
+				$HTML.="".$list->name.""; }
+			}
+		else if($result->num_rows() > 0){
+			foreach($result->result() as $list){
+				$HTML.="<option value='".$list->id."'>".$list->name."</option>";
 			}
 		}
 		echo $HTML;

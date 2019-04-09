@@ -124,11 +124,16 @@
                                             {
                                                 echo '<tr>';
                                                 echo '<td class="col-xs-4">'.$pnames[$i].'</td>';
-                                                echo '<td>: &nbsp'.$row[$pcontents[$i]].'</td>';
+                                                echo '<td width="1">:</td>';
+                                                if($i==8){
+                                                    echo '<td>'.htmlspecialchars_decode($row[$pcontents[$i]]).'</td>';
+                                                }else{
+                                                    echo '<td>'.$row[$pcontents[$i]].'</td>';
+                                                }
                                                 echo '</tr>';
                                             }
                                         echo '</tbody>
-                                        </table>';
+                                        </table></div>';
                                     }
                                 ?>
                             </div>

@@ -123,7 +123,7 @@ class Dinas_model extends CI_Model {
 		return $query->result_array();
 	}
 
-	public function get_list_pemeriksaan_byNoGdg($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $no_gedung_tblPemeriksaan, $no_gedung)
+	public function get_list_pemeriksaan_byNoGdg($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $table_pokja, $no_gedung_tblPemeriksaan, $no_gedung)
 	{
 		$this->db->select('*');
 		$this->db->from($table_pemeriksaan.' as tabelPemeriksaan');
@@ -133,6 +133,8 @@ class Dinas_model extends CI_Model {
 		$this->db->join($table_hslPemeriksaan, 'tabelPemeriksaan.hasil_pemeriksaan ='.$table_hslPemeriksaan.'.id_kolom_hslPemeriksaan', 'left');
 		$this->db->select($table_statusGdg.'.nama_kolom_statusGedung');
 		$this->db->join($table_statusGdg, 'tabelPemeriksaan.status_gedung ='.$table_statusGdg.'.id_kolom_statusGedung', 'left');
+		$this->db->select($table_pokja.'.nama_pokja');
+		$this->db->join($table_pokja, 'tabelPemeriksaan.pokjaP  ='.$table_pokja.'.id_pokja', 'left');
 		$this->db->where('tabelPemeriksaan.'.$no_gedung_tblPemeriksaan, $no_gedung);
 		$this->db->where('tabelPemeriksaan.deleted', 0);
 		//$this->db->limit(10);
@@ -188,6 +190,64 @@ class Dinas_model extends CI_Model {
 			return false;
 		}
 	}
+
+	public function get_list_pemeriksaan($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statGedung, $table_gedung, $table_fungsiGdg, $coulum_table_pemeriksaan)
+	{
+		$this->db->select($coulum_table_pemeriksaan);
+		$this->db->from($table_pemeriksaan.' as tabelPemeriksaan');
+		$this->db->select($table_jalurInfo.'.nama_kolom_jalurInfo');
+		$this->db->join($table_jalurInfo, 'tabelPemeriksaan.jalur_info ='.$table_jalurInfo.'.id_kolom_jalurInfo', 'left');
+		$this->db->select($table_hslPemeriksaan.'.nama_kolom_hslPemeriksaan');
+		$this->db->join($table_hslPemeriksaan, 'tabelPemeriksaan.hasil_pemeriksaan ='.$table_hslPemeriksaan.'.id_kolom_hslPemeriksaan', 'left');
+		$this->db->select($table_statGedung.'.nama_kolom_statusGedung');
+		$this->db->join($table_statGedung, 'tabelPemeriksaan.status_gedung  ='.$table_statGedung.'.id_kolom_statusGedung', 'left');
+		$this->db->select($table_gedung.'.nama_gedung');
+		$this->db->select($table_gedung.'.alamat_gedung');
+		$this->db->select($table_gedung.'.fungsi');
+		$this->db->join($table_gedung, 'tabelPemeriksaan.no_gedungP  ='.$table_gedung.'.no_gedung', 'left');
+		$this->db->select($table_fungsiGdg.'.fungsi_gedung');
+		$this->db->join($table_fungsiGdg, $table_gedung.'.fungsi  ='.$table_fungsiGdg.'.id_fungsi_gedung', 'left');
+		$this->db->where('tabelPemeriksaan.deleted', 0);
+		//$this->db->limit(10);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function get_list_pemeriksaan_byNoId($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $table_gedung, $table_fungsiGdg, $table_pokja, $id_tblPemeriksaan, $id)
+	{
+		$this->db->select('*');
+		$this->db->from($table_pemeriksaan.' as tabelPemeriksaan');
+		$this->db->select($table_jalurInfo.'.nama_kolom_jalurInfo');
+		$this->db->join($table_jalurInfo, 'tabelPemeriksaan.jalur_info ='.$table_jalurInfo.'.id_kolom_jalurInfo', 'left');
+		$this->db->select($table_hslPemeriksaan.'.nama_kolom_hslPemeriksaan');
+		$this->db->join($table_hslPemeriksaan, 'tabelPemeriksaan.hasil_pemeriksaan ='.$table_hslPemeriksaan.'.id_kolom_hslPemeriksaan', 'left');
+		$this->db->select($table_statusGdg.'.nama_kolom_statusGedung');
+		$this->db->join($table_statusGdg, 'tabelPemeriksaan.status_gedung ='.$table_statusGdg.'.id_kolom_statusGedung', 'left');
+		$this->db->select($table_gedung.'.nama_gedung');
+		$this->db->select($table_gedung.'.alamat_gedung');
+		$this->db->select($table_gedung.'.fungsi');
+		$this->db->join($table_gedung, 'tabelPemeriksaan.no_gedungP  ='.$table_gedung.'.no_gedung', 'left');
+		$this->db->select($table_fungsiGdg.'.fungsi_gedung');
+		$this->db->join($table_fungsiGdg, $table_gedung.'.fungsi  ='.$table_fungsiGdg.'.id_fungsi_gedung', 'left');
+		$this->db->select($table_pokja.'.nama_pokja');
+		$this->db->join($table_pokja, 'tabelPemeriksaan.pokjaP  ='.$table_pokja.'.id_pokja', 'left');
+		$this->db->where('tabelPemeriksaan.'.$id_tblPemeriksaan, $id);
+		$this->db->where('tabelPemeriksaan.deleted', 0);
+		//$this->db->limit(10);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function get_masaBerlaku($table_statGedung, $id_statusGedung)
+	{
+		$this->db->select('masa_berlaku');
+		$this->db->from($table_statGedung);
+		$this->db->where('id_kolom_statusGedung', $id_statusGedung);
+		$query = $this->db->get();
+		return $query->row_array();
+	}
+
+
 
 
 

@@ -44,4 +44,19 @@ class Pelengkap_model extends CI_Model
 		$query=$this->db->get();
 		return $query;
 	}
+
+	function getStatusGedung($loadType,$loadId)
+	{
+		$fieldList='id_kolom_statusGedung as id,nama_kolom_statusGedung as name';
+		$table='tabel_kolom_statusGedung';
+		$fieldName='kategori_kolomHslPemeriksaan';
+		$orderByField='id_kolom_statusGedung';
+
+		$this->db->select($fieldList);
+		$this->db->from($table);
+		$this->db->where($fieldName, $loadId);
+		$this->db->order_by($orderByField, 'asc');
+		$query=$this->db->get();
+		return $query;
+	}
 }

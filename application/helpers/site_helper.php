@@ -294,6 +294,8 @@ if(!function_exists('trv_state'))
 			echo 'active';	
 		}elseif ($page==='gedung' && $url1==='dinas' && ($url2==='list_gedung' || $url2==='read_gedung' || $url2==='add_gedung' || $url2==='edit_gedung')) {
 			echo 'active';
+		}elseif ($page==='pemeriksaan' && $url1==='dinas' && ($url2==='list_pemeriksaan' || $url2==='read_pemeriksaan' || $url2==='add_pemeriksaan' || $url2==='edit_pemeriksaan')) {
+			echo 'active';
 		}elseif (($page==='setting' || $page==='fungsiGedung') && $url1==='dinas' && ($url2==='list_fungsiGedung' || $url2==='edit_fungsiGedung' || $url2==='add_fungsiGedung')) {
 			echo 'active';
 		}elseif (($page==='setting' || $page==='kepemilknGedung') && $url1==='dinas' && ($url2==='list_kepemilknGedung' || $url2==='edit_kepemilknGedung' || $url2==='add_kepemilknGedung')) {

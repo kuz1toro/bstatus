@@ -142,7 +142,7 @@
                         </a>
                     </li>
                     <li class="<?php trv_state('pemeriksaan', $url1, $url2);?>">
-                        <a href="<?php echo base_url(); ?>dinas/list_gedung">
+                        <a href="<?php echo base_url(); ?>dinas/list_pemeriksaan">
                             <i class="material-icons">assessment</i>
                             <span>Data Pemeriksaan</span>
                         </a>

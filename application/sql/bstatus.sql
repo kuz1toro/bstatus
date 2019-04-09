@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 07, 2019 at 08:10 PM
+-- Generation Time: Apr 09, 2019 at 10:25 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -2237,7 +2237,7 @@ INSERT INTO `pembagian_gedung` (`udiyono`, `bambang`, `miyanto`, `sidik`, `supar
 
 CREATE TABLE `pemeriksaan_dinas` (
   `id_pemeriksaan_dinas` int(11) UNSIGNED NOT NULL,
-  `no_gedung` varchar(10) NOT NULL,
+  `no_gedungP` varchar(10) NOT NULL,
   `jalur_info1` varchar(255) DEFAULT NULL,
   `jalur_info` tinyint(2) DEFAULT NULL COMMENT '1. permintaan gedung; 2. pemeriksaan Damkar',
   `hasil_pemeriksaan1` varchar(100) DEFAULT NULL,
@@ -2254,8 +2254,8 @@ CREATE TABLE `pemeriksaan_dinas` (
   `nama_pengelola` varchar(150) DEFAULT NULL,
   `alamat_pengelola` varchar(255) DEFAULT NULL,
   `no_telp_pengelola` varchar(50) DEFAULT NULL,
-  `catatan` varchar(255) DEFAULT NULL,
-  `pokja` tinyint(3) UNSIGNED DEFAULT NULL COMMENT 'refer ke tabel pokja',
+  `catatan` longtext,
+  `pokjaP` tinyint(3) UNSIGNED DEFAULT NULL COMMENT 'refer ke tabel pokja',
   `created_by` varchar(50) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL COMMENT 'log waktu input data',
   `edit_by` varchar(50) DEFAULT NULL,
@@ -2267,7 +2267,7 @@ CREATE TABLE `pemeriksaan_dinas` (
 -- Dumping data for table `pemeriksaan_dinas`
 --
 
-INSERT INTO `pemeriksaan_dinas` (`id_pemeriksaan_dinas`, `no_gedung`, `jalur_info1`, `jalur_info`, `hasil_pemeriksaan1`, `hasil_pemeriksaan`, `status_gedung1`, `status_gedung`, `tgl_berlaku1`, `tgl_berlaku`, `tgl_expired1`, `tgl_expired`, `next_status1`, `next_status`, `tgl_ptsp`, `nama_pengelola`, `alamat_pengelola`, `no_telp_pengelola`, `catatan`, `pokja`, `created_by`, `created_at`, `edit_by`, `edit_at`, `deleted`) VALUES
+INSERT INTO `pemeriksaan_dinas` (`id_pemeriksaan_dinas`, `no_gedungP`, `jalur_info1`, `jalur_info`, `hasil_pemeriksaan1`, `hasil_pemeriksaan`, `status_gedung1`, `status_gedung`, `tgl_berlaku1`, `tgl_berlaku`, `tgl_expired1`, `tgl_expired`, `next_status1`, `next_status`, `tgl_ptsp`, `nama_pengelola`, `alamat_pengelola`, `no_telp_pengelola`, `catatan`, `pokjaP`, `created_by`, `created_at`, `edit_by`, `edit_at`, `deleted`) VALUES
 (1, 'PS12-0488', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SKK', 6, '23 October 2018', '2018-10-23', '23 October 2019', '2019-10-23', 'SKK', NULL, NULL, NULL, NULL, NULL, '.', NULL, NULL, NULL, NULL, NULL, 0),
 (2, 'SS11-0867', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SKK', 6, '30 July 2018', '2018-07-30', '30 July 2019', '2019-07-30', 'SKK', NULL, NULL, NULL, NULL, NULL, '.', NULL, NULL, NULL, NULL, NULL, 0),
 (3, 'SS01-0002', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SKK', 6, '20 March 2018', '2018-03-20', '20 March 2019', '2019-03-20', 'SKK', NULL, NULL, NULL, NULL, NULL, '.', NULL, NULL, NULL, NULL, NULL, 0),
@@ -2467,7 +2467,7 @@ INSERT INTO `pemeriksaan_dinas` (`id_pemeriksaan_dinas`, `no_gedung`, `jalur_inf
 (197, 'SS01-0048', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SKK', 6, '22 June 2018', '2018-06-22', '22 June 2019', '2019-06-22', 'SKK', NULL, NULL, NULL, NULL, NULL, 'LHP No. 1659/-1.784.22 tanggal 10 April 2018', NULL, NULL, NULL, NULL, NULL, 0),
 (198, 'SS01-0490', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SKK', 6, '03 December 2018', '2018-12-03', '03 December 2019', '2019-12-03', 'SKK', NULL, NULL, NULL, NULL, NULL, '.', NULL, NULL, NULL, NULL, NULL, 0),
 (199, 'TP01-0653', 'Permintaan Gedung', 1, 'Tidak Memenuhi', 2, 'Pengawasan', 5, '01 January 2000', '2000-01-01', '01 January 2001', '2001-01-01', 'LHP', NULL, NULL, NULL, NULL, NULL, '1.Pompa kebakaran tidak dilengkapi pompa pacu  2.Instalasi pemipaan bocor sehingga pompa kebakaran di off  3.Sebagian besar ruangan tidak terpasang springkler otomatis   4.Emergency lamp  tidak siap pakai  5.Exit sign sebagian tidak siap pakai  6.Penutup ', NULL, NULL, NULL, NULL, NULL, 0);
-INSERT INTO `pemeriksaan_dinas` (`id_pemeriksaan_dinas`, `no_gedung`, `jalur_info1`, `jalur_info`, `hasil_pemeriksaan1`, `hasil_pemeriksaan`, `status_gedung1`, `status_gedung`, `tgl_berlaku1`, `tgl_berlaku`, `tgl_expired1`, `tgl_expired`, `next_status1`, `next_status`, `tgl_ptsp`, `nama_pengelola`, `alamat_pengelola`, `no_telp_pengelola`, `catatan`, `pokja`, `created_by`, `created_at`, `edit_by`, `edit_at`, `deleted`) VALUES
+INSERT INTO `pemeriksaan_dinas` (`id_pemeriksaan_dinas`, `no_gedungP`, `jalur_info1`, `jalur_info`, `hasil_pemeriksaan1`, `hasil_pemeriksaan`, `status_gedung1`, `status_gedung`, `tgl_berlaku1`, `tgl_berlaku`, `tgl_expired1`, `tgl_expired`, `next_status1`, `next_status`, `tgl_ptsp`, `nama_pengelola`, `alamat_pengelola`, `no_telp_pengelola`, `catatan`, `pokjaP`, `created_by`, `created_at`, `edit_by`, `edit_at`, `deleted`) VALUES
 (200, 'TP01-0491', 'Permintaan Gedung', 1, 'Tidak Memenuhi', 2, 'Pengawasan', 5, '04 April 2018', '2018-04-04', '04 April 2019', '2019-04-04', 'LHP', NULL, NULL, NULL, NULL, NULL, '1.Sistem deteksi dan alarm kebakaran trouble  2.Emergency lamp pada korodor dan lantai Bismmen 1 dan 2 belum terpasang  3.Shaft belum dilengkapi fire stop  4.Pressurized fan tombol manual di lantai atap', NULL, NULL, NULL, NULL, NULL, 0),
 (201, 'PP01-0303', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SKK', 6, '09 September 2016', '2016-09-09', '09 September 2017', '2017-09-09', 'SKK', NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 0),
 (202, 'PP01-0492', 'Pemeriksaan DAMKAR', 2, 'Tidak Memenuhi', 2, 'LHP Min', 1, '09 September 2016', '2016-09-09', '09 September 2017', '2017-09-09', 'SP1', NULL, NULL, NULL, NULL, NULL, '.', NULL, NULL, NULL, NULL, NULL, 0),
@@ -2671,7 +2671,7 @@ INSERT INTO `pemeriksaan_dinas` (`id_pemeriksaan_dinas`, `no_gedung`, `jalur_inf
 (400, 'SS12-0898', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SLF', 7, '05 November 2018', '2018-11-05', '05 November 2021', '2021-11-05', 'SKK', NULL, NULL, NULL, NULL, NULL, '.', NULL, NULL, NULL, NULL, NULL, 0),
 (401, 'US12-0705', 'Permintaan Gedung', 1, 'Tidak Memenuhi', 2, 'LHP Min', 1, '01 January 2000', '2000-01-01', '01 January 2001', '2001-01-01', 'SP1', NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 0),
 (402, 'PS12-0123', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SKK', 6, '26 December 2018', '2018-12-26', '26 December 2019', '2019-12-26', 'SKK', NULL, NULL, NULL, NULL, NULL, '1. Kinerja Lift secara manual belum sesuai dengan yang dipersyaratkan .', NULL, NULL, NULL, NULL, NULL, 0);
-INSERT INTO `pemeriksaan_dinas` (`id_pemeriksaan_dinas`, `no_gedung`, `jalur_info1`, `jalur_info`, `hasil_pemeriksaan1`, `hasil_pemeriksaan`, `status_gedung1`, `status_gedung`, `tgl_berlaku1`, `tgl_berlaku`, `tgl_expired1`, `tgl_expired`, `next_status1`, `next_status`, `tgl_ptsp`, `nama_pengelola`, `alamat_pengelola`, `no_telp_pengelola`, `catatan`, `pokja`, `created_by`, `created_at`, `edit_by`, `edit_at`, `deleted`) VALUES
+INSERT INTO `pemeriksaan_dinas` (`id_pemeriksaan_dinas`, `no_gedungP`, `jalur_info1`, `jalur_info`, `hasil_pemeriksaan1`, `hasil_pemeriksaan`, `status_gedung1`, `status_gedung`, `tgl_berlaku1`, `tgl_berlaku`, `tgl_expired1`, `tgl_expired`, `next_status1`, `next_status`, `tgl_ptsp`, `nama_pengelola`, `alamat_pengelola`, `no_telp_pengelola`, `catatan`, `pokjaP`, `created_by`, `created_at`, `edit_by`, `edit_at`, `deleted`) VALUES
 (403, 'BS12-0534', 'Permintaan Gedung', 1, 'Tidak Memenuhi', 2, 'Pengawasan', 5, '01 January 2000', '2000-01-01', '01 January 2001', '2001-01-01', 'LHP', NULL, NULL, NULL, NULL, NULL, '1.Hidran gedung hanya terpasang 1 titik per lantai  2.Indikasi breakglass masih dalam 1 zone  3.Emergency lamp belum terpasang  4.Pintu Shaft dari kayu', NULL, NULL, NULL, NULL, NULL, 0),
 (404, 'SS12-0868', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SKK', 6, '30 July 2018', '2018-07-30', '30 July 2019', '2019-07-30', 'SKK', NULL, NULL, NULL, NULL, NULL, '.', NULL, NULL, NULL, NULL, NULL, 0),
 (405, 'SS12-0864', 'Permintaan Gedung', 1, 'Tidak Memenuhi', 2, 'Pengawasan', 5, '25 May 2018', '2018-05-25', '25 May 2019', '2019-05-25', 'LHP', NULL, NULL, NULL, NULL, NULL, 'LHP masa pembinaan No. 2476/-1.784.22 tanggal 25 Mei 2018  1. Sistem pipa tegak dan slng kebakaran serta hidaran halaman      - Pompa kebakaran tidak siap pakai kapasitas pompa hanya 500 US GPM gabung dengan sistem springkler      - Pompa cadangan tiak te', NULL, NULL, NULL, NULL, NULL, 0),
@@ -2862,7 +2862,7 @@ INSERT INTO `pemeriksaan_dinas` (`id_pemeriksaan_dinas`, `no_gedung`, `jalur_inf
 (590, 'PS01-0187', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SKK', 6, '30 March 2016', '2016-03-30', '30 March 2017', '2017-03-30', 'SKK', NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 0),
 (591, 'PS01-0188', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SKK', 6, '30 March 2016', '2016-03-30', '30 March 2017', '2017-03-30', 'SKK', NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 0),
 (592, 'SS01-0564', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SKK', 6, '16 July 2018', '2018-07-16', '16 July 2019', '2019-07-16', 'SKK', NULL, NULL, NULL, NULL, NULL, '.', NULL, NULL, NULL, NULL, NULL, 0);
-INSERT INTO `pemeriksaan_dinas` (`id_pemeriksaan_dinas`, `no_gedung`, `jalur_info1`, `jalur_info`, `hasil_pemeriksaan1`, `hasil_pemeriksaan`, `status_gedung1`, `status_gedung`, `tgl_berlaku1`, `tgl_berlaku`, `tgl_expired1`, `tgl_expired`, `next_status1`, `next_status`, `tgl_ptsp`, `nama_pengelola`, `alamat_pengelola`, `no_telp_pengelola`, `catatan`, `pokja`, `created_by`, `created_at`, `edit_by`, `edit_at`, `deleted`) VALUES
+INSERT INTO `pemeriksaan_dinas` (`id_pemeriksaan_dinas`, `no_gedungP`, `jalur_info1`, `jalur_info`, `hasil_pemeriksaan1`, `hasil_pemeriksaan`, `status_gedung1`, `status_gedung`, `tgl_berlaku1`, `tgl_berlaku`, `tgl_expired1`, `tgl_expired`, `next_status1`, `next_status`, `tgl_ptsp`, `nama_pengelola`, `alamat_pengelola`, `no_telp_pengelola`, `catatan`, `pokjaP`, `created_by`, `created_at`, `edit_by`, `edit_at`, `deleted`) VALUES
 (593, 'PS01-0719', 'Permintaan Gedung', 1, 'Tidak Memenuhi', 2, 'Pengawasan', 5, '31 March 2017', '2017-03-31', '31 March 2018', '2018-03-31', 'LHP', NULL, NULL, NULL, NULL, NULL, '1 kapasitas pompa kebakaran terpasang hanya 500US GPM untuk sistem hidran dan springkler otomatis  2 Pencahayaan darurat disetiap lantai koridor tidak terpasang  3 Penunjuk arah darurat (exit sign) tidak berfungsi  4 -Hanya terpasang 1 buah tangga  5 -Pad', NULL, NULL, NULL, NULL, NULL, 0),
 (594, 'SS12-0814', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SLF', 7, '06 October 2017', '2017-10-06', '06 October 2020', '2020-10-06', 'SKK', NULL, NULL, NULL, NULL, NULL, '.', NULL, NULL, NULL, NULL, NULL, 0),
 (595, 'PS04-0834', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SLF', 7, '23 February 2018', '2018-02-23', '23 February 2021', '2021-02-23', 'SKK', NULL, NULL, NULL, NULL, NULL, '.', NULL, NULL, NULL, NULL, NULL, 0),
@@ -3056,7 +3056,7 @@ INSERT INTO `pemeriksaan_dinas` (`id_pemeriksaan_dinas`, `no_gedung`, `jalur_inf
 (783, 'PS11-0235', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SLF', 7, '21 October 2016', '2016-10-21', '21 October 2019', '2019-10-21', 'SKK', NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 0),
 (784, 'SS01-0236', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SKK', 6, '24 May 2018', '2018-05-24', '24 May 2019', '2019-05-24', 'SKK', NULL, NULL, NULL, NULL, NULL, 'LHP  No. 2436/-1.784.22 tanggal 24 Mei 2018', NULL, NULL, NULL, NULL, NULL, 0),
 (785, 'SS11-0237', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SLF', 7, '18 March 2016', '2016-03-18', '18 March 2019', '2019-03-18', 'SKK', NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 0);
-INSERT INTO `pemeriksaan_dinas` (`id_pemeriksaan_dinas`, `no_gedung`, `jalur_info1`, `jalur_info`, `hasil_pemeriksaan1`, `hasil_pemeriksaan`, `status_gedung1`, `status_gedung`, `tgl_berlaku1`, `tgl_berlaku`, `tgl_expired1`, `tgl_expired`, `next_status1`, `next_status`, `tgl_ptsp`, `nama_pengelola`, `alamat_pengelola`, `no_telp_pengelola`, `catatan`, `pokja`, `created_by`, `created_at`, `edit_by`, `edit_at`, `deleted`) VALUES
+INSERT INTO `pemeriksaan_dinas` (`id_pemeriksaan_dinas`, `no_gedungP`, `jalur_info1`, `jalur_info`, `hasil_pemeriksaan1`, `hasil_pemeriksaan`, `status_gedung1`, `status_gedung`, `tgl_berlaku1`, `tgl_berlaku`, `tgl_expired1`, `tgl_expired`, `next_status1`, `next_status`, `tgl_ptsp`, `nama_pengelola`, `alamat_pengelola`, `no_telp_pengelola`, `catatan`, `pokjaP`, `created_by`, `created_at`, `edit_by`, `edit_at`, `deleted`) VALUES
 (786, 'BS21-0624', 'Permintaan Gedung', 1, 'Tidak Memenuhi', 2, 'LHP Min', 1, '31 December 2014', '2014-12-31', '31 December 2015', '2015-12-31', 'SP1', NULL, NULL, NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 0),
 (787, 'PS01-0912', 'Permintaan Gedung', 1, 'Tidak Memenuhi', 2, 'Penangguhan SLF', 4, '27 November 2018', '2018-11-27', '27 November 2019', '2019-11-27', 'Pengawasan', NULL, NULL, NULL, NULL, NULL, '1. - Pipa hisap pompa kebakaran digabung dengan menggunakan header hisap      - safety valve tidak dilengkapi dengan gate valve      - instalasi sprinkler belum terpasang seluruhnya  2. Sistem deteksi dan alarm kebakaran belum siap terpasang  3. Lif kebak', NULL, NULL, NULL, NULL, NULL, 0),
 (788, 'SS01-0239', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SKK', 6, '30 July 2018', '2018-07-30', '30 July 2019', '2019-07-30', 'SKK', NULL, NULL, NULL, NULL, NULL, '.', NULL, NULL, NULL, NULL, NULL, 0),
@@ -3191,7 +3191,8 @@ INSERT INTO `pemeriksaan_dinas` (`id_pemeriksaan_dinas`, `no_gedung`, `jalur_inf
 (917, 'SS01-0883', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SKK', 6, '28 September 2018', '2018-09-28', '28 September 2019', '2019-09-28', 'SKK', NULL, NULL, NULL, NULL, NULL, '.', NULL, NULL, NULL, NULL, NULL, 0),
 (918, 'SS01-0884', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SKK', 6, '28 September 2018', '2018-09-28', '28 September 2019', '2019-09-28', 'SKK', NULL, NULL, NULL, NULL, NULL, '.', NULL, NULL, NULL, NULL, NULL, 0),
 (919, 'US03-0376', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SKK', 6, '30 July 2018', '2018-07-30', '30 July 2019', '2019-07-30', 'SKK', NULL, NULL, NULL, NULL, NULL, '.', NULL, NULL, NULL, NULL, NULL, 0),
-(920, 'SS01-0651', 'Pemeriksaan DAMKAR', 2, 'Tidak Memenuhi', 2, 'Pengawasan', 5, '05 July 2018', '2018-07-05', '05 July 2019', '2019-07-05', 'LHP', NULL, NULL, NULL, NULL, NULL, '............', NULL, NULL, NULL, NULL, NULL, 0);
+(920, 'SS01-0651', 'Pemeriksaan DAMKAR', 2, 'Tidak Memenuhi', 2, 'Pengawasan', 5, '05 July 2018', '2018-07-05', '05 July 2019', '2019-07-05', 'LHP', NULL, NULL, NULL, NULL, NULL, '............', NULL, NULL, NULL, NULL, NULL, 0),
+(921, 'PS12-0488', NULL, 1, NULL, 1, NULL, 2, NULL, '2019-04-08', NULL, '2020-04-08', NULL, NULL, NULL, 'tes', 'tes', 'tes', '&lt;p&gt;&lt;strong&gt;tes&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;sdsadsa&lt;/li&gt;&lt;li&gt;reregertee&lt;/li&gt;&lt;li&gt;rereterere&lt;/li&gt;&lt;/ol&gt;', 1, 'dinas', '2019-04-08 19:42:35', NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -3217,7 +3218,11 @@ CREATE TABLE `pokja_dinas` (
 --
 
 INSERT INTO `pokja_dinas` (`id_pokja`, `nama_pokja`, `ketua_pokja`, `anggota_1`, `anggota_2`, `anggota_3`, `anggota_4`, `anggota_5`, `anggota_6`, `deleted`) VALUES
-(1, 'Pokja 1', 'Udiyono', 'Harfan Sakti', 'Purnama Alam', 'Santoso', 'Wandi', 'Kuswantoro', '', 0);
+(1, 'Pokja 1', 'Udiyono', 'Harfan Sakti', 'Purnama Alam', 'Santoso', 'Wandi', 'Kuswantoro', '', 0),
+(2, 'Pokja 2', 'Bambang Andanawari', '', '', '', '', '', '', 0),
+(3, 'Pokja 3', 'Miyanto', '', '', '', '', '', '', 0),
+(4, 'Pokja 4', 'Sidik', '', '', '', '', '', '', 0),
+(5, 'Pokja 5', 'Sutrisnanto', '', '', '', '', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -5697,6 +5702,7 @@ CREATE TABLE `tabel_kolom_statusGedung` (
   `id_kolom_statusGedung` int(11) UNSIGNED NOT NULL,
   `nama_kolom_statusGedung` varchar(100) NOT NULL,
   `kategori_kolomHslPemeriksaan` varchar(100) NOT NULL,
+  `masa_berlaku` smallint(5) UNSIGNED DEFAULT NULL COMMENT 'satuan tahun',
   `keterangan_kolom_statusGedung` varchar(255) DEFAULT NULL,
   `deleted` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -5705,17 +5711,17 @@ CREATE TABLE `tabel_kolom_statusGedung` (
 -- Dumping data for table `tabel_kolom_statusGedung`
 --
 
-INSERT INTO `tabel_kolom_statusGedung` (`id_kolom_statusGedung`, `nama_kolom_statusGedung`, `kategori_kolomHslPemeriksaan`, `keterangan_kolom_statusGedung`, `deleted`) VALUES
-(1, 'LHP Min', 'Tidak memenuhi', NULL, 0),
-(2, 'LHP Plus', 'Memenuhi', '', 0),
-(3, 'Penangguhan SKK', 'Tidak memenuhi', NULL, 0),
-(4, 'Penangguhan SLF', 'Tidak memenuhi', NULL, 0),
-(5, 'Pengawasan', 'Tidak memenuhi', NULL, 0),
-(6, 'SKK', 'Memenuhi', NULL, 0),
-(7, 'SLF', 'Memenuhi', NULL, 0),
-(8, 'SP1', 'Tidak memenuhi', NULL, 0),
-(9, 'SP2', 'Tidak memenuhi', NULL, 0),
-(10, 'SP3', 'Tidak memenuhi', NULL, 0);
+INSERT INTO `tabel_kolom_statusGedung` (`id_kolom_statusGedung`, `nama_kolom_statusGedung`, `kategori_kolomHslPemeriksaan`, `masa_berlaku`, `keterangan_kolom_statusGedung`, `deleted`) VALUES
+(1, 'LHP Min', 'Tidak memenuhi', 1, NULL, 0),
+(2, 'LHP Plus', 'Memenuhi', 1, '', 0),
+(3, 'Penangguhan SKK', 'Tidak memenuhi', 1, NULL, 0),
+(4, 'Penangguhan SLF', 'Tidak memenuhi', 1, NULL, 0),
+(5, 'Pengawasan', 'Tidak memenuhi', 1, NULL, 0),
+(6, 'SKK', 'Memenuhi', 1, NULL, 0),
+(7, 'SLF', 'Memenuhi', 3, NULL, 0),
+(8, 'SP1', 'Tidak memenuhi', 1, NULL, 0),
+(9, 'SP2', 'Tidak memenuhi', 1, NULL, 0),
+(10, 'SP3', 'Tidak memenuhi', 1, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -6335,7 +6341,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_selector`, `activation_code`, `forgotten_password_selector`, `forgotten_password_code`, `forgotten_password_time`, `remember_selector`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
 (1, '127.0.0.1', 'admin', '$2y$12$zSuLaAF.NWlcQ/HKyBQSredavdW6dypVdLE5ZaF5C3EdzkaWWWJJ2', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1553604879, 1, 'Admin', 'istrator', 'ADMIN', '0'),
 (2, '127.0.0.1', 'kuz1toro@gmail.com', '$2y$10$S04bKi5r0iZxpDnERsdFC.zPg6Fk747ntkcGPiWi7z4q1.UVbQQxa', 'kuz1toro@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1553171182, NULL, 1, 'Bidang-Pencegahan', 'Dinas', 'Dinas Penanggulangan Kebakaran dan Penyelamatan', '087802089254'),
-(3, '127.0.0.1', 'dinas', '$2y$10$UNFQJOc8jLVHVoWWtsx5GuOc5IFQg3Qv6VGJH6BAYpN8btbooqraC', 'bidangpencegahan@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1553604578, 1554615337, 1, 'Bidang Pencegahan', 'Dinas', 'Dinas Penanggulangan Kebakaran dan Penyelamatan', '021');
+(3, '127.0.0.1', 'dinas', '$2y$10$UNFQJOc8jLVHVoWWtsx5GuOc5IFQg3Qv6VGJH6BAYpN8btbooqraC', 'bidangpencegahan@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1553604578, 1554796421, 1, 'Bidang Pencegahan', 'Dinas', 'Dinas Penanggulangan Kebakaran dan Penyelamatan', '021');
 
 -- --------------------------------------------------------
 
@@ -6551,13 +6557,13 @@ ALTER TABLE `login_attempts`
 -- AUTO_INCREMENT for table `pemeriksaan_dinas`
 --
 ALTER TABLE `pemeriksaan_dinas`
-  MODIFY `id_pemeriksaan_dinas` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=921;
+  MODIFY `id_pemeriksaan_dinas` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=922;
 
 --
 -- AUTO_INCREMENT for table `pokja_dinas`
 --
 ALTER TABLE `pokja_dinas`
-  MODIFY `id_pokja` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_pokja` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `riwayat_kebakaran_gdd_dinas`
@@ -6599,7 +6605,7 @@ ALTER TABLE `tabel_kelurahan`
 -- AUTO_INCREMENT for table `tabel_kolom_fungsi_gedung`
 --
 ALTER TABLE `tabel_kolom_fungsi_gedung`
-  MODIFY `id_fungsi_gedung` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_fungsi_gedung` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tabel_kolom_hslPemeriksaan`
@@ -6617,7 +6623,7 @@ ALTER TABLE `tabel_kolom_jalurInfo`
 -- AUTO_INCREMENT for table `tabel_kolom_kepemilikkan_gedung`
 --
 ALTER TABLE `tabel_kolom_kepemilikkan_gedung`
-  MODIFY `id_kepemilikkan_gedung` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_kepemilikkan_gedung` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tabel_kolom_penyebabFire`
