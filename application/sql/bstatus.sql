@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 09, 2019 at 10:25 AM
+-- Generation Time: Apr 09, 2019 at 06:21 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -3192,7 +3192,8 @@ INSERT INTO `pemeriksaan_dinas` (`id_pemeriksaan_dinas`, `no_gedungP`, `jalur_in
 (918, 'SS01-0884', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SKK', 6, '28 September 2018', '2018-09-28', '28 September 2019', '2019-09-28', 'SKK', NULL, NULL, NULL, NULL, NULL, '.', NULL, NULL, NULL, NULL, NULL, 0),
 (919, 'US03-0376', 'Permintaan Gedung', 1, 'Memenuhi', 1, 'SKK', 6, '30 July 2018', '2018-07-30', '30 July 2019', '2019-07-30', 'SKK', NULL, NULL, NULL, NULL, NULL, '.', NULL, NULL, NULL, NULL, NULL, 0),
 (920, 'SS01-0651', 'Pemeriksaan DAMKAR', 2, 'Tidak Memenuhi', 2, 'Pengawasan', 5, '05 July 2018', '2018-07-05', '05 July 2019', '2019-07-05', 'LHP', NULL, NULL, NULL, NULL, NULL, '............', NULL, NULL, NULL, NULL, NULL, 0),
-(921, 'PS12-0488', NULL, 1, NULL, 1, NULL, 2, NULL, '2019-04-08', NULL, '2020-04-08', NULL, NULL, NULL, 'tes', 'tes', 'tes', '&lt;p&gt;&lt;strong&gt;tes&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;sdsadsa&lt;/li&gt;&lt;li&gt;reregertee&lt;/li&gt;&lt;li&gt;rereterere&lt;/li&gt;&lt;/ol&gt;', 1, 'dinas', '2019-04-08 19:42:35', NULL, NULL, 0);
+(921, 'PS12-0488', NULL, 1, NULL, 1, NULL, 2, NULL, '2019-04-08', NULL, '2020-04-08', NULL, NULL, NULL, 'tes', 'tes', 'tes', '&lt;p&gt;&lt;strong&gt;tes&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;sdsadsa&lt;/li&gt;&lt;li&gt;reregertee&lt;/li&gt;&lt;li&gt;rereterere&lt;/li&gt;&lt;/ol&gt;', 1, 'dinas', '2019-04-08 19:42:35', NULL, NULL, 0),
+(922, 'PS12-0488', NULL, 1, NULL, 1, NULL, 2, NULL, '2019-04-08', NULL, '2020-04-08', NULL, NULL, NULL, 'tes', 'tes', 'tes', '&lt;p&gt;&lt;strong&gt;tes&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;sdsadsa12&lt;/li&gt;&lt;li&gt;reregertee&lt;/li&gt;&lt;li&gt;rereterere&lt;/li&gt;&lt;/ol&gt;', 1, 'dinas', '2019-04-09 21:00:18', 'dinas', '2019-04-09 21:02:16', 0);
 
 -- --------------------------------------------------------
 
@@ -6341,7 +6342,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_selector`, `activation_code`, `forgotten_password_selector`, `forgotten_password_code`, `forgotten_password_time`, `remember_selector`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
 (1, '127.0.0.1', 'admin', '$2y$12$zSuLaAF.NWlcQ/HKyBQSredavdW6dypVdLE5ZaF5C3EdzkaWWWJJ2', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1553604879, 1, 'Admin', 'istrator', 'ADMIN', '0'),
 (2, '127.0.0.1', 'kuz1toro@gmail.com', '$2y$10$S04bKi5r0iZxpDnERsdFC.zPg6Fk747ntkcGPiWi7z4q1.UVbQQxa', 'kuz1toro@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1553171182, NULL, 1, 'Bidang-Pencegahan', 'Dinas', 'Dinas Penanggulangan Kebakaran dan Penyelamatan', '087802089254'),
-(3, '127.0.0.1', 'dinas', '$2y$10$UNFQJOc8jLVHVoWWtsx5GuOc5IFQg3Qv6VGJH6BAYpN8btbooqraC', 'bidangpencegahan@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1553604578, 1554796421, 1, 'Bidang Pencegahan', 'Dinas', 'Dinas Penanggulangan Kebakaran dan Penyelamatan', '021');
+(3, '127.0.0.1', 'dinas', '$2y$10$UNFQJOc8jLVHVoWWtsx5GuOc5IFQg3Qv6VGJH6BAYpN8btbooqraC', 'bidangpencegahan@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1553604578, 1554825545, 1, 'Bidang Pencegahan', 'Dinas', 'Dinas Penanggulangan Kebakaran dan Penyelamatan', '021');
 
 -- --------------------------------------------------------
 
@@ -6557,7 +6558,7 @@ ALTER TABLE `login_attempts`
 -- AUTO_INCREMENT for table `pemeriksaan_dinas`
 --
 ALTER TABLE `pemeriksaan_dinas`
-  MODIFY `id_pemeriksaan_dinas` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=922;
+  MODIFY `id_pemeriksaan_dinas` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=923;
 
 --
 -- AUTO_INCREMENT for table `pokja_dinas`

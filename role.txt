@@ -1,0 +1,11 @@
+super admin:
+- all
+admin dinas/sudin :
+- cakupan dinas/sudin only
+- atur setting
+- crud data gedung
+- read only data pemeriksaan
+- membagi gedung
+user
+- crud data pemeriksaan
+- read only data gedung

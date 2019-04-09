@@ -9,4 +9,6 @@ To do
 8. add file upload to data pemeriksaan and data gedung
 9. add profile page and change user data
 10. autofocus di setiap form
+11. chat app
+12. forum app
 

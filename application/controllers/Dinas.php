@@ -30,6 +30,7 @@ class Dinas extends CI_Controller {
 		parent::__construct();
 		$this->load->model('dinas_model');
 		$this->load->model('pelengkap_model');
+		$this->load->model('gedung_model');
 		$this->load->library(array('ion_auth','form_validation'));
 		// verifikasi pangilan
 		if ( ! $this->ion_auth->in_group('Dinas'))
@@ -1521,7 +1522,7 @@ class Dinas extends CI_Controller {
 			'no_gedungP', 'nama_gedung', 'alamat_gedung'
 		);
 		$data['dhead'] = array(
-			'fungsi_gedung', 'nama_kolom_jalurInfo', 'nama_kolom_hslPemeriksaan', 'nama_kolom_statusGedung', 'tgl_berlaku', 'tgl_expired', 'pokjaP'
+			'fungsi_gedung', 'nama_kolom_jalurInfo', 'nama_kolom_hslPemeriksaan', 'nama_kolom_statusGedung', 'tgl_berlaku', 'tgl_expired', 'nama_pokja'
 		);
 		$id_pemeriksaan = 'id_pemeriksaan_dinas';
 		$data['id_table'] = $id_pemeriksaan;
@@ -1537,7 +1538,8 @@ class Dinas extends CI_Controller {
 		$table_statGedung = 'tabel_kolom_statusGedung';
 		$table_gedung = 'gedung_dinas';
 		$table_fungsiGdg = 'tabel_kolom_fungsi_gedung';
-		$data['data'] = $this->dinas_model->get_list_pemeriksaan($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statGedung, $table_gedung, $table_fungsiGdg, $coulum_table_pemeriksaan);
+		$table_pokja = 'pokja_dinas';
+		$data['data'] = $this->dinas_model->get_list_pemeriksaan($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statGedung, $table_gedung, $table_fungsiGdg, $table_pokja, $coulum_table_pemeriksaan);
 
 		//load the view
 		$data['main_content'] = 'dinas/pemeriksaan/list_pemeriksaan';
@@ -1794,9 +1796,9 @@ class Dinas extends CI_Controller {
 		$data['thead'] = array(
 			'Pilih Gedung*', 'Nama Pengelola', 'Alamat Pengelola', 'No Telp Pengelola', 'Jalur Info', 'Hasil Pemeriksaan*','Status Gedung*', 'Catatan Hasil Pemeriksaan', 'Tanggal Berlaku*', 'Pokja Pemeriksa'
 		);
-		$data['header'] = 'Tambah Data Pemeriksaan';
-		$data['contrl_url'] = 'add_pemeriksaan';
-		$data['cancel_url'] = 'list_pemeriksaan';
+		$data['header'] = 'Edit Data Pemeriksaan';
+		$data['contrl_url'] = 'edit_pemeriksaan';
+		$data['cancel_url'] = 'read_pemeriksaan';
 		$column_fungsi = array ('id_fungsi_gedung', 'fungsi_gedung');
 		$data['list_jalurInfo'] = $this->dinas_model->get_hslPemeriksaan($table_jalurInfo, $column_jalurInfo);
 		$data['list_hslPemeriksaan'] = $this->dinas_model->get_hslPemeriksaan($table_hslPemeriksaan, $column_hslPemeriksaan);
@@ -2234,6 +2236,7 @@ class Dinas extends CI_Controller {
 	public function bagi()
 	{
 		$pokja = array('udiyono', 'bambang', 'miyanto', 'sidik', 'suparman');
+		$pokjaNew = array(1, 2, 3, 4, 5);
 		$stack = array();
 		for ($i = 0; $i <= 4; $i++){
 			$daftarGedung = $this->gedung_model->get_gedung_pokja($pokja[$i]);
@@ -2242,17 +2245,17 @@ class Dinas extends CI_Controller {
 				//$var = $this->gedung_model->find_gedung_pokja($search_string);
 				if($this->gedung_model->find_gedung_pokja($gedung[$pokja[$i]]) == TRUE){
 					$id = $this->gedung_model->find_gedung_pokja($gedung[$pokja[$i]]);
-					$data_to_update = array('inspector' => $pokja[$i]);
-					$this->gedung_model->update_gedung($id[0]['id'], $data_to_update);
+					$data_to_update = array('pokja' => $pokjaNew[$i]);
+					$this->gedung_model->update_gedung($id[0]['id_gdg_dinas'], $data_to_update);
 				}else{
 					$array = array('pokja' => $pokja[$i], 'gedung' => $gedung[$pokja[$i]]);
 					array_push($stack, $array);
 				}
 			}
 		}
-		$data['stack'] = $stack;
-		$data['main_content'] = 'prainspeksi/gedung/pembagianGedung';
-		$this->load->view('prainspeksi/includes/template', $data);
+		//$data['stack'] = $stack;
+		//$data['main_content'] = 'prainspeksi/gedung/pembagianGedung';
+		//$this->load->view('prainspeksi/includes/template', $data);
 	}
 
 	public function loadData()

@@ -108,8 +108,8 @@ class Gedung_model extends CI_Model {
 	*/
 	function update_gedung($id, $data)
 	{
-		$this->db->where('id', $id);
-		if ($this->db->update('tabel_gedung', $data)){
+		$this->db->where('id_gdg_dinas', $id);
+		if ($this->db->update('gedung_dinas', $data)){
 			return true;
 		}else {
 			return false;
@@ -163,9 +163,9 @@ class Gedung_model extends CI_Model {
 
 	public function find_gedung_pokja($search_string)
 	{
-		$this->db->select('id');
-		$this->db->from('tabel_gedung');
-		$this->db->like('NamaGedung', $search_string);
+		$this->db->select('id_gdg_dinas');
+		$this->db->from('gedung_dinas');
+		$this->db->like('nama_gedung', $search_string);
 		$query = $this->db->get();
 		return $query->result_array();
 		//return $query->num_rows();
@@ -175,7 +175,7 @@ class Gedung_model extends CI_Model {
 	{
 		//echo 'get gedung';
 		$this->db->select('*');
-		$this->db->from('tabel_gedung');
+		$this->db->from('gedung_dinas');
 		$this->db->where('inspector', $inspector);
 		$this->db->where('pokja_updated', $update_status);
 

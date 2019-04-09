@@ -191,7 +191,7 @@ class Dinas_model extends CI_Model {
 		}
 	}
 
-	public function get_list_pemeriksaan($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statGedung, $table_gedung, $table_fungsiGdg, $coulum_table_pemeriksaan)
+	public function get_list_pemeriksaan($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statGedung, $table_gedung, $table_fungsiGdg, $table_pokja, $coulum_table_pemeriksaan)
 	{
 		$this->db->select($coulum_table_pemeriksaan);
 		$this->db->from($table_pemeriksaan.' as tabelPemeriksaan');
@@ -207,6 +207,8 @@ class Dinas_model extends CI_Model {
 		$this->db->join($table_gedung, 'tabelPemeriksaan.no_gedungP  ='.$table_gedung.'.no_gedung', 'left');
 		$this->db->select($table_fungsiGdg.'.fungsi_gedung');
 		$this->db->join($table_fungsiGdg, $table_gedung.'.fungsi  ='.$table_fungsiGdg.'.id_fungsi_gedung', 'left');
+		$this->db->select($table_pokja.'.nama_pokja');
+		$this->db->join($table_pokja, 'tabelPemeriksaan.pokjaP  ='.$table_pokja.'.id_pokja', 'left');
 		$this->db->where('tabelPemeriksaan.deleted', 0);
 		//$this->db->limit(10);
 		$query = $this->db->get();

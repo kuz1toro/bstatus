@@ -12,7 +12,7 @@
                         <div class="body">
                             <?php
                                 //form data
-                                print_r($data_pemeriksaan);
+                                //print_r($data_pemeriksaan);
                                 //print_r ($testDate);
                                 $attributes = array('id' => 'form_validation');
                                 echo form_open('dinas/'.$contrl_url.'/'.$this->uri->segment(3).'', $attributes);
@@ -25,13 +25,13 @@
                                         <div class="form-group form-float">
                                             <label class="form-label font-12 font-normal col-grey">'.$thead[0].' </label> 
                                             <select class="form-control selectpicker" name="'.$dhead[0].'" data-live-search="true" required>
-                                                <option value="">Silahkan Ketik dan Pilih Gedung</option>';
+                                                ';
                                                 foreach($list_gedung as $row)
                                                     {
                                                         echo '<option value="'.$row['no_gedung'].'"';
-                                                        if()
+                                                        if($row['no_gedung']==$data_pemeriksaan[0][$dhead[0]])
                                                         {
-
+                                                            echo 'selected="selected"';
                                                         }
                                                         echo 'data-content="'.$row['no_gedung'].' || <span class=\'badge bg-blue-grey\'>'.$row['nama_gedung'].'</span>  || '.$row['alamat_gedung'].'"></option>';
                                                     }
@@ -46,7 +46,7 @@
                                         <div class="col-lg-4 col-sm-12">
                                             <div class="form-group form-float">
                                                 <div class="form-line ">
-                                                    <input type="text" class="form-control" name="'.$dhead[$i].'" >
+                                                    <input type="text" class="form-control" name="'.$dhead[$i].'" value="'.$data_pemeriksaan[0][$dhead[$i]].'" >
                                                     <label class="form-label">'.$thead[$i].'</label>
                                                 </div>
                                             </div>
@@ -67,11 +67,13 @@
                                                 <select class="form-control selectpicker" name="'.$dhead[$i].'"';
                                                 if ($i==5) { echo 'id="hslPeriksa" required';} 
                                                 echo '>';
-                                                echo '
-                                                    <option value="">Silahkan Pilih</option>';
                                                     foreach($list[$j] as $row)
                                                         {
                                                             echo '<option value="'.$row[$id[$j]].'"';
+                                                            if($row[$id[$j]]==$data_pemeriksaan[0][$dhead[$i]])
+                                                            {
+                                                                echo 'selected="selected"';
+                                                            }
                                                             echo '>'.$row[$name[$j]].'</option>';
                                                         }
                                         echo '
@@ -85,8 +87,9 @@
                                         <div class="col-lg-4 col-sm-12">
                                             <div class="form-group form-float">
                                                 <label class="form-label font-12 font-normal col-grey">'.$thead[6].' </label> 
-                                                <select class="form-control selectpicker" name="'.$dhead[6].'" id="statGdg" required >
-                                                    <option value="">Pilih Hasil Pemeriksaan Terlebih Dahulu</option>
+                                                <select class="form-control selectpicker" name="'.$dhead[6].'" id="statGdg" required >';
+                                    echo '
+                                                    <option value="'.$data_pemeriksaan[0][$dhead[6]].'">'.$data_pemeriksaan[0]['nama_kolom_statusGedung'].'</option>
                                                 </select>
                                             </div>
                                         </div>';
@@ -97,6 +100,7 @@
                                         <div class="form-group form-float">
                                             <div class="form-line ">
                                                 <textarea rows="2" class="form-control no-resize" name="'.$dhead[7].'" id="ckeditor">
+                                                '.$data_pemeriksaan[0][$dhead[7]].'
                                                 </textarea>
                                             </div>
                                         </div>
@@ -111,7 +115,7 @@
                                             <div class="form-group form-float">
                                                 <label class="form-label font-12 font-normal col-grey">'.$thead[8].'</label>
                                                 <div class="form-line " id="bs_datepicker_container">
-                                                    <input type="text" class="form-control" name="'.$dhead[8].'" required>
+                                                    <input type="text" class="form-control" name="'.$dhead[8].'" value="'.sqlDate2html($data_pemeriksaan[0][$dhead[8]]).'" required>
                                                 </div>
                                             </div>
                                         </div>';
@@ -120,11 +124,13 @@
                                             <div class="form-group form-float">
                                                 <label class="form-label font-12 font-normal col-grey">'.$thead[9].' </label> 
                                                 <select class="form-control selectpicker" name="'.$dhead[9].'">';
-                                                echo '
-                                                    <option value="">Silahkan Pilih</option>';
                                                     foreach($list_pokja as $row)
                                                         {
                                                             echo '<option value="'.$row['id_pokja'].'"';
+                                                            if($row['id_pokja']==$data_pemeriksaan[0][$dhead[9]])
+                                                            {
+                                                                echo 'selected="selected"';
+                                                            }
                                                             echo '>'.$row['nama_pokja'].'</option>';
                                                         }
                                     echo '
@@ -136,7 +142,11 @@
                                 ?>
                                 <div class="align-right">
                                 <div class="btn-group">
-                                    <a href="<?php echo base_url().'dinas/'.$cancel_url.''; ?>" class="btn btn-primary waves-effect"><i class="material-icons">cancel</i><span>Cancel</span></a>
+                                    <a href="<?php echo base_url().'dinas/'.$cancel_url.'/'.$this->uri->segment(3).''; ?>" class="btn btn-primary waves-effect"><i class="material-icons">cancel</i><span>Cancel</span></a>
+                                    <button type="reset" class="btn bg-green waves-effect" id="btnReset">
+                                        <i class="material-icons">undo</i>
+                                        <span>Reset</span>
+                                    </button>
                                     <button type="submit" class="btn bg-orange waves-effect">
                                         <i class="material-icons">save</i>
                                         <span>Simpan</span>
