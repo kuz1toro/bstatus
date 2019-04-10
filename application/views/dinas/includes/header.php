@@ -67,7 +67,7 @@
                     </div>
                 </div>
             </div>
-            <p>Tunggu Bentar Coy...</p>
+            <p>Tunggu Bentar Ndan...</p>
         </div>
     </div>
     <!-- #END# Page Loader -->
@@ -148,7 +148,7 @@
                         </a>
                     </li>
                     <li class="<?php trv_state('fsm', $url1, $url2);?>">
-                        <a href="<?php echo base_url(); ?>dinas/list_gedung">
+                        <a href="<?php echo base_url(); ?>dinas/list_fsm">
                             <i class="material-icons">pages</i>
                             <span>Data FSM</span>
                         </a>

@@ -1166,10 +1166,10 @@ class Dinas extends CI_Controller {
 		$data['attributeFooter'] = $attributeFooter;
 		//console_log( $attributeFooter );
 		$data['thead'] = array(
-			'No','No Gdg', 'Nama Gedung', 'Alamat', 'Wilayah', 'Fungsi', 'Kepemilikkan', 'Aksi'
+			'No','Gedung', 'Alamat', 'Fungsi', 'Kepemilikkan', 'Aksi'
 		);
 		$data['dhead'] = array(
-			'no_gedung', 'nama_gedung', 'alamat_gedung', 'wilayah', 'fungsi_gedung', 'kepemilikkan_gedung'
+			'no_gedung', 'nama_gedung', 'alamat_gedung', 'wilayah', 'kecamatan', 'kelurahan', 'fungsi_gedung', 'kepemilikkan_gedung'
 		);
 		$id_gedung = 'id_gdg_dinas';
 		$data['id_table'] = $id_gedung;
@@ -1179,7 +1179,7 @@ class Dinas extends CI_Controller {
 		$data['delete_url'] = 'delete_gedung';
 		$data['add_url'] = 'add_gedung';
 		$table_gedung = 'gedung_dinas';
-		$coulum_table_gedung = array ('id_gdg_dinas', 'no_gedung', 'nama_gedung', 'alamat_gedung', 'wilayah', 'fungsi', 'kepemilikan');
+		$coulum_table_gedung = array ('id_gdg_dinas', 'no_gedung', 'nama_gedung', 'alamat_gedung', 'wilayah', 'kecamatan', 'kelurahan', 'fungsi', 'kepemilikan');
 		$table_fungsi = 'tabel_kolom_fungsi_gedung';
 		$table_kepemilikkan = 'tabel_kolom_kepemilikkan_gedung';
 		$data['data'] = $this->dinas_model->get_list_gedung($table_gedung, $table_fungsi, $table_kepemilikkan, $coulum_table_gedung);
@@ -1806,6 +1806,84 @@ class Dinas extends CI_Controller {
 		$data['list_pokja'] = $this->dinas_model->get_hslPemeriksaan($table_pokja, $column_pokja);
 		$data['data_pemeriksaan'] = $this->dinas_model->get_list_pemeriksaan_byNoId($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statGedung, $table_gedung, $table_fungsiGdg, $table_pokja, $id_tblPemeriksaan, $id);
 		$data['main_content'] = 'dinas/pemeriksaan/edit_pemeriksaan';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function list_fsm()
+	{
+		$attributeFooter = $this->attributeFooter;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['thead'] = array(
+			'No','Nama FSM', 'Alamat FSM', 'No Telp', 'No Sertifikat', 'Tanggal Berlaku', 'Tanggal Expired', 'Aksi'
+		);
+		$data['dhead'] = array(
+			'nama_FSM', 'alamat_FSM', 'no_telp_FSM', 'no_sert_FSM', 'tgl_sert_berlaku', 'tgl_sert_expired'
+		);
+		$data['id_table'] = 'id_FSM';
+		$data['header'] = 'Data Fire Safety Manager';
+		$data['edit_url'] = 'edit_fsm';
+		$data['delete_url'] = 'delete_fsm';
+		$data['add_url'] = 'add_fsm';
+		$table_fsm = 'FSM_dinas';
+		$data['data'] = $this->dinas_model->get_all_setting($table_fsm);
+		$data['main_content'] = 'dinas/fsm/list_fsm';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function add_fsm()
+	{
+		$table_fsm = 'FSM_dinas';
+		//$table_gedung = 'gedung_dinas';
+		//$table_penyebab = 'tabel_kolom_penyebabFire';
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			$this->form_validation->set_rules('nama_FSM', 'nama_FSM', 'required');
+			$this->form_validation->set_rules('no_sert_FSM', 'no_sert_FSM', 'required');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			//if the form has passed through the validation
+			if ($this->form_validation->run())
+			{
+				$tgl_sert_berlaku = $this->input->post('tgl_sert_berlaku');
+				$tgl_sert_expired = $this->input->post('tgl_sert_expired');
+				$tgl_sert_berlaku = htmlDate2sqlDate($tgl_sert_berlaku);
+				$tgl_sert_expired = htmlDate2sqlDate($tgl_sert_expired);
+				$data_to_store = array(
+					'nama_FSM' => $this->input->post('nama_FSM'),
+					'alamat_FSM' => $this->input->post('alamat_FSM'),
+					'no_telp_FSM' => $this->input->post('no_telp_FSM'),
+					'no_sert_FSM' => $this->input->post('no_sert_FSM'),
+					'tgl_sert_berlaku' => $tgl_sert_berlaku,
+					'tgl_sert_expired' => $tgl_sert_expired
+				);
+				//if the insert has returned true then we show the flash message
+				if($this->dinas_model->add_setting($table_fsm, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'sukses');
+				}else{
+					$this->session->set_flashdata('flash_message', 'failed');
+				}
+
+				//redirect('Prainspeksi_gedung/update/'.$id.'');
+				redirect('dinas/list_fsm');
+
+			}//validation run
+
+		}
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$attributeFooter['datetimePicker'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['thead'] = array(
+			'Nama FSM*', 'Alamat FSM', 'No Telp', 'No Sertifikat*', 'Tanggal Berlaku', 'Tanggal Expired', 'Aksi'
+		);
+		$data['dhead'] = array(
+			'nama_FSM', 'alamat_FSM', 'no_telp_FSM', 'no_sert_FSM', 'tgl_sert_berlaku', 'tgl_sert_expired'
+		);
+		$data['header'] = 'Tambah Data FSM';
+		$data['contrl_url'] = 'add_fsm';
+		$data['cancel_url'] = 'list_fsm';
+		$data['main_content'] = 'dinas/fsm/add_fsm';
 		$this->load->view('dinas/includes/template', $data);
 	}
 

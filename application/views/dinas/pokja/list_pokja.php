@@ -46,6 +46,11 @@
                             <h2>
                                 <?php echo $header; ?>
                             </h2>
+                                <ul class="header-dropdown m-r--5">
+                                <li>
+                                    <a href="<?php echo $add_url; ?>" class="btn btn-primary waves-effect"><i class="material-icons">queue</i><span>Tambah</span></a>
+                                </li>
+                            </ul>
                         </div>
                         <div class="body">
                             <div class="table-responsive"r>
@@ -84,9 +89,6 @@
                                         ?>
                                     </tbody>
                                 </table>
-                            </div>
-                            <div class="m-t-10 align-right">
-                                <a href="<?php echo $add_url; ?>" class="btn btn-primary waves-effect"><i class="material-icons">queue</i><span>Tambah</span></a>
                             </div>
                         </div>
                     </div>

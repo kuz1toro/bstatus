@@ -29,7 +29,7 @@
                                                 foreach($list_gedung as $row)
                                                     {
                                                         echo '<option value="'.$row['no_gedung'].'"';
-                                                        echo 'data-content="'.$row['no_gedung'].' || <span class=\'badge bg-blue-grey\'>'.$row['nama_gedung'].'</span>  || '.$row['alamat_gedung'].'"></option>';
+                                                        echo 'data-content="<span class=\'badge bg-blue-grey\'>'.$row['no_gedung'].'</span> &nbsp || &nbsp '.$row['nama_gedung'].' &nbsp || &nbsp '.$row['alamat_gedung'].'"></option>';
                                                     }
                                     echo '
                                             </select>

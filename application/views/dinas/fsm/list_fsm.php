@@ -41,11 +41,11 @@
         <div class="container-fluid">
             <div class="row clearfix">
                 <!-- Content -->
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-8 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
                             <h2>
-                                <?php echo $header;  ?>
+                                <?php echo $header; ?>
                             </h2>
                             <ul class="header-dropdown m-r--5">
                                 <li>
@@ -54,8 +54,8 @@
                             </ul>
                         </div>
                         <div class="body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover table-condensed dataTable js-basic-example">
+                            <div class="table-responsive"r>
+                                <table class="table table-bordered table-hover table-condensed ">
                                     <thead>
                                         <tr>
                                             <th class="hidden">id</th>
@@ -69,30 +69,33 @@
                                     <tbody>
                                         <?php
                                         $count = 1;
-                                        $i = 0;
                                         foreach($data as $row)
                                         {
                                             echo '<tr>';
                                                 echo '<td class="hidden">'.$row[$id_table].'</td>';
                                                 echo '<td>'.$count.'</td>';
-                                                echo '<td><span class="badge bg-blue-grey">'.$row[$dhead[0]].'</span><br/>'.$row[$dhead[1]].'</td>';
-                                                echo '<td>'.$row[$dhead[2]].'<br/>'.$row[$dhead[3]].',&nbsp '.$row[$dhead[4]].',&nbsp '.$row[$dhead[5]].'</td>';
-                                                for($i=6; $i<=7; $i++)
+                                                foreach($dhead as $col)
                                                 {
                                                     echo '<td>';
-                                                    echo $row[$dhead[$i]].'</td>';
+                                                    if ($col == 'tgl_sert_berlaku' || $col == 'tgl_sert_expired'){
+                                                        echo msqlDate2html($row[$col]);
+                                                    }else{
+                                                        echo $row[$col].'</td>';
+                                                    }
                                                 }
                                                 echo '<td class="js-sweetalert">
-                                                    <a href="'.$read_url.'/'.$row[$id_table].'" class="btn bg-green btn-circle waves-effect waves-circle waves-float" data-toggle="tooltip" title="lihat"><i class="material-icons">open_in_new</i></a>
+                                                    <a href="'.$edit_url.'/'.$row[$id_table].'" class="btn bg-blue btn-circle waves-effect waves-circle waves-float" data-toggle="tooltip" title="Edit"><i class="material-icons">edit</i></a>
+                                                    <button type="button" class="btn bg-red btn-circle waves-effect waves-circle waves-float" value="'.$row[$id_table].'" data-toggle="tooltip" title="Hapus" data-type="confirm_del_settingInput">
+                                                        <i class="material-icons">delete</i>
+                                                    </button>
                                                 </td>';
                                                 $count++;
-                                            echo '</tr>';
+                                            echo '<tr>';
                                         }
                                         ?>
                                     </tbody>
                                 </table>
                             </div>
-                            
                         </div>
                     </div>
                 </div>

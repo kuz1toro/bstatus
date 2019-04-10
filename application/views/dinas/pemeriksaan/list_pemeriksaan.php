@@ -74,7 +74,7 @@
                                             echo '<tr>';
                                                 echo '<td class="hidden">'.$row[$id_table].'</td>';
                                                 echo '<td>'.$count.'</td>';
-                                                echo '<td>'.$row[$dhead_gdg[0]].'<br/>'.$row[$dhead_gdg[1]].'<br/>'.$row[$dhead_gdg[2]].'</td>';
+                                                echo '<td><span class="badge bg-blue-grey">'.$row[$dhead_gdg[0]].'</span><br/>'.$row[$dhead_gdg[1]].'<br/>'.$row[$dhead_gdg[2]].'</td>';
                                                 foreach($dhead as $col)
                                                 {
                                                     echo '<td>';
