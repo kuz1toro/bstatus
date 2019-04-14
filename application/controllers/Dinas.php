@@ -1202,13 +1202,13 @@ class Dinas extends CI_Controller {
 			'No Gedung', 'Nama Gedung', 'Alamat', 'Wilayah', 'Kecamatan', 'Kelurahan', 'Kodepos','Fungsi', 'Kepemilikkan', 'Jumlah Tower', 'Jumlah Lantai', 'Jumlah Basement', 'Ketinggian', 'Penginput', 'Waktu Input', 'Pengedit', 'Waktu Edit'
 		);
 		$data['gcontents'] = array(
-			'no_gedung', 'nama_gedung', 'alamat_gedung', 'wilayah', 'kecamatan', 'kelurahan', 'kodepos', 'fungsi_gedung', 'kepemilikkan_gedung', 'jml_tower', 'jml_lantai', 'jml_basement', 'tinggi_gedung', 'created_by', 'create_at', 'edit_by', 'edit_at'
+			'no_gedung', 'nama_gedung', 'alamat_gedung', 'wilayah', 'kecamatan', 'kelurahan', 'kodepos', 'fungsi_gedung', 'kepemilikkan_gedung', 'jml_tower', 'jml_lantai', 'jml_basement', 'tinggi_gedung'
 		);
 		$data['pnames'] = array(
-			'Nama Pengelola', 'Alamat Pengelola', 'No Telp Pengelola', 'Jalur Info', 'Hasil Pemeriksaan', 'Status Gedung', 'Tanggal Berlaku', 'Tanggal Habis', 'Catatan Pemeriksaan', 'Pokja Pemeriksa'
+			'No Permohonan', 'Tanggal Permohonan', 'Nama Pengelola', 'Alamat Pengelola', 'No Telp Pengelola', 'Nama FSM', 'Alamat FSM', 'No Telp FSM', 'Jalur Info', 'Hasil Pemeriksaan', 'Status Gedung', 'Tanggal Berlaku', 'Tanggal Habis', 'Catatan Pemeriksaan', 'Pokja Pemeriksa'
 		);
 		$data['pcontents'] = array(
-			'nama_pengelola', 'alamat_pengelola', 'no_telp_pengelola', 'nama_kolom_jalurInfo', 'nama_kolom_hslPemeriksaan', 'nama_kolom_statusGedung', 'tgl_berlaku', 'tgl_expired', 'catatan', 'nama_pokja'
+			'no_permh', 'tgl_permh', 'nama_pengelola', 'alamat_pengelola', 'no_telp_pengelola', 'nama_FSM', 'alamat_FSM', 'no_telp_FSM', 'nama_kolom_jalurInfo', 'nama_kolom_hslPemeriksaan', 'nama_kolom_statusGedung', 'tgl_berlaku', 'tgl_expired', 'catatan', 'nama_pokja'
 		);
 		$data['fsm_names'] = array(
 			'Nama FSM', 'Alamat FSM', 'No Telp FSM', 'No Sertifikat FSM', 'Tanggal Berlaku', 'Tanggal Expired'
@@ -1220,7 +1220,7 @@ class Dinas extends CI_Controller {
 			'No', 'Tanggal Kejadian', 'Waktu', 'Penyebab', 'Jumlah Unit', 'Keterangan'
 		);
 		$data['fire_contents'] = array(
-			'tgl_kejadian', 'waktu_kejadian', 'dugaan_penyebab', 'jumlah_unit', 'keterangan'
+			'tgl_kejadian', 'waktu_kejadian', 'penyebab', 'jumlah_unit', 'keterangan'
 		);
 
 		$id_gedung = 'id_gdg_dinas';
@@ -1244,11 +1244,13 @@ class Dinas extends CI_Controller {
 		$table_hslPemeriksaan = 'tabel_kolom_hslPemeriksaan';
 		$table_statusGdg = 'tabel_kolom_statusGedung';
 		$table_pokja = 'pokja_dinas';
-		$data['data_pemeriksaan'] = $this->dinas_model->get_list_pemeriksaan_byNoGdg($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $table_pokja, $no_gedung_tblPemeriksaan, $no_gedung[0]['no_gedung']);
-		$table_fsm ='FSM_dinas';
-		$data['data_fsm'] = $this->dinas_model->get_all_byNoGdg($table_fsm, $no_gedung[0]['no_gedung']);
+		$table_fsm = 'FSM_dinas';
+		$table_penyebabFire = 'tabel_kolom_penyebabFire';
+		$data['data_pemeriksaan'] = $this->dinas_model->get_list_pemeriksaan_byNoGdg($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $table_pokja, $table_fsm, $no_gedung_tblPemeriksaan, $no_gedung[0]['no_gedung']);
+		//$table_fsm ='FSM_dinas';
+		//$data['data_fsm'] = $this->dinas_model->get_all_byNoGdg($table_fsm, $no_gedung[0]['no_gedung']);
 		$table_fireHist ='riwayat_kebakaran_gdd_dinas';
-		$data['fireHist'] = $this->dinas_model->get_all_byNoGdg($table_fireHist, $no_gedung[0]['no_gedung']);
+		$data['fireHist'] = $this->dinas_model->get_fireHist_byNoGdg($table_fireHist, $table_penyebabFire, $no_gedung[0]['no_gedung']);
 
 		//load the view
 		$data['main_content'] = 'dinas/gedung/read_gedung';
@@ -1516,13 +1518,13 @@ class Dinas extends CI_Controller {
 		$data['attributeFooter'] = $attributeFooter;
 		//console_log( $attributeFooter );
 		$data['thead'] = array(
-			'No','Gedung', 'Fungsi', 'Jalur Informasi', 'Hasil Pemeriksaan', 'Status Gedung', 'Berlaku', 'Sampai Dengan', 'Pokja', 'Aksi'
+			'No','Gedung', 'Permohonan', 'Jalur Informasi', 'Hasil Pemeriksaan', 'Status Gedung', 'Berlaku', 'Sampai Dengan', 'Pokja', 'Aksi'
 		);
 		$data['dhead_gdg'] = array(
-			'no_gedungP', 'nama_gedung', 'alamat_gedung'
+			'no_gedungP', 'nama_gedung', 'alamat_gedung', 'fungsi_gedung'
 		);
 		$data['dhead'] = array(
-			'fungsi_gedung', 'nama_kolom_jalurInfo', 'nama_kolom_hslPemeriksaan', 'nama_kolom_statusGedung', 'tgl_berlaku', 'tgl_expired', 'nama_pokja'
+			'no_permh', 'nama_kolom_jalurInfo', 'nama_kolom_hslPemeriksaan', 'nama_kolom_statusGedung', 'tgl_berlaku', 'tgl_expired', 'nama_pokja'
 		);
 		$id_pemeriksaan = 'id_pemeriksaan_dinas';
 		$data['id_table'] = $id_pemeriksaan;
@@ -1532,7 +1534,7 @@ class Dinas extends CI_Controller {
 		$data['delete_url'] = 'delete_pemeriksaan';
 		$data['add_url'] = 'add_pemeriksaan';
 		$table_pemeriksaan = 'pemeriksaan_dinas';
-		$coulum_table_pemeriksaan = array ('id_pemeriksaan_dinas', 'no_gedungP', 'jalur_info', 'hasil_pemeriksaan', 'status_gedung', 'tgl_berlaku', 'tgl_expired','pokjaP');
+		$coulum_table_pemeriksaan = array ('id_pemeriksaan_dinas', 'no_permh', 'tgl_permh', 'no_gedungP', 'jalur_info', 'hasil_pemeriksaan', 'status_gedung', 'tgl_berlaku', 'tgl_expired','pokjaP');
 		$table_jalurInfo = 'tabel_kolom_jalurInfo';
 		$table_hslPemeriksaan = 'tabel_kolom_hslPemeriksaan';
 		$table_statGedung = 'tabel_kolom_statusGedung';
@@ -1559,10 +1561,10 @@ class Dinas extends CI_Controller {
 			'no_gedung', 'nama_gedung', 'alamat_gedung', 'fungsi_gedung'
 		);
 		$data['pnames'] = array(
-			'Nama Pengelola', 'Alamat Pengelola', 'No Telp Pengelola', 'Jalur Info', 'Hasil Pemeriksaan', 'Status Gedung', 'Tanggal Berlaku', 'Tanggal Habis', 'Catatan Pemeriksaan', 'Pokja Pemeriksa'
+			'No Permohonan', 'Tanggal Permohonan', 'Pengelola', 'Alamat Pengelola', 'No Telp Pengelola', 'FSM', 'Alamat FSM', 'No Telp', 'Jalur Info', 'Hasil Pemeriksaan', 'Status Gedung', 'Tanggal Berlaku', 'Tanggal Habis', 'Catatan Pemeriksaan', 'Pokja Pemeriksa'
 		);
 		$data['pcontents'] = array(
-			'nama_pengelola', 'alamat_pengelola', 'no_telp_pengelola', 'nama_kolom_jalurInfo', 'nama_kolom_hslPemeriksaan', 'nama_kolom_statusGedung', 'tgl_berlaku', 'tgl_expired', 'catatan', 'nama_pokja'
+			'no_permh', 'tgl_permh', 'nama_pengelola', 'alamat_pengelola', 'no_telp_pengelola', 'nama_FSM', 'alamat_FSM', 'no_telp_FSM', 'nama_kolom_jalurInfo', 'nama_kolom_hslPemeriksaan', 'nama_kolom_statusGedung', 'tgl_berlaku', 'tgl_expired', 'catatan', 'nama_pokja'
 		);
 		
 		$id_gedung = 'id_gdg_dinas';
@@ -1588,8 +1590,9 @@ class Dinas extends CI_Controller {
 		$table_gedung = 'gedung_dinas';
 		$table_fungsiGdg = 'tabel_kolom_fungsi_gedung';
 		$table_pokja = 'pokja_dinas';
+		$table_fsm = 'FSM_dinas';
 		$id_tblPemeriksaan = 'id_pemeriksaan_dinas';
-		$data['data_pemeriksaan'] = $this->dinas_model->get_list_pemeriksaan_byNoId($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $table_gedung, $table_fungsiGdg, $table_pokja, $id_tblPemeriksaan, $id);
+		$data['data_pemeriksaan'] = $this->dinas_model->get_list_pemeriksaan_byNoId($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $table_gedung, $table_fungsiGdg, $table_pokja, $table_fsm, $id_tblPemeriksaan, $id);
 		//$table_fsm ='FSM_dinas';
 		//$data['data_fsm'] = $this->dinas_model->get_all_byNoGdg($table_fsm, $no_gedung[0]['no_gedung']);
 		//$table_fireHist ='riwayat_kebakaran_gdd_dinas';
@@ -1623,6 +1626,8 @@ class Dinas extends CI_Controller {
 		$column_table_gedung = array ('no_gedung', 'nama_gedung', 'alamat_gedung');
 		$table_pokja = 'pokja_dinas';
 		$column_pokja = array ('id_pokja', 'nama_pokja');
+		$table_fsm = 'FSM_dinas';
+		$column_fsm = array ('id_FSM', 'nama_FSM');
 		//$date = '02-April-2019'; 
 		//$date = htmlDate2sqlDate($date);
 		//$masa_berlaku = 2;
@@ -1643,6 +1648,8 @@ class Dinas extends CI_Controller {
 			//if the form has passed through the validation
 			if ($this->form_validation->run())
 			{
+				$tgl_permh = $this->input->post('tgl_permh');
+				$tgl_permh = htmlDate2sqlDate($tgl_permh);
 				$tgl_berlaku = $this->input->post('tgl_berlaku');
 				$tgl_berlaku = htmlDate2sqlDate($tgl_berlaku);
 				//hitung tanggal expired
@@ -1658,6 +1665,8 @@ class Dinas extends CI_Controller {
 				$my_time = date("Y-m-d H:i:s", now('Asia/Jakarta'));
 				$data_to_store = array(
 					'no_gedungP' => isZonk($this->input->post('no_gedungP')),
+					'no_permh' => isZonk($this->input->post('no_permh')),
+					'tgl_permh' => isZonk($tgl_permh),
 					'jalur_info' => isZonk($this->input->post('jalur_info')),
 					'hasil_pemeriksaan' => isZonk($this->input->post('hasil_pemeriksaan')),
 					'status_gedung' => $id_statusGedung,
@@ -1666,10 +1675,11 @@ class Dinas extends CI_Controller {
 					'nama_pengelola' => isZonk($this->input->post('nama_pengelola')),
 					'alamat_pengelola' => isZonk($this->input->post('alamat_pengelola')),
 					'no_telp_pengelola' => isZonk($this->input->post('no_telp_pengelola')),
+					'fsmP' => isZonk($this->input->post('fsmP')),
 					'catatan' => isZonk($catatan),
 					'pokjaP' => isZonk($this->input->post('pokjaP')),
-					'created_by' => $userName,
-					'created_at' => $my_time
+					'created_byP' => $userName,
+					'created_atP' => $my_time
 				);
 				//if the insert has returned true then we show the flash message
 				if($this->dinas_model->add_setting($table_pemeriksaan, $data_to_store)){
@@ -1692,10 +1702,10 @@ class Dinas extends CI_Controller {
 		$attributeFooter['ckeEditorBasic'] = TRUE;
 		$data['attributeFooter'] = $attributeFooter;
 		$data['dhead'] = array(
-			'no_gedungP', 'nama_pengelola', 'alamat_pengelola', 'no_telp_pengelola', 'jalur_info', 'hasil_pemeriksaan', 'status_gedung', 'catatan', 'tgl_berlaku', 'pokjaP'
+			'no_gedungP', 'no_permh', 'tgl_permh', 'fsmP', 'nama_pengelola', 'alamat_pengelola', 'no_telp_pengelola', 'jalur_info', 'hasil_pemeriksaan', 'status_gedung', 'catatan', 'tgl_berlaku', 'pokjaP'
 		);
 		$data['thead'] = array(
-			'Pilih Gedung*', 'Nama Pengelola', 'Alamat Pengelola', 'No Telp Pengelola', 'Jalur Info', 'Hasil Pemeriksaan*','Status Gedung*', 'Catatan Hasil Pemeriksaan', 'Tanggal Berlaku*', 'Pokja Pemeriksa'
+			'Pilih Gedung*', 'No Permohonan', 'Tanggal Permohonan', 'FSM', 'Nama Pengelola', 'Alamat Pengelola', 'No Telp Pengelola', 'Jalur Info', 'Hasil Pemeriksaan*','Status Gedung*', 'Catatan Hasil Pemeriksaan', 'Tanggal Berlaku*', 'Pokja Pemeriksa'
 		);
 		$data['header'] = 'Tambah Data Pemeriksaan';
 		$data['contrl_url'] = 'add_pemeriksaan';
@@ -1705,6 +1715,7 @@ class Dinas extends CI_Controller {
 		$data['list_hslPemeriksaan'] = $this->dinas_model->get_hslPemeriksaan($table_hslPemeriksaan, $column_hslPemeriksaan);
 		$data['list_gedung'] = $this->dinas_model->get_hslPemeriksaan($table_gedung, $column_table_gedung);
 		$data['list_pokja'] = $this->dinas_model->get_hslPemeriksaan($table_pokja, $column_pokja);
+		$data['list_fsm'] = $this->dinas_model->get_hslPemeriksaan($table_fsm, $column_fsm);
 		$data['main_content'] = 'dinas/pemeriksaan/add_pemeriksaan';
 		$this->load->view('dinas/includes/template', $data);
 	}
@@ -1726,7 +1737,9 @@ class Dinas extends CI_Controller {
 		$table_gedung = 'gedung_dinas';
 		$column_table_gedung = array ('no_gedung', 'nama_gedung', 'alamat_gedung');
 		$table_pokja = 'pokja_dinas';
+		$table_fsm = 'FSM_dinas';
 		$column_pokja = array ('id_pokja', 'nama_pokja');
+		$column_fsm = array ('id_FSM', 'nama_FSM');
 		//if save button was clicked, get the data sent via post
 		if ($this->input->server('REQUEST_METHOD') === 'POST')
 		{
@@ -1740,6 +1753,8 @@ class Dinas extends CI_Controller {
 			if ($this->form_validation->run())
 			{
 				//no_gedung logic
+				$tgl_permh = $this->input->post('tgl_permh');
+				$tgl_permh = htmlDate2sqlDate($tgl_permh);
 				$tgl_berlaku = $this->input->post('tgl_berlaku');
 				$tgl_berlaku = htmlDate2sqlDate($tgl_berlaku);
 				//hitung tanggal expired
@@ -1755,6 +1770,8 @@ class Dinas extends CI_Controller {
 				$my_time = date("Y-m-d H:i:s", now('Asia/Jakarta'));
 				$data_to_store = array(
 					'no_gedungP' => isZonk($this->input->post('no_gedungP')),
+					'no_permh' => isZonk($this->input->post('no_permh')),
+					'tgl_permh' => isZonk($tgl_permh),
 					'jalur_info' => isZonk($this->input->post('jalur_info')),
 					'hasil_pemeriksaan' => isZonk($this->input->post('hasil_pemeriksaan')),
 					'status_gedung' => $id_statusGedung,
@@ -1763,10 +1780,11 @@ class Dinas extends CI_Controller {
 					'nama_pengelola' => isZonk($this->input->post('nama_pengelola')),
 					'alamat_pengelola' => isZonk($this->input->post('alamat_pengelola')),
 					'no_telp_pengelola' => isZonk($this->input->post('no_telp_pengelola')),
+					'fsmP' => isZonk($this->input->post('fsmP')),
 					'catatan' => isZonk($catatan),
 					'pokjaP' => isZonk($this->input->post('pokjaP')),
-					'edit_by' => $userName,
-					'edit_at' => $my_time
+					'edit_byP' => $userName,
+					'edit_atP' => $my_time
 				);
 				//console_log($id);
 				//if the insert has returned true then we show the flash message
@@ -1791,10 +1809,10 @@ class Dinas extends CI_Controller {
 		$attributeFooter['ckeEditorBasic'] = TRUE;
 		$data['attributeFooter'] = $attributeFooter;
 		$data['dhead'] = array(
-			'no_gedungP', 'nama_pengelola', 'alamat_pengelola', 'no_telp_pengelola', 'jalur_info', 'hasil_pemeriksaan', 'status_gedung', 'catatan', 'tgl_berlaku', 'pokjaP'
+			'no_gedungP', 'no_permh', 'tgl_permh', 'fsmP', 'nama_pengelola', 'alamat_pengelola', 'no_telp_pengelola', 'jalur_info', 'hasil_pemeriksaan', 'status_gedung', 'catatan', 'tgl_berlaku', 'pokjaP'
 		);
 		$data['thead'] = array(
-			'Pilih Gedung*', 'Nama Pengelola', 'Alamat Pengelola', 'No Telp Pengelola', 'Jalur Info', 'Hasil Pemeriksaan*','Status Gedung*', 'Catatan Hasil Pemeriksaan', 'Tanggal Berlaku*', 'Pokja Pemeriksa'
+			'Pilih Gedung*', 'No Permohonan', 'Tanggal Permohonan', 'FSM', 'Nama Pengelola', 'Alamat Pengelola', 'No Telp Pengelola', 'Jalur Info', 'Hasil Pemeriksaan*','Status Gedung*', 'Catatan Hasil Pemeriksaan', 'Tanggal Berlaku*', 'Pokja Pemeriksa'
 		);
 		$data['header'] = 'Edit Data Pemeriksaan';
 		$data['contrl_url'] = 'edit_pemeriksaan';
@@ -1804,7 +1822,8 @@ class Dinas extends CI_Controller {
 		$data['list_hslPemeriksaan'] = $this->dinas_model->get_hslPemeriksaan($table_hslPemeriksaan, $column_hslPemeriksaan);
 		$data['list_gedung'] = $this->dinas_model->get_hslPemeriksaan($table_gedung, $column_table_gedung);
 		$data['list_pokja'] = $this->dinas_model->get_hslPemeriksaan($table_pokja, $column_pokja);
-		$data['data_pemeriksaan'] = $this->dinas_model->get_list_pemeriksaan_byNoId($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statGedung, $table_gedung, $table_fungsiGdg, $table_pokja, $id_tblPemeriksaan, $id);
+		$data['list_fsm'] = $this->dinas_model->get_hslPemeriksaan($table_fsm, $column_fsm);
+		$data['data_pemeriksaan'] = $this->dinas_model->get_list_pemeriksaan_byNoId($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statGedung, $table_gedung, $table_fungsiGdg, $table_pokja, $table_fsm, $id_tblPemeriksaan, $id);
 		$data['main_content'] = 'dinas/pemeriksaan/edit_pemeriksaan';
 		$this->load->view('dinas/includes/template', $data);
 	}
@@ -1885,6 +1904,78 @@ class Dinas extends CI_Controller {
 		$data['cancel_url'] = 'list_fsm';
 		$data['main_content'] = 'dinas/fsm/add_fsm';
 		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function edit_fsm()
+	{
+		$id = $this->uri->segment(3);
+		$nama_table = 'FSM_dinas';
+		$id_table = 'id_FSM';
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			$this->form_validation->set_rules('nama_FSM', 'nama_FSM', 'required');
+			$this->form_validation->set_rules('no_sert_FSM', 'no_sert_FSM', 'required');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			//if the form has passed through the validation
+			if ($this->form_validation->run())
+			{
+				$tgl_sert_berlaku = $this->input->post('tgl_sert_berlaku');
+				$tgl_sert_expired = $this->input->post('tgl_sert_expired');
+				$tgl_sert_berlaku = htmlDate2sqlDate($tgl_sert_berlaku);
+				$tgl_sert_expired = htmlDate2sqlDate($tgl_sert_expired);
+				$data_to_store = array(
+					'nama_FSM' => $this->input->post('nama_FSM'),
+					'alamat_FSM' => $this->input->post('alamat_FSM'),
+					'no_telp_FSM' => $this->input->post('no_telp_FSM'),
+					'no_sert_FSM' => $this->input->post('no_sert_FSM'),
+					'tgl_sert_berlaku' => $tgl_sert_berlaku,
+					'tgl_sert_expired' => $tgl_sert_expired
+				);
+				//if the insert has returned true then we show the flash message
+				if($this->dinas_model->update_setting($nama_table, $id_table, $id, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'updated');
+				}else{
+					$this->session->set_flashdata('flash_message', 'not_updated');
+				}
+
+				//redirect('Prainspeksi_gedung/update/'.$id.'');
+				redirect('dinas/list_fsm');
+
+			}//validation run
+
+		}
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$attributeFooter['datetimePicker'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['thead'] = array(
+			'Nama FSM*', 'Alamat FSM', 'No Telp', 'No Sertifikat*', 'Tanggal Berlaku', 'Tanggal Expired', 'Aksi'
+		);
+		$data['dhead'] = array(
+			'nama_FSM', 'alamat_FSM', 'no_telp_FSM', 'no_sert_FSM', 'tgl_sert_berlaku', 'tgl_sert_expired'
+		);
+		$data['header'] = 'Edit Data FSM';
+		$data['contrl_url'] = 'edit_fsm';
+		$data['cancel_url'] = 'list_fsm';
+		$data['data'] = $this->dinas_model->get_setting_byId($nama_table, $id_table, $id);
+		$data['main_content'] = 'dinas/fsm/edit_fsm';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function delete_fsm()
+	{
+		$id = $this->uri->segment(3);
+		$nama_table = 'FSM_dinas';
+		$id_table = 'id_FSM';
+		if ($this->dinas_model->soft_delete_setting($nama_table, $id_table, $id)){
+			$this->session->set_flashdata('flash_message', 'deleted');
+		}
+		else{
+			$this->session->set_flashdata('flash_message', 'failed');
+		}
+		redirect('dinas/list_fsm');
 	}
 
 

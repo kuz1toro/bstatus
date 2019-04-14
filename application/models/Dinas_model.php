@@ -123,7 +123,7 @@ class Dinas_model extends CI_Model {
 		return $query->result_array();
 	}
 
-	public function get_list_pemeriksaan_byNoGdg($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $table_pokja, $no_gedung_tblPemeriksaan, $no_gedung)
+	public function get_list_pemeriksaan_byNoGdg($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $table_pokja, $table_fsm, $no_gedung_tblPemeriksaan, $no_gedung)
 	{
 		$this->db->select('*');
 		$this->db->from($table_pemeriksaan.' as tabelPemeriksaan');
@@ -135,6 +135,8 @@ class Dinas_model extends CI_Model {
 		$this->db->join($table_statusGdg, 'tabelPemeriksaan.status_gedung ='.$table_statusGdg.'.id_kolom_statusGedung', 'left');
 		$this->db->select($table_pokja.'.nama_pokja');
 		$this->db->join($table_pokja, 'tabelPemeriksaan.pokjaP  ='.$table_pokja.'.id_pokja', 'left');
+		$this->db->select($table_fsm.'.nama_FSM');
+		$this->db->join($table_fsm, 'tabelPemeriksaan.fsmP  ='.$table_fsm.'.id_FSM', 'left');
 		$this->db->where('tabelPemeriksaan.'.$no_gedung_tblPemeriksaan, $no_gedung);
 		$this->db->where('tabelPemeriksaan.deleted', 0);
 		//$this->db->limit(10);
@@ -210,12 +212,13 @@ class Dinas_model extends CI_Model {
 		$this->db->select($table_pokja.'.nama_pokja');
 		$this->db->join($table_pokja, 'tabelPemeriksaan.pokjaP  ='.$table_pokja.'.id_pokja', 'left');
 		$this->db->where('tabelPemeriksaan.deleted', 0);
+		//$this->db->order_by('tabelPemeriksaan.id_pemeriksaan_dinas', 'Desc');
 		//$this->db->limit(10);
 		$query = $this->db->get();
 		return $query->result_array();
 	}
 
-	public function get_list_pemeriksaan_byNoId($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $table_gedung, $table_fungsiGdg, $table_pokja, $id_tblPemeriksaan, $id)
+	public function get_list_pemeriksaan_byNoId($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $table_gedung, $table_fungsiGdg, $table_pokja, $table_fsm, $id_tblPemeriksaan, $id)
 	{
 		$this->db->select('*');
 		$this->db->from($table_pemeriksaan.' as tabelPemeriksaan');
@@ -233,6 +236,9 @@ class Dinas_model extends CI_Model {
 		$this->db->join($table_fungsiGdg, $table_gedung.'.fungsi  ='.$table_fungsiGdg.'.id_fungsi_gedung', 'left');
 		$this->db->select($table_pokja.'.nama_pokja');
 		$this->db->join($table_pokja, 'tabelPemeriksaan.pokjaP  ='.$table_pokja.'.id_pokja', 'left');
+		$this->db->select($table_fsm.'.nama_FSM');
+		$this->db->select($table_fsm.'.no_telp_FSM');
+		$this->db->join($table_fsm, 'tabelPemeriksaan.fsmP  ='.$table_fsm.'.id_FSM', 'left');
 		$this->db->where('tabelPemeriksaan.'.$id_tblPemeriksaan, $id);
 		$this->db->where('tabelPemeriksaan.deleted', 0);
 		//$this->db->limit(10);
@@ -247,6 +253,18 @@ class Dinas_model extends CI_Model {
 		$this->db->where('id_kolom_statusGedung', $id_statusGedung);
 		$query = $this->db->get();
 		return $query->row_array();
+	}
+
+	public function get_fireHist_byNoGdg($table_fireHist, $table_penyebabFire, $no_gedung)
+	{
+		$this->db->select('*');
+		$this->db->from($table_fireHist.' as tabelRiwayatFire');
+		$this->db->select($table_penyebabFire.'.penyebab');
+		$this->db->join($table_penyebabFire, 'tabelRiwayatFire.dugaan_penyebab ='.$table_penyebabFire.'.id_penyebabFire', 'left');
+		$this->db->where('tabelRiwayatFire.no_gedung', $no_gedung);
+		$this->db->where('tabelRiwayatFire.deleted', 0);
+		$query = $this->db->get();
+		return $query->result_array();
 	}
 
 	

@@ -42,11 +42,11 @@
             <div class="row clearfix ">
                 <!-- Content -->
                 <!-- Data Pemeriksaan -->
-                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div class="col-lg-8 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
                             <h2>
-                                <?php echo $header;  ?>
+                                <?php //echo $header;  ?>
                             </h2>
                             <ul class="header-dropdown m-r--5">
                                 <li>
@@ -70,6 +70,7 @@
                                 <?php
                                     foreach($data_pemeriksaan as $row)
                                     {
+                                        echo '<div><h4 >Gedung</h4></div>';
                                         for($i=0; $i<=3; $i++)
                                         {
                                             echo '<tr>';
@@ -78,12 +79,37 @@
                                             echo '<td>'.$row[$gcontents[$i]].'</td>';
                                             echo '</tr>';
                                         }
-                                        for($i=0; $i<=9; $i++)
+                                        echo '</tbody></table><table class="table"><tbody><div><h4>Data Pemeriksaan</h4></div>';
+                                        for($i=0; $i<=1; $i++)
                                         {
                                             echo '<tr>';
                                             echo '<td class="col-xs-4">'.$pnames[$i].'</td>';
                                             echo '<td width="1">:</td>';
-                                            if($i==8){
+                                            if($i==1){
+                                                echo '<td>'.sqlDate2html($row[$pcontents[$i]]).'</td>';
+                                            }else{
+                                                echo '<td>'.$row[$pcontents[$i]].'</td>';
+                                            }
+                                            echo '</tr>';
+                                        }
+                                        echo '<tr>';
+                                        echo '<td class="col-xs-4">'.$pnames[2].'</td>';
+                                        echo '<td width="1">:</td>';
+                                        echo '<td>'.$row[$pcontents[2]].'<br/>'.$row[$pcontents[3]].'<br/>'.$row[$pcontents[4]].'</td>';
+                                        echo '</tr>';
+                                        echo '<tr>';
+                                        echo '<td class="col-xs-4">'.$pnames[5].'</td>';
+                                        echo '<td width="1">:</td>';
+                                        echo '<td>'.$row[$pcontents[5]].'<br/>'.$row[$pcontents[6]].'<br/>'.$row[$pcontents[7]].'</td>';
+                                        echo '</tr>';
+                                        for($i=8; $i<=14; $i++)
+                                        {
+                                            echo '<tr>';
+                                            echo '<td class="col-xs-4">'.$pnames[$i].'</td>';
+                                            echo '<td width="1">:</td>';
+                                            if($i==11 || $i==12){
+                                                echo '<td>'.sqlDate2html($row[$pcontents[$i]]).'</td>';
+                                            }elseif($i==13){
                                                 echo '<td>'.htmlspecialchars_decode($row[$pcontents[$i]]).'</td>';
                                             }else{
                                                 echo '<td>'.$row[$pcontents[$i]].'</td>';
@@ -96,6 +122,9 @@
                                 </tbody>
                             </table>
                         </div>
+                    <div class="font-10 align-right m-r-15">
+                        <?php echo 'dibuat oleh : '.$data_pemeriksaan[0]['created_byP'].' || waktu pembuatan : '.$data_pemeriksaan[0]['created_atP'].' || diedit oleh : '.$data_pemeriksaan[0]['edit_byP'].' || waktu edit : '.$data_pemeriksaan[0]['edit_atP'].'';?>
+                    </div>
                     </div>
                 </div>
                 <!-- #END# Content -->

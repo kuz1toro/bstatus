@@ -39,8 +39,45 @@
                                             </select>
                                         </div>
                                     </div>';
-                                    // nama, alamat dan no telp pengelola
+                                    // No Permh, tgl permh dan fsm
                                     for($i=1; $i<=3; $i++)
+                                    {
+                                        echo '
+                                        <div class="col-lg-4 col-sm-12">
+                                            <div class="form-group form-float">
+                                                <label class="form-label font-12 font-normal col-grey">'.$thead[$i].'</label>';
+                                                if($i==2){
+                                                    echo '
+                                                    <div class="form-line" id="bs_datepicker_container">
+                                                        <input type="text" class="form-control" name="'.$dhead[$i].'" value="'.sqlDate2html($data_pemeriksaan[0][$dhead[$i]]).'">
+                                                    </div>';
+                                                }elseif($i==3){
+                                                    echo '<select class="form-control selectpicker" name="'.$dhead[$i].'" data-live-search="true">
+                                                        <option value="">Silahkan Pilih</option>';
+                                                    foreach($list_fsm as $row)
+                                                    {
+                                                        echo '<option value="'.$row['id_FSM'].'"';
+                                                        if($row['id_FSM']==$data_pemeriksaan[0][$dhead[$i]])
+                                                        {
+                                                            echo 'selected="selected"';
+                                                        }
+                                                        echo '>'.$row['nama_FSM'].'</option>';
+                                                    }
+                                                    echo ' </select>';
+                                                }else{
+                                                    echo '
+                                                    <div class="form-line">
+                                                        <input type="text" class="form-control" name="'.$dhead[$i].'" value="'.$data_pemeriksaan[0][$dhead[$i]].'">
+                                                    </div>';
+                                                }
+                                        echo '    
+                                            </div>
+                                        </div>
+                                        '; 
+                                    }
+                                    echo '<div class="clearfix"></div>';
+                                    // nama, alamat dan no telp pengelola
+                                    for($i=4; $i<=6; $i++)
                                     {
                                         echo '
                                         <div class="col-lg-4 col-sm-12">
@@ -58,14 +95,14 @@
                                     $id = array('id_kolom_jalurInfo', 'id_kolom_hslPemeriksaan');
                                     $name = array('nama_kolom_jalurInfo', 'nama_kolom_hslPemeriksaan');
                                     $j = 0;
-                                    for($i=4; $i<=5; $i++)
+                                    for($i=7; $i<=8; $i++)
                                     {
                                         echo '
                                         <div class="col-lg-4 col-sm-12">
                                             <div class="form-group form-float">
                                                 <label class="form-label font-12 font-normal col-grey">'.$thead[$i].' </label> 
                                                 <select class="form-control selectpicker" name="'.$dhead[$i].'"';
-                                                if ($i==5) { echo 'id="hslPeriksa" required';} 
+                                                if ($i==8) { echo 'id="hslPeriksa" required';} 
                                                 echo '>';
                                                     foreach($list[$j] as $row)
                                                         {
@@ -86,21 +123,21 @@
                                     echo '
                                         <div class="col-lg-4 col-sm-12">
                                             <div class="form-group form-float">
-                                                <label class="form-label font-12 font-normal col-grey">'.$thead[6].' </label> 
-                                                <select class="form-control selectpicker" name="'.$dhead[6].'" id="statGdg" required >';
+                                                <label class="form-label font-12 font-normal col-grey">'.$thead[9].' </label> 
+                                                <select class="form-control selectpicker" name="'.$dhead[9].'" id="statGdg" required >';
                                     echo '
-                                                    <option value="'.$data_pemeriksaan[0][$dhead[6]].'">'.$data_pemeriksaan[0]['nama_kolom_statusGedung'].'</option>
+                                                    <option value="'.$data_pemeriksaan[0][$dhead[9]].'">'.$data_pemeriksaan[0]['nama_kolom_statusGedung'].'</option>
                                                 </select>
                                             </div>
                                         </div>';
                                     //catatan
                                     echo '
                                     <div class="col-sm-12 col-lg-9">
-                                        <label class="form-label">'.$thead[7].'</label>
+                                        <label class="form-label">'.$thead[10].'</label>
                                         <div class="form-group form-float">
                                             <div class="form-line ">
-                                                <textarea rows="2" class="form-control no-resize" name="'.$dhead[7].'" id="ckeditor">
-                                                '.$data_pemeriksaan[0][$dhead[7]].'
+                                                <textarea rows="2" class="form-control no-resize" name="'.$dhead[10].'" id="ckeditor">
+                                                '.$data_pemeriksaan[0][$dhead[10]].'
                                                 </textarea>
                                             </div>
                                         </div>
@@ -113,21 +150,21 @@
                                         </div>
                                         <div class="col-lg-3 col-sm-12">
                                             <div class="form-group form-float">
-                                                <label class="form-label font-12 font-normal col-grey">'.$thead[8].'</label>
+                                                <label class="form-label font-12 font-normal col-grey">'.$thead[11].'</label>
                                                 <div class="form-line " id="bs_datepicker_container">
-                                                    <input type="text" class="form-control" name="'.$dhead[8].'" value="'.sqlDate2html($data_pemeriksaan[0][$dhead[8]]).'" required>
+                                                    <input type="text" class="form-control" name="'.$dhead[11].'" value="'.sqlDate2html($data_pemeriksaan[0][$dhead[11]]).'" required>
                                                 </div>
                                             </div>
                                         </div>';
                                     echo '
                                         <div class="col-lg-3 col-sm-12">
                                             <div class="form-group form-float">
-                                                <label class="form-label font-12 font-normal col-grey">'.$thead[9].' </label> 
-                                                <select class="form-control selectpicker" name="'.$dhead[9].'">';
+                                                <label class="form-label font-12 font-normal col-grey">'.$thead[12].' </label> 
+                                                <select class="form-control selectpicker" name="'.$dhead[12].'">';
                                                     foreach($list_pokja as $row)
                                                         {
                                                             echo '<option value="'.$row['id_pokja'].'"';
-                                                            if($row['id_pokja']==$data_pemeriksaan[0][$dhead[9]])
+                                                            if($row['id_pokja']==$data_pemeriksaan[0][$dhead[12]])
                                                             {
                                                                 echo 'selected="selected"';
                                                             }

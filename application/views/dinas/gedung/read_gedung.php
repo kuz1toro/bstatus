@@ -46,7 +46,7 @@
                     <div class="card">
                         <div class="header">
                             <h2>
-                                <?php echo $header1;  ?>
+                                <?php echo ''.$header1.' & '.$header4.'';  ?>
                             </h2>
                             <ul class="header-dropdown m-r--5">
                                 <li>
@@ -65,22 +65,73 @@
                                 <?php //print_r($data_gedung); 
                                  //print_r($data_pemeriksaan); ?>
                             </div>
-                            <table class="table">
-                                <tbody>
-                                <?php
-                                    foreach($data_gedung as $row)
-                                    {
-                                        for($i=0; $i<=16; $i++)
-                                        {
-                                            echo '<tr>';
-                                            echo '<td class="col-xs-4">'.$gnames[$i].'</td>';
-                                            echo '<td>: &nbsp'.$row[$gcontents[$i]].'</td>';
-                                            echo '</tr>';
-                                        }
-                                    }
-                                ?>
-                                </tbody>
-                            </table>
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                                <li role="presentation" class="active">
+                                <a href="#gedung" data-toggle="tab"  ><?php echo $header1;  ?></a></li>
+                                <li role="presentation">
+                                <a href="#riwayat" data-toggle="tab"><?php echo $header4;  ?></a></li>
+                            </ul>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade in active" id="gedung">
+                                    <table class="table">
+                                        <tbody>
+                                        <?php
+                                            foreach($data_gedung as $row)
+                                            {
+                                                for($i=0; $i<=12; $i++)
+                                                {
+                                                    echo '<tr>';
+                                                    echo '<td class="col-xs-4">'.$gnames[$i].'</td>';
+                                                    echo '<td width="1">:</td>';
+                                                    echo '<td>'.$row[$gcontents[$i]].'</td>';
+                                                    echo '</tr>';
+                                                }
+                                            }
+                                        ?>
+                                        </tbody>
+                                    </table>
+                                    <div class="font-10 align-right m-r-15">
+                                        <?php echo 'dibuat oleh : '.$data_gedung[0]['created_by'].' waktu pembuatan : '.$data_gedung[0]['create_at'].' diedit oleh : '.$data_gedung[0]['edit_by'].' waktu edit : '.$data_gedung[0]['edit_at'].'';?>
+                                    </div>
+                                </div>
+                                 <!-- Data Riwayat Kebakaran -->
+                                <div role="tabpanel" class="tab-pane fade" id="riwayat">
+                                    <table class="table table-bordered table-striped table-hover table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <?php foreach($fire_names as $row)
+                                                        {
+                                                            echo '<th>'.$row.'</th>';
+                                                        }
+                                                ?>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $count = 1;
+                                            foreach($fireHist as $row)
+                                            {
+                                                echo '<tr>';
+                                                    echo '<td>'.$count.'</td>';
+                                                    foreach($fire_contents as $col)
+                                                    {
+                                                        echo '<td>';
+                                                        if ($col == 'tgl_kejadian'){
+                                                            echo sqlDate2html($row[$col]);
+                                                        }else{
+                                                            echo $row[$col].'</td>';
+                                                        }
+                                                    }
+                                                    $count++;
+                                                echo '</tr>';
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -97,13 +148,15 @@
                             <ul class="nav nav-tabs tab-nav-right" role="tablist">
                                 <?php 
                                 $active = TRUE;
+                                $j = 1;
                                 foreach($data_pemeriksaan as $row)
                                 {
                                     $tahun = date('Y', strtotime($row['tgl_berlaku']));
                                     echo '<li role="presentation" class="';
                                     if($active){echo 'active';}
-                                    echo '"><a href="#'.$tahun.'" data-toggle="tab">'.$tahun.'</a></li>';
+                                    echo '"><a href="#'.$tahun.'-'.$j.'" data-toggle="tab">'.$tahun.'</a></li>';
                                     $active = FALSE;
+                                    $j++;
                                 } ?>
                             </ul>
                             
@@ -111,21 +164,24 @@
                             <div class="tab-content">
                                 <?php
                                 $active = TRUE;
+                                $j = 1;
                                 foreach($data_pemeriksaan as $row)
                                     {
                                         $tahun = date('Y', strtotime($row['tgl_berlaku']));
                                         echo '<div role="tabpanel" class="tab-pane fade ';
                                         if($active){echo 'in active';}
-                                        echo '" id="'.$tahun.'">';
+                                        echo '" id="'.$tahun.'-'.$j.'">';
                                         $active = FALSE;
                                         echo '<table class="table">';
                                         echo '<tbody>';
-                                            for($i=0; $i<=9; $i++)
+                                            for($i=0; $i<=14; $i++)
                                             {
                                                 echo '<tr>';
                                                 echo '<td class="col-xs-4">'.$pnames[$i].'</td>';
                                                 echo '<td width="1">:</td>';
-                                                if($i==8){
+                                                if($i==1 || $i==11 || $i==12){
+                                                    echo '<td>'.sqlDate2html($row[$pcontents[$i]]).'</td>';
+                                                }elseif($i==13){
                                                     echo '<td>'.htmlspecialchars_decode($row[$pcontents[$i]]).'</td>';
                                                 }else{
                                                     echo '<td>'.$row[$pcontents[$i]].'</td>';
@@ -134,102 +190,13 @@
                                             }
                                         echo '</tbody>
                                         </table></div>';
+                                        $j++;
                                     }
                                 ?>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="clearfix"></div>
-                 <!-- Data FSM -->
-            <div class="row clearfix p-l-10">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="card">
-                        <div class="header">
-                            <h2>
-                                <?php echo $header3;  ?>
-                            </h2>
-                        </div>
-                        <div class="body table-responsive">
-                            <div class="table-responsive">
-                                <?php //print_r($data_fsm); 
-                                 //print_r($data_pemeriksaan); ?>
-                            </div>
-                            <table class="table">
-                                <tbody>
-                                <?php
-                                    if (empty($data_fsm)) {
-                                        // list is empty.
-                                        for($i=0; $i<=5; $i++)
-                                        {
-                                            echo '<tr>';
-                                            echo '<td class="col-xs-4">'.$fsm_names[$i].'</td>';
-                                            echo '<td>: &nbsp </td>';
-                                            echo '</tr>';
-                                        }
-                                    }
-                                    foreach($data_fsm as $row)
-                                    {
-                                        for($i=0; $i<=5; $i++)
-                                        {
-                                            echo '<tr>';
-                                            echo '<td class="col-xs-4">'.$fsm_names[$i].'</td>';
-                                            echo '<td>: &nbsp'.$row[$fsm_contents[$i]].'</td>';
-                                            echo '</tr>';
-                                        }
-                                    }
-                                ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <!-- Data Riwayat Kebakaran -->
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="card">
-                        <div class="header">
-                            <h2>
-                                <?php echo $header4;  ?>
-                            </h2>
-                        </div>
-                        <div class="body">
-                            <table class="table table-bordered table-striped table-hover table-condensed">
-                                    <thead>
-                                        <tr>
-                                            <?php foreach($fire_names as $row)
-                                                    {
-                                                        echo '<th>'.$row.'</th>';
-                                                    }
-                                            ?>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $count = 1;
-                                        foreach($fireHist as $row)
-                                        {
-                                            echo '<tr>';
-                                                echo '<td>'.$count.'</td>';
-                                                foreach($fire_contents as $col)
-                                                {
-                                                    echo '<td>';
-                                                    if ($col == 'tgl_kejadian'){
-                                                        echo msqlDate2html($row[$col]);
-                                                    }else{
-                                                        echo $row[$col].'</td>';
-                                                    }
-                                                }
-                                                $count++;
-                                            echo '</tr>';
-                                        }
-                                        ?>
-                                    </tbody>
-                                </table>
-                        </div>
-                    </div>
-                </div>
-                <!-- #END# Content -->
             </div>
         </div>
     </section>

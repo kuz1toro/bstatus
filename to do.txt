@@ -11,4 +11,7 @@ To do
 10. autofocus di setiap form
 11. chat app
 12. forum app
+13. export pdf
+14. colorize bagde base on status gedung
+15. 
 

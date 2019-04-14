@@ -42,7 +42,12 @@
             <div class="row clearfix">
                 <!-- Content -->
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="alert bg-blue alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <i class="material-icons">warning</i>&nbsp Untuk Menghindari duplikasi data gedung, pastikan bahwa Gedung yang akan diinput belum terdapat pada database ini, dengan cara mengecek no gedung atau nama gedung
+                    </div>
                     <div class="card">
+                        
                         <div class="header">
                             <h2>
                                 <?php echo $header;  ?>
