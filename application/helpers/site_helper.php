@@ -80,31 +80,37 @@ if(!function_exists('htmlDate2sqlDate'))
 {
 	function htmlDate2sqlDate($value)
 	{
-		$bulan = array ('Januari' => '01',
-						'Februari' => '02',
-						'Maret' => '03',
-						'April' => '04',
-						'Mei' => '05',
-						'Juni' => '06',
-						'Juli' => '07',
-						'Agustus' => '08',
-						'September' => '09',
-						'Oktober' => '10',
-						'November' => '11',
-						'Desember' => '12'
-		);
-		$split = explode('-', $value);
-		$date = $split[0].'-'.$bulan[$split[1]].'-'.$split[2];
-		$temp = date('Y-m-d',strtotime("1500-01-01"));
-		$value = date('Y-m-d',strtotime("$date"));
-		if($value < $temp){
-			$tgl = NULL;
-		} else if ($value >= $temp) {
-			$tgl = $value;
-		} else {
-			$tgl = NULL;
+		if(is_null($value) || empty($value))
+		{
+			return NULL;
+		}else
+		{
+			$bulan = array ('Januari' => '01',
+							'Februari' => '02',
+							'Maret' => '03',
+							'April' => '04',
+							'Mei' => '05',
+							'Juni' => '06',
+							'Juli' => '07',
+							'Agustus' => '08',
+							'September' => '09',
+							'Oktober' => '10',
+							'November' => '11',
+							'Desember' => '12'
+			);
+			$split = explode('-', $value);
+			$date = $split[0].'-'.$bulan[$split[1]].'-'.$split[2];
+			$temp = date('Y-m-d',strtotime("1500-01-01"));
+			$value = date('Y-m-d',strtotime("$date"));
+			if($value < $temp){
+				$tgl = NULL;
+			} else if ($value >= $temp) {
+				$tgl = $value;
+			} else {
+				$tgl = NULL;
+			}
+			return ($tgl);
 		}
-		return ($tgl);
 	}
 }
 

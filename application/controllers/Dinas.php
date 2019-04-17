@@ -39,12 +39,202 @@ class Dinas extends CI_Controller {
 		}
 	}
 
+	public function update_status()
+	{
+		$this->load->helper('date');
+		$now = date("Y-m-d H:i:s", now('Asia/Jakarta'));
+		$updateTime = strtotime(date("Y-m-d H:i:s", strtotime($now)) . " +1 days");
+		$updateTime = date("Y-m-d H:i:s",$updateTime);
+		//read file
+		$myFile = "application/logs/time.txt";
+		$fh = fopen($myFile, 'r');
+		$TimeWrited = fread($fh, 19);
+		$TimeWrited = date("Y-m-d H:i:s", strtotime($TimeWrited));
+		fclose($fh);
+		//update and write to file if its the time
+		if($now >= $TimeWrited){
+			//update kolom last status dan expired di tabel gedung
+			$table_gedung = 'gedung_dinas';
+			$column = 'no_gedung';
+			$table_pemeriksaan = 'pemeriksaan_dinas';
+			$list_noGdg = $this->dinas_model->get_hslPemeriksaan($table_gedung, $column);
+			foreach($list_noGdg as $noGdg)
+			{
+				$status = $this->dinas_model->get_lastStatus($table_pemeriksaan, $noGdg['no_gedung']);
+				if($status['hasil_pemeriksaan'] == 1 && $status['tgl_expired'] < $now){
+					$expired = 1;
+				}else{
+					$expired = 0;
+				}
+				$data = array (
+					'last_status' => $status['status_gedung'],
+					'expired' => $expired
+				);
+				$this->dinas_model->update_setting($table_gedung, $column, $noGdg['no_gedung'], $data);
+			}
+			// write time to file
+			$myFileLink = fopen($myFile, 'w+') or die("Can't open file.");
+			$newContents = $updateTime;
+			fwrite($myFileLink, $newContents);
+			fclose($myFileLink);
+		}
+	}
+
+	public function home_card($type)
+	{
+		$this->load->model('home_model');
+		$this->load->helper('date');
+		$now = date("Y-m-d", now('Asia/Jakarta'));
+		//$testTime = '2019-04-16' ;
+		//$testTime = strtotime($testTime);
+		//$testTime = date("Y-m-d",$testTime);
+		$list_statusGdg = $this->home_model->get_list_status_gedung();
+		if($type=='all')
+		{
+			$jml = $this->home_model->count_all_gedung();
+			$result[0] = array (
+				'idGdg' => NULL,
+				'statGdg' => 'Total',
+				'hasil' => $jml
+			);
+			$expired = $this->home_model->count_all_expiredGdg();
+			$result[1] = array (
+				'idGdg' => NULL,
+				'statGdg' => 'Masa Berlaku Habis',
+				'hasil' => $expired
+			);
+			$i = 2;
+			foreach($list_statusGdg as $statGdg)
+			{
+				$jml_gdg = $this->home_model->count_all_gedung_byLastStatus($statGdg['idGdg']);
+				$result[$i] = array (
+					'idGdg' => $statGdg['idGdg'],
+					'statGdg' => $statGdg['statGdg'],
+					'hasil' => $jml_gdg
+				);
+				$i++;
+			}
+		}elseif($type=='pemda')
+		{
+			$kepemilikkan = 1; 
+			$jml = $this->home_model->count_gedung_byKepemilikkan($kepemilikkan);
+			$result[0] = array (
+				'idGdg' => NULL,
+				'statGdg' => 'Total',
+				'hasil' => $jml
+			);
+			$expired = $this->home_model->count_expiredGdg_byKepemilikkan($kepemilikkan);
+			$result[1] = array (
+				'idGdg' => NULL,
+				'statGdg' => 'Masa Berlaku Habis',
+				'hasil' => $expired
+			);
+			$i = 2;
+			foreach($list_statusGdg as $statGdg)
+			{
+				$jml_gdg = $this->home_model->count_all_gedung_byLastStatusAndKepemilikkan($statGdg['idGdg'], $kepemilikkan);
+				$result[$i] = array (
+					'idGdg' => $statGdg['idGdg'],
+					'statGdg' => $statGdg['statGdg'],
+					'hasil' => $jml_gdg
+				);
+				$i++;
+			}
+		}elseif($type=='pemerintah')
+		{
+			$kepemilikkan = 2; 
+			$jml = $this->home_model->count_gedung_byKepemilikkan($kepemilikkan);
+			$result[0] = array (
+				'idGdg' => NULL,
+				'statGdg' => 'Total',
+				'hasil' => $jml
+			);
+			$expired = $this->home_model->count_expiredGdg_byKepemilikkan($kepemilikkan);
+			$result[1] = array (
+				'idGdg' => NULL,
+				'statGdg' => 'Masa Berlaku Habis',
+				'hasil' => $expired
+			);
+			$i = 2;
+			foreach($list_statusGdg as $statGdg)
+			{
+				$jml_gdg = $this->home_model->count_all_gedung_byLastStatusAndKepemilikkan($statGdg['idGdg'], $kepemilikkan);
+				$result[$i] = array (
+					'idGdg' => $statGdg['idGdg'],
+					'statGdg' => $statGdg['statGdg'],
+					'hasil' => $jml_gdg
+				);
+				$i++;
+			}
+		}elseif($type=='swasta')
+		{
+			$kepemilikkan = 3; 
+			$jml = $this->home_model->count_gedung_byKepemilikkan($kepemilikkan);
+			$result[0] = array (
+				'idGdg' => NULL,
+				'statGdg' => 'Total',
+				'hasil' => $jml
+			);
+			$expired = $this->home_model->count_expiredGdg_byKepemilikkan($kepemilikkan);
+			$result[1] = array (
+				'idGdg' => NULL,
+				'statGdg' => 'Masa Berlaku Habis',
+				'hasil' => $expired
+			);
+			$i = 2;
+			foreach($list_statusGdg as $statGdg)
+			{
+				$jml_gdg = $this->home_model->count_all_gedung_byLastStatusAndKepemilikkan($statGdg['idGdg'], $kepemilikkan);
+				$result[$i] = array (
+					'idGdg' => $statGdg['idGdg'],
+					'statGdg' => $statGdg['statGdg'],
+					'hasil' => $jml_gdg
+				);
+				$i++;
+			}
+		}
+		return $result ;
+	}
+
+	public function home_chart()
+	{
+		$this->load->model('home_model');
+		$this->load->helper('date');
+		$year = date("Y", now('Asia/Jakarta'));
+		$months = array(1,2,3,4,5,6,7,8,9,10,11,12);
+		$list_pokja = $this->home_model->get_allPokja();
+		foreach($list_pokja as $pokja)
+		{
+			$list_count = '';
+			foreach($months as $month)
+			{
+				$count = $this->home_model->count_pemeriksaan_byMonth($month,$year,$pokja['id_pokja']);
+				$list_count = ''.$list_count.''.$count.',';
+				//$list_count = '65, 25, 90, 81, 56, 55, 40';
+			}
+			$result[$pokja['id_pokja']] = array (
+				'pokja' => $pokja['nama_pokja'],
+				'list_count' => $list_count
+			);
+		}
+		return $result;
+	}
+
 	public function home()
 	{
+		$this->load->helper('date');
+		$this -> update_status();
 		$attributeFooter = $this->attributeFooter;
 		$attributeFooter['chartJS'] = TRUE;
 		$attributeFooter['dataTable'] = TRUE;
 		$data['attributeFooter'] = $attributeFooter;
+		//$list_statusGdg = $this->home_model->get_list_status_gedung();
+		$data['dataGdgAll'] = $this -> home_card('all');
+		$data['dataGdgPemda'] = $this -> home_card('pemda');
+		$data['dataGdgPemerintah'] = $this -> home_card('pemerintah');
+		$data['dataGdgSwasta'] = $this -> home_card('swasta');
+		$data['dataPemeriksaan'] = $this -> home_chart();
+		$data['year'] = date("Y", now('Asia/Jakarta'));
 		$data['main_content'] = 'dinas/home';
 		$this->load->view('dinas/includes/template', $data);
 	}

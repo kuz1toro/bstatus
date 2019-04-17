@@ -1,8 +1,7 @@
 $(function () {
-    new Chart(document.getElementById("line_chart").getContext("2d"), getChartJs('line'));
     new Chart(document.getElementById("bar_chart").getContext("2d"), getChartJs('bar'));
-    new Chart(document.getElementById("radar_chart").getContext("2d"), getChartJs('radar'));
-    new Chart(document.getElementById("pie_chart").getContext("2d"), getChartJs('pie'));
+    //new Chart(document.getElementById("radar_chart").getContext("2d"), getChartJs('radar'));
+    //new Chart(document.getElementById("pie_chart").getContext("2d"), getChartJs('pie'));
 });
 
 function getChartJs(type) {
@@ -41,20 +40,36 @@ function getChartJs(type) {
         config = {
             type: 'bar',
             data: {
-                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                labels: ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"],
                 datasets: [{
-                    label: "My First dataset",
-                    data: [65, 59, 80, 81, 56, 55, 40],
+                    label: label1,
+                    data: data1,
                     backgroundColor: 'rgba(0, 188, 212, 0.8)'
-                }, {
-                        label: "My Second dataset",
-                        data: [28, 48, 40, 19, 86, 27, 90],
-                        backgroundColor: 'rgba(233, 30, 99, 0.8)'
-                    }]
+                }, 
+                {
+                    label: label2,
+                    data: data2,
+                    backgroundColor: 'rgba(233, 30, 99, 0.8)'
+                },
+                {
+                    label: label3,
+                    data: data3,
+                    backgroundColor: 'rgba(0, 200, 99, 0.8)'
+                },
+                {
+                    label: label4,
+                    data: data4,
+                    backgroundColor: 'rgba(233, 200, 99, 0.8)'
+                },
+                {
+                    label: label5,
+                    data: data5,
+                    backgroundColor: 'rgba(150, 30, 250, 0.8)'
+                }]
             },
             options: {
                 responsive: true,
-                legend: false
+                legend: true
             }
         }
     }

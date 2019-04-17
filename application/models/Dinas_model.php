@@ -267,6 +267,17 @@ class Dinas_model extends CI_Model {
 		return $query->result_array();
 	}
 
+	public function get_lastStatus($table, $no_gedung)
+	{
+		$this->db->select('hasil_pemeriksaan, status_gedung, tgl_expired');
+		$this->db->from($table);
+		$this->db->where('no_gedungP', $no_gedung);
+		$this->db->where('deleted', 0);
+		$this->db->order_by('tgl_expired', 'Desc');
+		$query = $this->db->get();
+		return $query->row_array();
+	}
+
 	
 
 
