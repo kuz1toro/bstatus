@@ -30,7 +30,7 @@ class Dinas extends CI_Controller {
 		parent::__construct();
 		$this->load->model('dinas_model');
 		$this->load->model('pelengkap_model');
-		$this->load->model('gedung_model');
+		$this->load->model('ion_auth_model');
 		$this->load->library(array('ion_auth','form_validation'));
 		// verifikasi pangilan
 		if ( ! $this->ion_auth->in_group('Dinas'))
@@ -2167,6 +2167,156 @@ class Dinas extends CI_Controller {
 		}
 		redirect('dinas/list_fsm');
 	}
+
+	public function profile()
+	{
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['user'] = $this->ion_auth->user()->row();
+		//$data['dbpassword'] = $data['user']->password;
+		//$identity = $data['user']->username;
+		//$OldPassword = 'pencegahan112';
+		//$data['oldpassword'] = $this->ion_auth_model->hash_password($OldPassword);
+		//$data['verify'] = $this->ion_auth_model->verify_password($OldPassword, $data['user']->password, $identity);
+		$data['main_content'] = 'dinas/profile';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function edit_user()
+	{
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
+		//$user = $this->ion_auth->user($id)->row();
+		$data['user'] = $this->ion_auth->user()->row();
+		$id = $data['user']->id;
+		$nama_table = 'users';
+		$id_table = 'id';
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			$this->form_validation->set_rules('first_name', 'first_name', 'required');
+			$this->form_validation->set_rules('username', 'username', 'required');
+			$this->form_validation->set_rules('email', 'email', 'required');
+			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			//if the form has passed through the validation
+			if ($this->form_validation->run())
+			{
+				$data_to_store = array(
+					'first_name' => $this->input->post('first_name'),
+					'last_name' => $this->input->post('last_name'),
+					'username' => $this->input->post('username'),
+					'email' => $this->input->post('email'),
+					'company' => isZonk($this->input->post('company')),
+					'jabatan' => isZonk($this->input->post('jabatan')),
+					'pendidikan' => isZonk($this->input->post('pendidikan')),
+					'alamat' => isZonk($this->input->post('alamat')),
+					'deskripsi' => isZonk($this->input->post('deskripsi'))
+				);
+				//if the insert has returned true then we show the flash message
+				if($this->dinas_model->update_setting($nama_table, $id_table, $id, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'updated');
+				}else{
+					$this->session->set_flashdata('flash_message', 'not_updated');
+				}
+
+				//redirect('Prainspeksi_gedung/update/'.$id.'');
+				redirect('dinas/profile');
+
+			}//validation run
+
+		}
+		$data['main_content'] = 'dinas/profile';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+	public function change_password()
+	{
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['JqueryValidation'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['user'] = $this->ion_auth->user()->row();
+		$id = $data['user']->id;
+		$identity = $data['user']->username;
+		$nama_table = 'users';
+		$id_table = 'id';
+		//$testPassword = 'soemo20031';
+		//$identity = 'admin1';
+		//$hashPassword = $this->ion_auth_model->hash_password($testPassword, $identity);
+		//if save button was clicked, get the data sent via post
+		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		{
+			//form validation
+			//$this->form_validation->set_rules('NewPassword', 'password', 'required');
+			//$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
+			//check old password
+			$OldPassword = $this->input->post('OldPassword');
+			$hashOldPassword = $this->ion_auth_model->hash_password($OldPassword, $identity);
+			$NewPassword = $this->input->post('NewPassword');
+			$NewPasswordConfirm = $this->input->post('NewPasswordConfirm');
+			if( $this->ion_auth_model->verify_password($OldPassword, $data['user']->password, $identity))
+			{
+				if( $NewPassword === $NewPasswordConfirm)
+				{
+					if($this->ion_auth_model->change_password($identity, $OldPassword, $NewPassword))
+					{
+						$this->session->set_flashdata('flash_message', 'passwordUpdated');
+					}else
+					{
+						$this->session->set_flashdata('flash_message', 'not_updated');
+					}
+				}else
+				{
+					$this->session->set_flashdata('flash_message', 'newpassword');
+				}
+			}
+			else
+			{ 	
+				$this->session->set_flashdata('flash_message', 'oldpassword');
+				/** 
+				//if the form has passed through the validation
+				if ($this->form_validation->run())
+				{
+					$NewPassword = $this->input->post('NewPassword');
+					$hashNewPassword = $this->ion_auth_model->hash_password($NewPassword, $identity);
+					$data_to_store = array(
+						'password' => $hashNewPassword
+					);
+					//if the insert has returned true then we show the flash message
+					if($this->dinas_model->update_setting($nama_table, $id_table, $id, $data_to_store)){
+						$this->session->set_flashdata('flash_message', 'updated');
+					}else{
+						$this->session->set_flashdata('flash_message', 'not_updated');
+					}
+
+					//redirect('Prainspeksi_gedung/update/'.$id.'');
+					redirect('dinas/profile');
+				}//validation run */
+			}
+			redirect('dinas/profile');
+		}
+		
+	}
+
+	public function chart()
+	{
+		$attributeFooter = $this->attributeFooter;
+		//$attributeFooter['JqueryValidation'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
+		//$data['user'] = $this->ion_auth->user()->row();
+		$data['main_content'] = 'dinas/chart';
+		$this->load->view('dinas/includes/template', $data);
+	}
+
+
+
+
+
+
+
+
 
 
 

@@ -1,59 +1,98 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+<!DOCTYPE html>
+<html>
 
-    <title>Login Sistem Informasi Bidang Pencegahan</title>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Sign In | Bootstrap Based Admin Template - Material Design</title>
+    <!-- Favicon-->
+    <link rel="shortcut icon" type="ico" size="36x36" href="<?php echo base_url(); ?>assets/icon/damkar.ico">
 
-    <!-- Bootstrap core CSS -->
-    <link href="<?php echo base_url(); ?>assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <!-- <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
+    <!-- Bootstrap Core Css -->
+    <link href="<?php echo base_url(); ?>assets/vendor_new/bootstrap/css/bootstrap.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="<?php echo base_url(); ?>assets/vendor/bootstrap/css/login.css" rel="stylesheet">
+    <!-- Waves Effect Css -->
+    <link href="<?php echo base_url(); ?>assets/vendor_new/node-waves/waves.css" rel="stylesheet" />
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <!-- <script src="../../assets/js/ie-emulation-modes-warning.js"></script> -->
+    <!-- Animation Css -->
+    <link href="<?php echo base_url(); ?>assets/vendor_new/animate-css/animate.css" rel="stylesheet" />
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
+    <!-- Custom Css -->
+    <?php 
+        echo '<link href="'.base_url().'assets/vendor_new/adminBSB/css/style.css" rel="stylesheet">';
+    ?>
+</head>
 
-  <body>
 
-    <div class="wrapper">
-
-      <?php
-      $attributes = array('class' => 'form-signin');
-      echo form_open('auth/login', $attributes);
-      echo  '<h2 class="form-signin-heading">Silahkan login</h2>';
-      echo  '<input type="text" class="form-control" name="identity" placeholder="User name" required="" autofocus="" />';
-      echo  '<input type="password" class="form-control" name="password" placeholder="Password" required=""/>';
-      echo  '<input type="checkbox" value="remember-me" id="remember" name="remember"> Remember me
-            <div style="margin-top:20px">';
-            echo '<div id="infoMessage">';
-              echo $message;
-            echo '</div>';
-      echo   '<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>';
-      echo  '</div>';
-
-      echo form_close();
-      ?>
+ 
+<body class="login-page">
+    <div class="login-box">
+        <div class="logo">
+            <a href="javascript:void(0);"><b>b</b>-STATUS</a>
+            <small>Dinas Penanggulangan Kebakaran dan Penyelamatan</small>
+        </div>
+        <div class="card">
+            <div class="body">
+            <?php
+                $attributes = array('id' => 'sign_in');
+                echo form_open('auth/login', $attributes); 
+            ?>
+                
+                    <div class="msg">Login to start your session</div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">person</i>
+                        </span>
+                        <div class="form-line">
+                            <input type="text" class="form-control" name="identity" placeholder="Username" required autofocus>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock</i>
+                        </span>
+                        <div class="form-line">
+                            <input type="password" class="form-control" name="password" placeholder="Password" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8 p-t-5">
+                            <input type="checkbox" id="remember" name="remember" class="filled-in chk-col-pink">
+                            <label for="rememberme">Remember Me</label>
+                        </div>
+                        <div class="col-xs-4">
+                            <button class="btn btn-block bg-pink waves-effect" type="submit">LOGIN</button>
+                        </div>
+                    </div>
+                    <div class="row m-t-15 m-b--20">
+                        <?php echo $message; ?>
+                    </div>
+                <?php echo form_close(); ?>
+            </div>
+        </div>
     </div>
 
+    <!-- Jquery Core Js -->
+    <script src="<?php echo base_url(); ?>assets/vendor_new/jquery/jquery.min.js"></script>
 
-  </body>
-  </html>
+    <!-- Bootstrap Core Js -->
+    <script src="<?php echo base_url(); ?>assets/vendor_new/bootstrap/js/bootstrap.js"></script>
+
+    <!-- Waves Effect Plugin Js -->
+    <script src="<?php echo base_url(); ?>assets/vendor_new/node-waves/waves.js"></script>
+
+    <!-- Validation Plugin Js -->
+    <?php
+    echo '<script src="'.base_url().'assets/vendor_new/jquery-validation/jquery.validate.js"></script>';
+    ?>
+
+    <!-- Custom Js -->
+    <script src="<?php echo base_url(); ?>assets/vendor_new/adminBSB/js/admin.js"></script>
+    <script src="<?php echo base_url(); ?>assets/vendor_new/adminBSB/js/pages/examples/sign-in.js"></script>
+</body>
+
+</html>

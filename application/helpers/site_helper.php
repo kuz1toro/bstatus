@@ -229,6 +229,54 @@ if(!function_exists('pesanModal'))
 					</div>
 				</div>
 			</div>
+		</div>
+		<div class="modal fade" id="passwordUpdated" role="dialog">
+			<div class="modal-dialog modal-sm ">
+				<div class="modal-content modal-col-green">
+					<div class="modal-body">
+						<h3>Sukses, Password berhasil diganti</h3>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="oldpassword" role="dialog">
+			<div class="modal-dialog modal-sm ">
+				<div class="modal-content modal-col-red">
+					<div class="modal-body">
+						<h3>Gagal, Password lama tidak sesuai</h3>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="newpassword" role="dialog">
+			<div class="modal-dialog modal-sm ">
+				<div class="modal-content modal-col-red">
+					<div class="modal-body">
+						<h3>Gagal, Konfirmasi Password baru tidak sama</h3>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="newpasswordLengh" role="dialog">
+			<div class="modal-dialog modal-sm ">
+				<div class="modal-content modal-col-red">
+					<div class="modal-body">
+						<h3>Gagal, Password baru minimal 8 karakter</h3>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
 		</div>';
 	}
 }
@@ -319,6 +367,8 @@ if(!function_exists('trv_state'))
 		}elseif ($page==='pokja' && $url1==='dinas' && ($url2==='list_pokja'|| $url2==='edit_pokja' || $url2==='add_pokja')) {
 			echo 'active';
 		}elseif ($page==='fireHist' && $url1==='dinas' && ($url2==='list_fireHist'|| $url2==='edit_fireHist' || $url2==='add_fireHist')) {
+			echo 'active';
+		}elseif ($page==='profile' && $url1==='dinas' && $url2==='profile') {
 			echo 'active';
 		}else{
 			echo '';

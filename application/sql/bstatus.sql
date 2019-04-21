@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 18, 2019 at 12:37 AM
+-- Generation Time: Apr 22, 2019 at 12:31 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -92,10 +92,10 @@ CREATE TABLE `gedung_dinas` (
 INSERT INTO `gedung_dinas` (`id_gdg_dinas`, `no_gedung`, `nama_gedung`, `alamat_gedung`, `wilayah`, `kecamatan`, `kelurahan`, `kodepos`, `peruntukan`, `fungsi`, `kepemilikan1`, `kepemilikan`, `jml_tower`, `jml_lantai`, `jml_basement`, `tinggi_gedung`, `fsm`, `pokja`, `latitude`, `longitude`, `catatan_gedung`, `deleted`, `created_by`, `create_at`, `edit_by`, `edit_at`, `last_status`, `expired`) VALUES
 (1, 'PS12-0488', ' Hotel Lumire d/h Aston', 'Jl. Senen Raya No. 135', 'Jakarta Pusat', 'Senen', 'Senen', '10410', 'Hotel', 3, 'Swasta', 3, NULL, 17, 2, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 0),
 (2, 'SS11-0867', '1 Park Residences', 'Jl. K.H. Safe Hadzmi No. 1', 'Jakarta Selatan', 'Kebayoran Baru', 'Kramat Pela', '12130', 'Apartemen', 1, 'Swasta', 3, NULL, 26, 2, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 0),
-(3, 'SS01-0002', '18 Office Park', 'Jl. TB. Simatupang No.18', 'Jakarta Selatan', 'Pasar Minggu', 'Kebagusan', '12520', 'Perkantoran', 8, 'Swasta', 3, NULL, 25, 4, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 1),
+(3, 'SS01-0002', '18 Office Park', 'Jl. TB. Simatupang No.18', 'Jakarta Selatan', 'Pasar Minggu', 'Kebagusan', '12520', 'Perkantoran', 8, 'Swasta', 3, NULL, 25, 4, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 0),
 (4, 'SS01-0901', '18 Parc Place SCBD (Tower A,B,C,D dan F)', 'Jl. Jend. Sudirman Kav. 52-53 Lot. 18', 'Jakarta Selatan', 'Kebayoran Baru', 'Senayan', '12190', 'Perkantoran', 8, 'Swasta', 3, NULL, 10, 2, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 0),
 (5, 'PS11-0001', '1@ Cik Ditiro Menteng Residece', 'Jl. Cik Ditiro Raya No. 1', 'Jakarta Pusat', 'Menteng', 'Gondangdia', '10350', 'Apartemen', 1, 'Swasta', 3, NULL, 9, 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 3, 0),
-(6, 'PS12-0439', 'Acacia Hotel', 'Jl. Kramat Pulo Dalam I No. 165', 'Jakarta Pusat', 'Senen', 'Kramat', '10450', 'Hotel', 3, 'Swasta', 3, NULL, 9, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 5, 0),
+(6, 'PS12-0439', 'Acacia Hotel', 'Jl. Kramat Pulo Dalam I No. 165', 'Jakarta Pusat', 'Senen', 'Kramat', '10450', 'Hotel', 3, 'Swasta', 3, NULL, 9, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 2, 0),
 (7, 'SS01-0397', 'AD Premiere ', 'Jl. TB. Simatupang No. 5 ', 'Jakarta Selatan', 'Pasar Minggu', 'Jati Padang', '12540', 'Perkantoran', 8, 'Swasta', 3, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 1),
 (8, 'SS11-0003', 'AD Primier Office Park', 'Jl. TB. Simatupang No. 5', 'Jakarta Selatan', 'Pasar Minggu', 'Ragunan', '12550', 'Apartemen', 1, 'Swasta', 3, NULL, 19, 2, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 7, 1),
 (9, 'SS01-0661', 'Adhi Graha', 'Jl. Jend. Gatot Subroto Kav. 56', 'Jakarta Selatan', 'Setia Budi', 'Kuningan Timur', '12950', 'Perkantoran', 8, 'Swasta', 3, NULL, 18, 2, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 1, 0),
@@ -213,7 +213,7 @@ INSERT INTO `gedung_dinas` (`id_gdg_dinas`, `no_gedung`, `nama_gedung`, `alamat_
 (121, 'PS11-0762', 'Apartemen Pesona Bahari', 'Jl. Mangga Dua Abdad ', 'Jakarta Pusat', 'Sawah Besar', 'Mangga Dua Selatan', '10730', 'Apartemen', 1, 'Swasta', 3, NULL, 26, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 8, 0),
 (122, 'PS11-0212', 'Apartemen Plaza Senayan  Tw A, B', 'Jl. Tinju No. 1', 'Jakarta Pusat', 'Tanah Abang', 'Gelora', '10270', 'Apartemen', 1, 'Swasta', 3, NULL, 24, 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 1),
 (123, 'SS11-0466', 'Apartemen Pondok Klub Villa 3', 'Jl. TB. Simatupang', 'Jakarta Selatan', 'Cilandak', 'Cilandak Barat', '12430', 'Apartemen', 1, 'Swasta', 3, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 1, 0),
-(124, 'SS11-0097', 'Apartemen Providence Park  Jakarta', 'Jl. Kalimaya No. 27', 'Jakarta Selatan', 'Kebayoran Lama', 'Grogol Utara', '12210', 'Apartemen', 1, 'Swasta', 3, NULL, 31, 2, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 7, 0),
+(124, 'SS11-0097', 'Apartemen Providence Park  Jakarta', 'Jl. Kalimaya No. 27', 'Jakarta Selatan', 'Kebayoran Lama', 'Grogol Utara', '12210', 'Apartemen', 1, 'Swasta', 3, NULL, 31, 2, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 7, 1),
 (125, 'SS11-0799', 'Apartemen Puri Casablanca Tower A,B,C,D', 'Jl. Casablanca Kav. 7', 'Jakarta Selatan', 'Setia Budi', 'Setiabudi', '12910', 'Apartemen', 1, 'Swasta', 3, NULL, 32, 3, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 1),
 (126, 'BS11-0761', 'Apartemen Puri Garden', 'Jl. Kembangan Raya ', 'Jakarta Barat', 'Kembangan', 'Kembangan Selatan', '11610', 'Apartemen', 1, 'Swasta', 3, NULL, 25, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 8, 0),
 (127, 'PS11-0789', 'Apartemen Puri Kemayoran', 'Jl. Landasan Pacu Selatan No. A6 ', 'Jakarta Pusat', 'Kemayoran', 'Kebon Kosong', '10630', 'Apartemen', 1, 'Swasta', 3, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 9, 0),
@@ -319,7 +319,7 @@ INSERT INTO `gedung_dinas` (`id_gdg_dinas`, `no_gedung`, `nama_gedung`, `alamat_
 (226, 'SS11-0054', 'Bintaro Park View', 'Jl. Bintaro Raya Permai No. 35-36', 'Jakarta Selatan', 'Pesanggrahan', 'Pesanggrahan', '12320', 'Apartemen', 1, 'Swasta', 3, NULL, 21, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 1),
 (227, 'BS11-0679', 'Binus Boarding House', 'Jl. Budi Raya No. 21', 'Jakarta Barat', 'Kebon Jeruk', 'Kebon Jeruk', '11530', 'Apartemen', 1, 'Swasta', 3, NULL, 17, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 1, 0),
 (228, 'SS21-0055', 'Binus Internastional School/Binus Simpruk', 'Jl. Sultan Iskandar Muda Kav. G-8', 'Jakarta Selatan', 'Kebayoran Lama', 'Grogol Selatan', '12220', 'Pendidikan', 7, 'Swasta', 3, NULL, 10, 2, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 1),
-(229, 'US01-0405', 'BKP Office Tower (The Prime)', 'Jl. Yos Sudarso Kav. 30 ', 'Jakarta Utara', 'Tanjung Priok', 'Sungai Bambu', '14330', 'Perkantoran', 8, 'Swasta', 3, NULL, 17, 2, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 0),
+(229, 'US01-0405', 'BKP Office Tower (The Prime)', 'Jl. Yos Sudarso Kav. 30 ', 'Jakarta Utara', 'Tanjung Priok', 'Sungai Bambu', '14330', 'Perkantoran', 8, 'Swasta', 3, NULL, 17, 2, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 1),
 (230, 'SP01-0682', 'BKPM', 'Jl. Jend. Gatot Subroto Kav. 44', 'Jakarta Selatan', 'Kebayoran Baru', 'Senayan', '12190', 'Perkantoran', 8, 'Pemerintah Non-DKI', 2, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 5, 0),
 (231, 'SS02-0683', 'Blok M Square', 'Jl. Melawai V', 'Jakarta Selatan', 'Kebayoran Baru', 'Melawai', '12160', 'Pusat Perdagangan', 9, 'Swasta', 3, NULL, 9, 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 1),
 (232, 'SS01-0311', 'Blue Bird Group', 'Jl. Mampang Prapatan No. 15', 'Jakarta Selatan', 'Mampang Prapatan', 'Mampang Prapatan', '12790', 'Perkantoran', 8, 'Swasta', 3, NULL, 12, 2, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 5, 0),
@@ -466,7 +466,7 @@ INSERT INTO `gedung_dinas` (`id_gdg_dinas`, `no_gedung`, `nama_gedung`, `alamat_
 (373, 'BS12-0786', 'Hotel De Rivier d/h Mercure Batavia d/h Omni Batav', 'Jl. Kali Besar Barat No. 44-46', 'Jakarta Barat', 'Tambora', 'Roa Malaka', '11230', 'Hotel', 3, 'Swasta', 3, NULL, 9, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 2, 0),
 (374, 'SS12-0076', 'Hotel Dharmawangsa ', 'Jl. Brawijaya Raya No. 26', 'Jakarta Selatan', 'Kebayoran Baru', 'Pulo', '12160', 'Hotel', 3, 'Swasta', 3, NULL, 9, 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 1),
 (375, 'US12-0116', 'Hotel Discovery dan Convention Ancol', 'Jl. Lodan Timur No. 7', 'Jakarta Utara', 'Pademangan', 'Ancol', '14430', 'Hotel', 3, 'Swasta', 3, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 2, 0),
-(376, 'PS12-0300', 'Hotel Double Tree by Hilton d/h UI Convention Cent', 'Jl. Pegangsaan Timur No. 17', 'Jakarta Pusat', 'Menteng', 'Menteng', '10310', 'Hotel', 3, 'Swasta', 3, NULL, 15, 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 0),
+(376, 'PS12-0300', 'Hotel Double Tree by Hilton d/h UI Convention Cent', 'Jl. Pegangsaan Timur No. 17', 'Jakarta Pusat', 'Menteng', 'Menteng', '10310', 'Hotel', 3, 'Swasta', 3, NULL, 15, 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 1),
 (377, 'PS12-0117', 'Hotel Fairmont Senayan', 'Jl. Asia Afrika No. 8', 'Jakarta Pusat', 'Tanah Abang', 'Gelora', '10270', 'Hotel', 3, 'Swasta', 3, NULL, 32, 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 0),
 (378, 'PS12-0514', 'Hotel Fashion', 'Jl. Gunung Sahari 12 No. 2A', 'Jakarta Pusat', 'Sawah Besar', 'Gunung Sahari Utara', '10720', 'Hotel', 3, 'Swasta', 3, NULL, 14, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 1),
 (379, 'SS12-0515', 'Hotel Fave Gatot Subroto', 'Jl. Jend. Gatot Subroto Kav. A9', 'Jakarta Selatan', 'Setia Budi', 'Karet Semanggi', '12930', 'Hotel', 3, 'Swasta', 3, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 6, 1),
@@ -820,10 +820,10 @@ INSERT INTO `gedung_dinas` (`id_gdg_dinas`, `no_gedung`, `nama_gedung`, `alamat_
 (725, 'US11-0910', 'Rusun Laguna Pluit', 'Jl. Pluit Timur Blok MM', 'Jakarta Utara', 'Penjaringan', 'Pluit', '14450', 'Apartemen', 1, 'Swasta', 3, NULL, 28, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 5, 0),
 (726, 'TD13-0660', 'Rusun Menara Cawang', 'Jl. SMA 14', 'Jakarta Timur', 'Kramat Jati', 'Cawang', '13630', 'Rumah Susun', 10, 'Swasta', 3, NULL, 16, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 5, 0),
 (727, 'UD13-0863', 'Rusun Nagrak Tower 6-10', 'Jl. Sarang Bango', 'Jakarta Utara', 'Cilincing', 'Marunda', '14150', 'Rumah Susun', 10, 'Pemda DKI', 1, NULL, 16, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 2, 0),
-(728, 'TD13-0607', 'Rusun Pinus Elok', 'Jl. Raya Penggilingan', 'Jakarta Timur', 'Cakung', 'Penggilingan', '13940', 'Rumah Susun', 10, 'Pemda DKI', 1, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 2, 0),
+(728, 'TD13-0607', 'Rusun Pinus Elok', 'Jl. Raya Penggilingan', 'Jakarta Timur', 'Cakung', 'Penggilingan', '13940', 'Rumah Susun', 10, 'Pemda DKI', 1, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 2, 1),
 (729, 'TD13-0608', 'Rusun Pondok Bambu', 'Jl. H. Dogol', 'Jakarta Timur', 'Duren Sawit', 'Pondok Bambu', '13430', 'Rumah Susun', 10, 'Pemda DKI', 1, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 1, 0),
 (730, 'TD13-0609', 'Rusun Pulo Gebang', 'Jl. Mutiara Raya', 'Jakarta Timur', 'Cakung', 'Pulo Gebang', '13950', 'Rumah Susun', 10, 'Pemda DKI', 1, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 5, 0),
-(731, 'BD14-0853', 'Rusun Rawa Buaya Tower 1 dan 2', 'Jl. Outer Ring Road Pasar Rawa Buaya', 'Jakarta Barat', 'Cengkareng', 'Rawa Buaya', '11740', 'Rumah Susun', 10, 'Pemda DKI', 1, NULL, 16, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 2, 0),
+(731, 'BD14-0853', 'Rusun Rawa Buaya Tower 1 dan 2', 'Jl. Outer Ring Road Pasar Rawa Buaya', 'Jakarta Barat', 'Cengkareng', 'Rawa Buaya', '11740', 'Rumah Susun', 10, 'Pemda DKI', 1, NULL, 16, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 2, 1),
 (732, 'TD13-0659', 'Rusun Sentra Timur Residence', 'Jl. Sentra Primer Timur', 'Jakarta Timur', 'Cakung', 'Pulo Gebang', '13950', 'Rumah Susun', 10, 'Swasta', 3, NULL, 16, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 5, 0),
 (733, 'BD13-0610', 'Rusun Tambora', 'Jl. Angke Jaya ', 'Jakarta Barat', 'Tambora', 'Angke', '11330', 'Rumah Susun', 10, 'Pemda DKI', 1, NULL, 16, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 1, 0),
 (734, 'UD13-0780', 'Rusunami Bandar Kemayoran', 'Jl. H. Benyamin Suaeb Blok C3', 'Jakarta Utara', 'Pademangan', 'Pademangan Timur', '14410', 'Rumah Susun', 10, 'Swasta', 3, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, 7, 0),
@@ -1046,7 +1046,9 @@ CREATE TABLE `groups` (
 INSERT INTO `groups` (`id`, `name`, `description`) VALUES
 (1, 'admin', 'Administrator'),
 (2, 'members', 'General User'),
-(3, 'Dinas', 'Bidang Pencegahan Dinas');
+(3, 'Dinas', 'Bidang Pencegahan Dinas'),
+(4, 'Pejabat', 'Bidang Pencegahan Dinas'),
+(5, 'Seksi-Publikasi', 'Bidang Pencegahan Dinas');
 
 -- --------------------------------------------------------
 
@@ -6334,7 +6336,7 @@ INSERT INTO `tabel_wilayah` (`id`, `kode1`, `Wilayah`, `deleted`) VALUES
 CREATE TABLE `users` (
   `id` int(11) UNSIGNED NOT NULL,
   `ip_address` varchar(45) NOT NULL,
-  `username` varchar(100) DEFAULT NULL,
+  `username` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(254) NOT NULL,
   `activation_selector` varchar(255) DEFAULT NULL,
@@ -6350,17 +6352,21 @@ CREATE TABLE `users` (
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
   `company` varchar(100) DEFAULT NULL,
-  `phone` varchar(20) DEFAULT NULL
+  `phone` varchar(20) DEFAULT NULL,
+  `jabatan` varchar(100) DEFAULT NULL,
+  `pendidikan` varchar(100) DEFAULT NULL,
+  `alamat` varchar(254) DEFAULT NULL,
+  `deskripsi` varchar(254) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_selector`, `activation_code`, `forgotten_password_selector`, `forgotten_password_code`, `forgotten_password_time`, `remember_selector`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
-(1, '127.0.0.1', 'admin', '$2y$12$zSuLaAF.NWlcQ/HKyBQSredavdW6dypVdLE5ZaF5C3EdzkaWWWJJ2', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1555526751, 1, 'Admin', 'istrator', 'ADMIN', '0'),
-(2, '127.0.0.1', 'kuz1toro@gmail.com', '$2y$10$S04bKi5r0iZxpDnERsdFC.zPg6Fk747ntkcGPiWi7z4q1.UVbQQxa', 'kuz1toro@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1553171182, NULL, 1, 'Bidang-Pencegahan', 'Dinas', 'Dinas Penanggulangan Kebakaran dan Penyelamatan', '087802089254'),
-(3, '127.0.0.1', 'dinas', '$2y$10$UNFQJOc8jLVHVoWWtsx5GuOc5IFQg3Qv6VGJH6BAYpN8btbooqraC', 'bidangpencegahan@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1553604578, 1555526728, 1, 'Bidang Pencegahan', 'Dinas', 'Dinas Penanggulangan Kebakaran dan Penyelamatan', '021');
+INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_selector`, `activation_code`, `forgotten_password_selector`, `forgotten_password_code`, `forgotten_password_time`, `remember_selector`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`, `jabatan`, `pendidikan`, `alamat`, `deskripsi`) VALUES
+(1, '127.0.0.1', 'admin', '$2y$12$zSuLaAF.NWlcQ/HKyBQSredavdW6dypVdLE5ZaF5C3EdzkaWWWJJ2', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1555698721, 1, 'Admin', 'istrator', 'ADMIN', '0', NULL, NULL, NULL, NULL),
+(2, '127.0.0.1', 'kuz1toro@gmail.com', '$2y$10$S04bKi5r0iZxpDnERsdFC.zPg6Fk747ntkcGPiWi7z4q1.UVbQQxa', 'kuz1toro@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1553171182, NULL, 1, 'Bidang-Pencegahan', 'Dinas', 'Dinas Penanggulangan Kebakaran dan Penyelamatan', '087802089254', NULL, NULL, NULL, NULL),
+(3, '127.0.0.1', 'dinas', '$2y$10$p72tRHJFyC25uFDv4.Wo0.xtpgwdI6J13jxBJXsAmfKLJjW5rteoq', 'bidangpencegahan@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1553604578, 1555800225, 1, 'Bidang Pencegahan', 'Dinas', 'Dinas Penanggulangan Kebakaran dan Penyelamatan', '021', 'staff', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -6530,10 +6536,10 @@ ALTER TABLE `tabel_wilayah`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uc_email` (`email`),
+  ADD UNIQUE KEY `username` (`username`),
   ADD UNIQUE KEY `uc_activation_selector` (`activation_selector`),
   ADD UNIQUE KEY `uc_forgotten_password_selector` (`forgotten_password_selector`),
-  ADD UNIQUE KEY `uc_remember_selector` (`remember_selector`),
-  ADD UNIQUE KEY `username` (`username`);
+  ADD UNIQUE KEY `uc_remember_selector` (`remember_selector`);
 
 --
 -- Indexes for table `users_groups`
@@ -6564,13 +6570,13 @@ ALTER TABLE `gedung_dinas`
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `login_attempts`
 --
 ALTER TABLE `login_attempts`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `pemeriksaan_dinas`

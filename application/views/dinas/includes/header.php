@@ -109,10 +109,10 @@
             <!-- User Info -->
             <div class="user-info">
                 <div class="image col-xs-2">
-                    <img src="<?php echo base_url(); ?>assets/vendor_new/adminBSB/img/damkar.png" width="48" height="48" alt="User" />    
+                    <img src="<?php echo base_url(); ?>upload/damkar.png" width="48" height="48" alt="User" />    
                 </div>
-                <div class="col-xs-2">
-                    <img src="<?php echo base_url(); ?>assets/vendor_new/adminBSB/img/logo_inspektur.png" width="48" height="48" alt="User" />
+                <div class="image col-xs-2">
+                    <img src="<?php echo base_url(); ?>upload/mangekyous_vd9v8796.gif" width="42" height="42" alt="User" />    
                 </div>
                 <div class="info-container col-xs-12">
                     <?php $user = $this->ion_auth->user()->row();?>
@@ -207,6 +207,18 @@
                         <a href="<?php echo base_url(); ?>dinas/database_operation">
                             <i class="material-icons">text_fields</i>
                             <span>Database</span>
+                        </a>
+                    </li>
+                    <li class="<?php trv_state('profile', $url1, $url2);?>">
+                        <a href="<?php echo base_url(); ?>dinas/profile">
+                            <i class="material-icons">person</i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li class="<?php trv_state('chart', $url1, $url2);?>">
+                        <a href="<?php echo base_url(); ?>dinas/chart">
+                            <i class="material-icons">insert_chart</i>
+                            <span>Chart</span>
                         </a>
                     </li>
                 </ul>

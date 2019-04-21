@@ -14,6 +14,11 @@
 
 	<!-- Main content -->
 	<section class="content">
+		<div class="row">
+			<!-- left column -->
+			<div class="col-md-6">
+			<!-- general form elements -->
+				<div class="box box-primary">
 
 		<p><?php echo lang('index_subheading');?></p>
 
@@ -37,7 +42,7 @@
 		</table>
 
 		<a href="create_group" class="btn btn-primary btn-xl" type="button"><?php echo lang('index_create_group_link');?></a>
-
+		</div></div></div>
 	</section>
 	<!-- /.content -->
 </div>

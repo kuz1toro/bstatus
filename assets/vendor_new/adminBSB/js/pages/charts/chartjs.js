@@ -69,7 +69,13 @@ function getChartJs(type) {
             },
             options: {
                 responsive: true,
-                legend: true
+                legend: {
+                    display: true,
+                    position : 'right',
+                    labels: {
+                        fontColor: 'rgb(0, 0, 0)'
+                    }
+                }
             }
         }
     }
