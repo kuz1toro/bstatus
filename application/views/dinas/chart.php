@@ -33,6 +33,43 @@
                                 <th scope="col" style="background-color: #F7F7F7;text-align: center;">%</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            <tr style="background-color: #ececec">
+                                <td>#</td>
+                                <td>Memenuhi Syarat Keselamatan Kebakaran</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>Rekomendasi Sertifikat Laik Fungsi (SLF)</td>
+                                <td class="textright" style="background-color: #F6F6F7;">
+                                    <a target="_blank" href="http://b-status.arkadana.com/xadmin/dashboard/table/D/SLF/all">5</a>
+                                </td>
+                                <td class="textright" style="background-color: #F6F6F7;">
+                                    0.54                                                            </td>
+                                <td class="textright">
+                                    <a target="_blank" href="http://b-status.arkadana.com/xadmin/dashboard/table/P/SLF/all">12</a>
+                                </td>
+                                <td class="textright">
+                                    1.29                                                            </td>
+                                <td class="textright" style="background-color: #F6F6F7;">
+                                    <a target="_blank" href="http://b-status.arkadana.com/xadmin/dashboard/table/S/SLF/all">139</a>
+                                </td>
+                                <td class="textright" style="background-color: #F6F6F7;">
+                                    14.9                                                            </td>
+                                <td class="textright">
+                                    156                                                            </td>
+                                <td class="textright">
+                                    16.73                                                            </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </section>
