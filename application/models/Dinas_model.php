@@ -278,6 +278,20 @@ class Dinas_model extends CI_Model {
 		return $query->row_array();
 	}
 
+	function get_chart_data($parameter, $kepemilikkan)
+	{
+		//echo 'count gedung';
+		$this->db->select('*');
+		$this->db->from('gedung_dinas');
+		$this->db->where('last_status', $parameter);
+		$this->db->where('kepemilikan', $kepemilikkan);
+		$query = $this->db->get();
+		$jumlah = $query->num_rows();
+		$isi = $query->result_array();
+		$result = array($jumlah, $isi);
+		return $result;
+	}
+
 	
 
 

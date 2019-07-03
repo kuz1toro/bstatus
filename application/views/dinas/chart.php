@@ -50,17 +50,23 @@
                                 <td>1</td>
                                 <td>Rekomendasi Sertifikat Laik Fungsi (SLF)</td>
                                 <td class="textright" style="background-color: #F6F6F7;">
-                                    <a target="_blank" href="http://b-status.arkadana.com/xadmin/dashboard/table/D/SLF/all">5</a>
+                                    <a target="_blank" href="http://b-status.arkadana.com/xadmin/dashboard/table/D/SLF/all">
+                                    <?php echo $slf_pemda[0]; ?>
+                                    </a>
                                 </td>
                                 <td class="textright" style="background-color: #F6F6F7;">
                                     0.54                                                            </td>
                                 <td class="textright">
-                                    <a target="_blank" href="http://b-status.arkadana.com/xadmin/dashboard/table/P/SLF/all">12</a>
+                                    <a target="_blank" href="http://b-status.arkadana.com/xadmin/dashboard/table/P/SLF/all">
+                                    <?php echo $slf_pusat[0]; ?>
+                                    </a>
                                 </td>
                                 <td class="textright">
                                     1.29                                                            </td>
                                 <td class="textright" style="background-color: #F6F6F7;">
-                                    <a target="_blank" href="http://b-status.arkadana.com/xadmin/dashboard/table/S/SLF/all">139</a>
+                                    <a target="_blank" href="http://b-status.arkadana.com/xadmin/dashboard/table/S/SLF/all">
+                                    <?php echo $slf_swasta[0]; ?>
+                                    </a>
                                 </td>
                                 <td class="textright" style="background-color: #F6F6F7;">
                                     14.9                                                            </td>
