@@ -2335,10 +2335,38 @@ class Dinas extends CI_Controller {
 		$data['sub_total1'][2] = $data['slf_swasta'][0]+ $data['skk_swasta'][0]+ $data['lhp_plus_swasta'][0];
 
 		$tot_gdg = $this->dinas_model->count_all_gedung();
+		$list_pemilik_gdg = $this->dinas_model->get_list_pemilik_gdg();
 		$list_kolom_pemeriksaan = $this->dinas_model->get_list_kolom_pemeriksaan();
+		$i = 0;
+		$j = 0;
 		foreach ($list_kolom_pemeriksaan as $row)
 		{
-			$list_status_pemeriksaan = $this->dinas_model->get_list_status_pemeriksaan($row);
+			$list_status_pemeriksaan = $this->dinas_model->get_list_status_pemeriksaan($row['nama_kolom_hslPemeriksaan']);
+			foreach ($list_status_pemeriksaan as $lsp)
+			{
+				$table[$i][$j] = [];
+				foreach ($list_pemilik_gdg as $lpg)
+				{
+					$jumlahGdg = $this->dinas_model->get_chart_sum( $lsp['id_kolom_statusGedung'], $lpg['id_kepemilikkan_gedung'], '%');
+					$persentase = 100.00*$jumlahGdg/$tot_gdg ;
+					array_push($table[$i][$j], $jumlahGdg, $persentase);
+				}
+				$jumlahGdg = $this->dinas_model->get_chart_sum( $lsp['id_kolom_statusGedung'], '%', '%');
+				$persentase = 100.00*$jumlahGdg/$tot_gdg ;
+				array_push($table[$i][$j], $jumlahGdg, $persentase);
+				$j ++ ;
+			}
+			foreach ($list_pemilik_gdg as $lpg)
+			{
+				$jumlahGdg = $this->dinas_model->get_chart_sum( '%', $lpg['id_kepemilikkan_gedung'], $row['nama_kolom_hslPemeriksaan']);
+				$persentase = 100.00*$jumlahGdg/$tot_gdg ;
+				array_push($table[$i][$j], $jumlahGdg, $persentase);
+			}
+			$jumlahGdg = $this->dinas_model->get_chart_sum( '%', '%', $row['nama_kolom_hslPemeriksaan']);
+			$persentase = 100.00*$jumlahGdg/$tot_gdg ;
+			array_push($table[$i][$j], $jumlahGdg, $persentase);
+			$i ++ ;
+			$j = 0;
 		}
 		$data['main_content'] = 'dinas/chart';
 		$this->load->view('dinas/includes/template', $data);

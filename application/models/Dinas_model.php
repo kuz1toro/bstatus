@@ -292,6 +292,27 @@ class Dinas_model extends CI_Model {
 		return $result;
 	}
 
+	function get_chart_sum($status, $kepemilikkan, $kategori)
+	{
+		$this->db->select('last_status, kepemilikan');
+		$this->db->from('gedung_dinas as joinTable');
+		//$this->db->select('tabel_kolom_statusGedung.id_kolom_statusGedung');
+		$this->db->select('tabel_kolom_statusGedung.kategori_kolomHslPemeriksaan');
+		$this->db->where('tabel_kolom_statusGedung.kategori_kolomHslPemeriksaan', $kategori);
+		$this->db->join('tabel_kolom_statusGedung', 'joinTable.last_status =tabel_kolom_statusGedung.id_kolom_statusGedung', 'left');
+		$this->db->where('joinTable.last_status', $status);
+		$this->db->where('joinTable.kepemilikan', $kepemilikkan);
+		
+		//echo 'count gedung';
+		//$this->db->select('*');
+		//$this->db->from('gedung_dinas');
+		//$this->db->where('last_status', $status);
+		//$this->db->where('kepemilikan', $kepemilikkan);
+		$query = $this->db->get();
+		$jumlah = $query->num_rows();
+		return $jumlah;
+	}
+
 	public function get_list_kolom_pemeriksaan()
 	{
 		$this->db->select('nama_kolom_hslPemeriksaan');
@@ -306,6 +327,14 @@ class Dinas_model extends CI_Model {
 		$this->db->from('gedung_dinas');
 		$query = $this->db->get();
 		return $query->num_rows();
+	}
+
+	public function get_list_pemilik_gdg()
+	{
+		$this->db->select('id_kepemilikkan_gedung');
+		$this->db->from('tabel_kolom_kepemilikkan_gedung');
+		$query = $this->db->get();
+		return $query->result_array();
 	}
 
 	public function get_list_status_pemeriksaan($parameter)
