@@ -18,6 +18,7 @@
                             <a href="fungsiGedung_operation" type="button" class="btn bg-red waves-effect">Fungsi Gedung</a>
                             <a href="kepemilikkan_operation" type="button" class="btn bg-red waves-effect">Kepemilikkan Gedung</a>
                             <a href="bagi" type="button" class="btn bg-red waves-effect">bagi Gedung</a>
+                            <a href="rubahKodeStatusGdg_operation" type="button" class="btn bg-red waves-effect">rubah kode status</a>
                         </div>
                     </div>
                 </div>

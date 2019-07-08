@@ -2330,6 +2330,16 @@ class Dinas extends CI_Controller {
 		$data['pskk_pemda'] = $this->dinas_model->get_chart_data( 3, 1);
 		$data['pskk_pusat'] = $this->dinas_model->get_chart_data( 3, 2);
 		$data['pskk_swasta'] = $this->dinas_model->get_chart_data( 3, 3);
+		$data['sub_total1'][0] = $data['slf_pemda'][0]+ $data['skk_pemda'][0]+ $data['lhp_plus_pemda'][0];
+		$data['sub_total1'][1] = $data['slf_pusat'][0]+ $data['skk_pusat'][0]+ $data['lhp_plus_pusat'][0];
+		$data['sub_total1'][2] = $data['slf_swasta'][0]+ $data['skk_swasta'][0]+ $data['lhp_plus_swasta'][0];
+
+		$tot_gdg = $this->dinas_model->count_all_gedung();
+		$list_kolom_pemeriksaan = $this->dinas_model->get_list_kolom_pemeriksaan();
+		foreach ($list_kolom_pemeriksaan as $row)
+		{
+			$list_status_pemeriksaan = $this->dinas_model->get_list_status_pemeriksaan($row);
+		}
 		$data['main_content'] = 'dinas/chart';
 		$this->load->view('dinas/includes/template', $data);
 	}
@@ -2553,6 +2563,175 @@ class Dinas extends CI_Controller {
 		} 
 		redirect('dinas/database_operation');
 	}
+
+	public function rubahKodeStatusGdg_operation()
+	{
+		$data_statusGedung = $this->dinas_model->get_statusGedung();		 
+		foreach ($data_statusGedung as $row)
+		{
+			$id = $row['id_gdg_dinas'];
+			$old_status = $row['last_status'];
+			if($old_status==7)
+			{
+				$new_status = 1;
+			}
+			elseif($old_status==6)
+			{
+				$new_status = 2;
+			}
+			elseif($old_status==2)
+			{
+				$new_status = 3;
+			}
+			elseif($old_status==1)
+			{
+				$new_status = 4;
+			}
+			elseif($old_status==8)
+			{
+				$new_status = 5;
+			}
+			elseif($old_status==9)
+			{
+				$new_status = 6;
+			}
+			elseif($old_status==10)
+			{
+				$new_status = 7;
+			}
+			elseif($old_status==3)
+			{
+				$new_status = 9;
+			}
+			elseif($old_status==4)
+			{
+				$new_status = 10;
+			}
+			elseif($old_status==5)
+			{
+				$new_status = 11;
+			}
+			else
+			{
+				$new_status = NULL;
+			}
+			$data_to_store = array(
+				'last_status' => $new_status
+			);
+			$this->dinas_model->fill_gdg($id, $data_to_store);
+		} 
+		$data_statusPemeriksaan = $this->dinas_model->get_statusPemeriksaan();		 
+		foreach ($data_statusPemeriksaan as $rowP)
+		{
+			$idP = $rowP['id_pemeriksaan_dinas'];
+			$old_status = $rowP['status_gedung'];
+			if($old_status==7)
+			{
+				$new_status = 1;
+			}
+			elseif($old_status==6)
+			{
+				$new_status = 2;
+			}
+			elseif($old_status==2)
+			{
+				$new_status = 3;
+			}
+			elseif($old_status==1)
+			{
+				$new_status = 4;
+			}
+			elseif($old_status==8)
+			{
+				$new_status = 5;
+			}
+			elseif($old_status==9)
+			{
+				$new_status = 6;
+			}
+			elseif($old_status==10)
+			{
+				$new_status = 7;
+			}
+			elseif($old_status==3)
+			{
+				$new_status = 9;
+			}
+			elseif($old_status==4)
+			{
+				$new_status = 10;
+			}
+			elseif($old_status==5)
+			{
+				$new_status = 11;
+			}
+			else
+			{
+				$new_status = NULL;
+			}
+			$data_to_storeP = array(
+				'status_gedung' => $new_status
+			);
+			$this->dinas_model->fill_column($idP, $data_to_storeP);
+		}
+		redirect('dinas/database_operation');
+	}
+	/*
+	public function rubahKodeStatusGdg_operation1()
+	{
+		$data_statusGedung = $this->dinas_model->get_statusGedung();		 
+		foreach ($data_statusGedung as $row)
+		{
+			$id = $row['id_gdg_dinas'];
+			$old_status = $row['last_status'];
+			if($old_status==8)
+			{
+				$new_status = 9;
+			}
+			elseif($old_status==9)
+			{
+				$new_status = 10;
+			}
+			elseif($old_status==10)
+			{
+				$new_status = 11;
+			}
+			$data_to_store = array(
+				'last_status' => $new_status
+			);
+			if($old_status==8 || $old_status==9 || $old_status==10)
+			{
+				$this->dinas_model->fill_gdg($id, $data_to_store);
+			}
+		} 
+		$data_statusPemeriksaan = $this->dinas_model->get_statusPemeriksaan();		 
+		foreach ($data_statusPemeriksaan as $rowP)
+		{
+			$idP = $rowP['id_pemeriksaan_dinas'];
+			$old_status = $rowP['status_gedung'];
+			if($old_status==8)
+			{
+				$new_status = 9;
+			}
+			elseif($old_status==9)
+			{
+				$new_status = 10;
+			}
+			elseif($old_status==10)
+			{
+				$new_status = 11;
+			}
+			$data_to_storeP = array(
+				'status_gedung' => $new_status
+			);
+			if($old_status==8 || $old_status==9 || $old_status==10)
+			{
+				$this->dinas_model->fill_column($idP, $data_to_storeP);
+			}
+		}
+		redirect('dinas/database_operation');
+	}
+	*/
 
 	/**
 	* Load the main view with all the current model model's data.

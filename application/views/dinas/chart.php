@@ -71,7 +71,7 @@
                                 <td class="textright" style="background-color: #F6F6F7;">
                                     14.9                                                            </td>
                                 <td class="textright">
-                                    156                                                            </td>
+                                    <?php echo $slf_pemda[0]+$slf_pusat[0]+$slf_swasta[0]; ?>       </td>
                                 <td class="textright">
                                     16.73                                                            </td>
                             </tr>
@@ -135,9 +135,9 @@
                             </tr>
                             <tr style="background-color: #E1F0F8; font-weight: bold;">
                                 <td colspan="2" class="text-right" style="padding-right: 15px;">SUB TOTAL:</td>
-                                <td class="textright">13</td>
+                                <td class="textright"><?php echo $sub_total1[0]; ?></td>
                                 <td class="textright">1.38</td>
-                                <td class="textright">38</td>
+                                <td class="textright"><?php echo $sub_total1[1]; ?></td>
                                 <td class="textright">4.04</td>
                                 <td class="textright">617</td>
                                 <td class="textright">65.64</td>
@@ -243,7 +243,86 @@
                                 <td class="textright">
                                     13.19                                                            </td>
                             </tr>
-                            
+                            <tr>
+                                <td>3</td>
+                                <td>Surat Peringatan III (SP III)</td>
+                                <td class="textright" style="background-color: #F6F6F7;">
+                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/D/LHP_min/all">
+                                    <?php echo $sp3_pemda[0]; ?>
+                                    </a>
+                                </td>
+                                <td class="textright" style="background-color: #F6F6F7;">
+                                    0.96                                                            </td>
+                                <td class="textright">
+                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/P/LHP_min/all">
+                                    <?php echo $sp3_pusat[0]; ?>
+                                    </a>
+                                </td>
+                                <td class="textright">
+                                    2.87                                                            </td>
+                                <td class="textright" style="background-color: #F6F6F7;">
+                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/S/LHP_min/all">
+                                    <?php echo $sp3_swasta[0]; ?>
+                                    </a>
+                                </td>
+                                <td class="textright" style="background-color: #F6F6F7;">
+                                    9.36                                                            </td>
+                                <td class="textright">
+                                    124                                                            </td>
+                                <td class="textright">
+                                    13.19                                                            </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Penangguhan</td>
+                                <td class="textright" style="background-color: #F6F6F7;">
+                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/D/LHP_min/all">
+                                    <?php echo $pskk_pemda[0]; ?>
+                                    </a>
+                                </td>
+                                <td class="textright" style="background-color: #F6F6F7;">
+                                    0.96                                                            </td>
+                                <td class="textright">
+                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/P/LHP_min/all">
+                                    <?php echo $pskk_pusat[0]; ?>
+                                    </a>
+                                </td>
+                                <td class="textright">
+                                    2.87                                                            </td>
+                                <td class="textright" style="background-color: #F6F6F7;">
+                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/S/LHP_min/all">
+                                    <?php echo $pskk_swasta[0]; ?>
+                                    </a>
+                                </td>
+                                <td class="textright" style="background-color: #F6F6F7;">
+                                    9.36                                                            </td>
+                                <td class="textright">
+                                    124                                                            </td>
+                                <td class="textright">
+                                    13.19                                                            </td>
+                            </tr>
+                            <tr style="background-color: #E1F0F8; font-weight: bold;">
+                                <td colspan="2" class="text-right" style="padding-right: 15px;">SUB TOTAL:</td>
+                                <td class="textright">13</td>
+                                <td class="textright">1.38</td>
+                                <td class="textright">38</td>
+                                <td class="textright">4.04</td>
+                                <td class="textright">617</td>
+                                <td class="textright">65.64</td>
+                                <td class="textright">668</td>
+                                <td class="textright">71.06</td>
+                            </tr>
+                            <tr style="background-color: #E1F0F8; font-weight: bold;">
+                                <td colspan="2" class="text-right" style="padding-right: 15px;">TOTAL:</td>
+                                <td class="textright">13</td>
+                                <td class="textright">1.38</td>
+                                <td class="textright">38</td>
+                                <td class="textright">4.04</td>
+                                <td class="textright">617</td>
+                                <td class="textright">65.64</td>
+                                <td class="textright">668</td>
+                                <td class="textright">71.06</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

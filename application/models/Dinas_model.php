@@ -292,6 +292,30 @@ class Dinas_model extends CI_Model {
 		return $result;
 	}
 
+	public function get_list_kolom_pemeriksaan()
+	{
+		$this->db->select('nama_kolom_hslPemeriksaan');
+		$this->db->from('tabel_kolom_hslPemeriksaan');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	function count_all_gedung()
+	{
+		$this->db->select('id_gdg_dinas');
+		$this->db->from('gedung_dinas');
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+	public function get_list_status_pemeriksaan($parameter)
+	{
+		$this->db->select('id_kolom_statusGedung');
+		$this->db->from('tabel_kolom_statusGedung');
+		$this->db->where('kategori_kolomHslPemeriksaan', $parameter);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 	
 
 
@@ -534,6 +558,30 @@ class Dinas_model extends CI_Model {
 		}
 		$query = $this->db->get();
 		return $query->num_rows();
+	}
+
+	public function get_statusGedung()
+	{
+		$this->db->select('id_gdg_dinas');
+		$this->db->select('last_status');
+		$this->db->from('gedung_dinas');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	function fill_gdg($id, $data)
+	{
+		$this->db->where('id_gdg_dinas', $id);
+		$this->db->update('gedung_dinas', $data);
+	}
+
+	public function get_statusPemeriksaan()
+	{
+		$this->db->select('id_pemeriksaan_dinas');
+		$this->db->select('status_gedung');
+		$this->db->from('pemeriksaan_dinas');
+		$query = $this->db->get();
+		return $query->result_array();
 	}
 
 }
