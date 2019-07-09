@@ -296,12 +296,24 @@ class Dinas_model extends CI_Model {
 	{
 		$this->db->select('last_status, kepemilikan');
 		$this->db->from('gedung_dinas as joinTable');
-		//$this->db->select('tabel_kolom_statusGedung.id_kolom_statusGedung');
+		//$this->db->select('tabel_kolom_statusGedung.keterangan_kolom_statusGedung');
 		$this->db->select('tabel_kolom_statusGedung.kategori_kolomHslPemeriksaan');
-		$this->db->where('tabel_kolom_statusGedung.kategori_kolomHslPemeriksaan', $kategori);
+		if ($kategori !== '%')
+		{
+			$this->db->where('tabel_kolom_statusGedung.kategori_kolomHslPemeriksaan', $kategori);
+		}
+		
 		$this->db->join('tabel_kolom_statusGedung', 'joinTable.last_status =tabel_kolom_statusGedung.id_kolom_statusGedung', 'left');
-		$this->db->where('joinTable.last_status', $status);
-		$this->db->where('joinTable.kepemilikan', $kepemilikkan);
+		if ($status !== '%')
+		{
+			$this->db->where('joinTable.last_status', $status);
+		}
+		if ($kepemilikkan !== '%')
+		{
+			$this->db->where('joinTable.kepemilikan', $kepemilikkan);
+		}
+		
+		
 		
 		//echo 'count gedung';
 		//$this->db->select('*');
@@ -311,6 +323,17 @@ class Dinas_model extends CI_Model {
 		$query = $this->db->get();
 		$jumlah = $query->num_rows();
 		return $jumlah;
+	}
+
+
+	public function get_ket_status_pemeriksaan($stat_gedung)
+	{
+		$this->db->select('id_kolom_statusGedung, keterangan_kolom_statusGedung');
+		$this->db->from('tabel_kolom_statusGedung');
+		$this->db->where('id_kolom_statusGedung', $stat_gedung);
+		$this->db->where('deleted', 0);
+		$query = $this->db->get();
+		return $query->row_array();
 	}
 
 	public function get_list_kolom_pemeriksaan()

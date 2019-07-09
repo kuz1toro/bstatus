@@ -4,6 +4,7 @@
             <section class="panel">
                 <header class="panel-heading">
                     POTRET BANGUNAN GEDUNG TINGGI
+                    <?php print_r($total); ?>
                 </header>
                 <div class="panel-body">
                     <table width="100%" class="table table-responsive">
@@ -46,103 +47,52 @@
                                 <td></td>
                                 <td></td>
                             </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Rekomendasi Sertifikat Laik Fungsi (SLF)</td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    <a target="_blank" href="http://b-status.arkadana.com/xadmin/dashboard/table/D/SLF/all">
-                                    <?php echo $slf_pemda[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    0.54                                                            </td>
-                                <td class="textright">
-                                    <a target="_blank" href="http://b-status.arkadana.com/xadmin/dashboard/table/P/SLF/all">
-                                    <?php echo $slf_pusat[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright">
-                                    1.29                                                            </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    <a target="_blank" href="http://b-status.arkadana.com/xadmin/dashboard/table/S/SLF/all">
-                                    <?php echo $slf_swasta[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    14.9                                                            </td>
-                                <td class="textright">
-                                    <?php echo $slf_pemda[0]+$slf_pusat[0]+$slf_swasta[0]; ?>       </td>
-                                <td class="textright">
-                                    16.73                                                            </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Rekomendasi Sertifikat Keselamatan Kebakaran (SKK)</td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    <a target="_blank" href="http://b-status.arkadana.com/xadmin/dashboard/table/D/SLF/all">
-                                    <?php echo $skk_pemda[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    0.54                                                            </td>
-                                <td class="textright">
-                                    <a target="_blank" href="http://b-status.arkadana.com/xadmin/dashboard/table/P/SLF/all">
-                                    <?php echo $skk_pusat[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright">
-                                    1.29                                                            </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    <a target="_blank" href="http://b-status.arkadana.com/xadmin/dashboard/table/S/SLF/all">
-                                    <?php echo $skk_swasta[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    14.9                                                            </td>
-                                <td class="textright">
-                                    156                                                            </td>
-                                <td class="textright">
-                                    16.73                                                            </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Laporan Hasil Pemeriksaan (LHP) PLUS</td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    <a target="_blank" href="http://b-status.arkadana.com/xadmin/dashboard/table/D/SLF/all">
-                                    <?php echo $lhp_plus_pemda[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    0.54                                                            </td>
-                                <td class="textright">
-                                    <a target="_blank" href="http://b-status.arkadana.com/xadmin/dashboard/table/P/SLF/all">
-                                    <?php echo $lhp_plus_pusat[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright">
-                                    1.29                                                            </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    <a target="_blank" href="http://b-status.arkadana.com/xadmin/dashboard/table/S/SLF/all">
-                                    <?php echo $lhp_plus_swasta[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    14.9                                                            </td>
-                                <td class="textright">
-                                    156                                                            </td>
-                                <td class="textright">
-                                    16.73                                                            </td>
-                            </tr>
+                            
+                                <?php
+                                    $count = 1;
+                                    foreach ($table[0] as $r1) {
+                                        echo '<tr>';
+                                        foreach ($r1 as $r2) {
+                                            if($count % 2 !== 0 && $count > 2){
+                                                echo '<td class="textright" style="background-color: #F6F6F7;">';
+                                                echo '<a target="_blank"href="">';
+                                                echo $r2;
+                                                echo '</a>';
+                                                echo '</td>';
+                                            }else{
+                                                echo '<td>';
+                                                echo $r2;
+                                                echo '</td>';
+                                            }
+                                            $count++;
+                                        }
+                                        $count = 1;
+                                        echo '</tr>';
+                                    }
+                                ?>
+                                
                             <tr style="background-color: #E1F0F8; font-weight: bold;">
-                                <td colspan="2" class="text-right" style="padding-right: 15px;">SUB TOTAL:</td>
-                                <td class="textright"><?php echo $sub_total1[0]; ?></td>
-                                <td class="textright">1.38</td>
-                                <td class="textright"><?php echo $sub_total1[1]; ?></td>
-                                <td class="textright">4.04</td>
-                                <td class="textright">617</td>
-                                <td class="textright">65.64</td>
-                                <td class="textright">668</td>
-                                <td class="textright">71.06</td>
+                                <?php
+                                    $count = 1;
+                                    foreach ($subtable[0][0] as $r2) {
+                                        if($count % 2 == 0 && $count > 1){
+                                            echo '<td class="textright" >';
+                                            echo '<a target="_blank"href="">';
+                                            echo $r2;
+                                            echo '</a>';
+                                            echo '</td>';
+                                        }elseif ($count == 1) {
+                                            echo '<td colspan="2" class="text-right" style="padding-right: 15px;">';
+                                            echo $r2;
+                                            echo '</td>';
+                                        }else{
+                                            echo '<td>';
+                                            echo $r2;
+                                            echo '</td>';
+                                        }
+                                        $count++;
+                                    }
+                                ?>
                             </tr>
                             <tr style="background-color: #ececec">
                                 <td>#</td>
@@ -156,161 +106,51 @@
                                 <td></td>
                                 <td></td>
                             </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Laporan Hasil Pemeriksaan (LHP) MIN</td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/D/LHP_min/all">
-                                    <?php echo $lhp_min_pemda[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    0.96                                                            </td>
-                                <td class="textright">
-                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/P/LHP_min/all">
-                                    <?php echo $lhp_min_pusat[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright">
-                                    2.87                                                            </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/S/LHP_min/all">
-                                    <?php echo $lhp_min_swasta[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    9.36                                                            </td>
-                                <td class="textright">
-                                    124                                                            </td>
-                                <td class="textright">
-                                    13.19                                                            </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Surat Peringatan I (SP I)</td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/D/LHP_min/all">
-                                    <?php echo $sp1_pemda[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    0.96                                                            </td>
-                                <td class="textright">
-                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/P/LHP_min/all">
-                                    <?php echo $sp1_pusat[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright">
-                                    2.87                                                            </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/S/LHP_min/all">
-                                    <?php echo $sp1_swasta[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    9.36                                                            </td>
-                                <td class="textright">
-                                    124                                                            </td>
-                                <td class="textright">
-                                    13.19                                                            </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Surat Peringatan II (SP II)</td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/D/LHP_min/all">
-                                    <?php echo $sp2_pemda[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    0.96                                                            </td>
-                                <td class="textright">
-                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/P/LHP_min/all">
-                                    <?php echo $sp2_pusat[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright">
-                                    2.87                                                            </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/S/LHP_min/all">
-                                    <?php echo $sp2_swasta[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    9.36                                                            </td>
-                                <td class="textright">
-                                    124                                                            </td>
-                                <td class="textright">
-                                    13.19                                                            </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Surat Peringatan III (SP III)</td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/D/LHP_min/all">
-                                    <?php echo $sp3_pemda[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    0.96                                                            </td>
-                                <td class="textright">
-                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/P/LHP_min/all">
-                                    <?php echo $sp3_pusat[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright">
-                                    2.87                                                            </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/S/LHP_min/all">
-                                    <?php echo $sp3_swasta[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    9.36                                                            </td>
-                                <td class="textright">
-                                    124                                                            </td>
-                                <td class="textright">
-                                    13.19                                                            </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Penangguhan</td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/D/LHP_min/all">
-                                    <?php echo $pskk_pemda[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    0.96                                                            </td>
-                                <td class="textright">
-                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/P/LHP_min/all">
-                                    <?php echo $pskk_pusat[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright">
-                                    2.87                                                            </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    <a target="_blank"href="http://b-status.arkadana.com/xadmin/dashboard/table/S/LHP_min/all">
-                                    <?php echo $pskk_swasta[0]; ?>
-                                    </a>
-                                </td>
-                                <td class="textright" style="background-color: #F6F6F7;">
-                                    9.36                                                            </td>
-                                <td class="textright">
-                                    124                                                            </td>
-                                <td class="textright">
-                                    13.19                                                            </td>
-                            </tr>
+                            <?php
+                                    $count = 1;
+                                    foreach ($table[1] as $r1) {
+                                        echo '<tr>';
+                                        foreach ($r1 as $r2) {
+                                            if($count % 2 !== 0 && $count > 2){
+                                                echo '<td class="textright" style="background-color: #F6F6F7;">';
+                                                echo '<a target="_blank"href="">';
+                                                echo $r2;
+                                                echo '</a>';
+                                                echo '</td>';
+                                            }else{
+                                                echo '<td>';
+                                                echo $r2;
+                                                echo '</td>';
+                                            }
+                                            $count++;
+                                        }
+                                        $count = 1;
+                                        echo '</tr>';
+                                    }
+                                ?>
+                                
                             <tr style="background-color: #E1F0F8; font-weight: bold;">
-                                <td colspan="2" class="text-right" style="padding-right: 15px;">SUB TOTAL:</td>
-                                <td class="textright">13</td>
-                                <td class="textright">1.38</td>
-                                <td class="textright">38</td>
-                                <td class="textright">4.04</td>
-                                <td class="textright">617</td>
-                                <td class="textright">65.64</td>
-                                <td class="textright">668</td>
-                                <td class="textright">71.06</td>
+                                <?php
+                                    $count = 1;
+                                    foreach ($subtable[1][1] as $r2) {
+                                        if($count % 2 == 0 && $count > 1){
+                                            echo '<td class="textright" >';
+                                            echo '<a target="_blank"href="">';
+                                            echo $r2;
+                                            echo '</a>';
+                                            echo '</td>';
+                                        }elseif ($count == 1) {
+                                            echo '<td colspan="2" class="text-right" style="padding-right: 15px;">';
+                                            echo $r2;
+                                            echo '</td>';
+                                        }else{
+                                            echo '<td>';
+                                            echo $r2;
+                                            echo '</td>';
+                                        }
+                                        $count++;
+                                    }
+                                ?>
                             </tr>
                             <tr style="background-color: #E1F0F8; font-weight: bold;">
                                 <td colspan="2" class="text-right" style="padding-right: 15px;">TOTAL:</td>
