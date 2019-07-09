@@ -153,15 +153,27 @@
                                 ?>
                             </tr>
                             <tr style="background-color: #E1F0F8; font-weight: bold;">
-                                <td colspan="2" class="text-right" style="padding-right: 15px;">TOTAL:</td>
-                                <td class="textright">13</td>
-                                <td class="textright">1.38</td>
-                                <td class="textright">38</td>
-                                <td class="textright">4.04</td>
-                                <td class="textright">617</td>
-                                <td class="textright">65.64</td>
-                                <td class="textright">668</td>
-                                <td class="textright">71.06</td>
+                            <?php
+                                    $count = 1;
+                                    foreach ($total as $r2) {
+                                        if($count % 2 == 0 && $count > 1){
+                                            echo '<td class="textright" >';
+                                            echo '<a target="_blank"href="">';
+                                            echo $r2;
+                                            echo '</a>';
+                                            echo '</td>';
+                                        }elseif ($count == 1) {
+                                            echo '<td colspan="2" class="text-right" style="padding-right: 15px;">';
+                                            echo $r2;
+                                            echo '</td>';
+                                        }else{
+                                            echo '<td>';
+                                            echo $r2;
+                                            echo '</td>';
+                                        }
+                                        $count++;
+                                    }
+                                ?>
                             </tr>
                         </tbody>
                     </table>
