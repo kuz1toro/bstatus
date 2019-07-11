@@ -4,10 +4,10 @@ To do
 3. export data
 4. responsive design
 5. sudin app
-6. add pokja to tabel gedung and intelegently suggest a pokja for create pemeriksaan
+6. add pokja to tabel gedung and intelegently suggest a pokja for create pemeriksaan (100%)
 7. import detail data gedung (pump, etc)
 8. add file upload to data pemeriksaan and data gedung
-9. add profile page and change user data
+9. add profile page and change user data (50%)
 10. autofocus di setiap form
 11. chat app
 12. forum app
