@@ -4,7 +4,7 @@
             <section class="panel">
                 <header class="panel-heading">
                     POTRET BANGUNAN GEDUNG TINGGI
-                    <?php print_r($total); ?>
+                    <?php //print_r($application_folder); ?>
                 </header>
                 <div class="panel-body">
                     <table width="100%" class="table table-responsive">
@@ -55,7 +55,7 @@
                                         foreach ($r1 as $r2) {
                                             if($count % 2 !== 0 && $count > 2){
                                                 echo '<td class="textright" style="background-color: #F6F6F7;">';
-                                                echo '<a target="_blank"href="">';
+                                                echo '<a href="#defaultModal" data-toggle="modal">';
                                                 echo $r2;
                                                 echo '</a>';
                                                 echo '</td>';
@@ -177,6 +177,20 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <button type="button" class="btn btn-default waves-effect m-r-20" data-toggle="modal" data-target="#defaultModal">MODAL - DEFAULT SIZE</button>
+                
+                <div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <iframe src="<?php echo base_url().'pdf/dinas/example_001.pdf#zoom=FitH'; ?>" style="right:0; top:0; bottom:0; width:100%;height:300px;"></iframe>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>

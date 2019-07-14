@@ -18,7 +18,8 @@ class Dinas extends CI_Controller {
 			'bootstrapSelect' => FALSE,
 			'datetimePicker' => FALSE,
 			'kecamatanKelurahan' => FALSE,
-			'ckeEditorBasic' => FALSE
+			'ckeEditorBasic' => FALSE,
+			'jspdf' => FALSE
 		);
 
 	/**
@@ -32,6 +33,8 @@ class Dinas extends CI_Controller {
 		$this->load->model('pelengkap_model');
 		$this->load->model('ion_auth_model');
 		$this->load->library(array('ion_auth','form_validation'));
+		$this->load->library('pdf');
+		//$this->load->add_package_path(APPPATH.'third_party/tcpdf');
 		// verifikasi pangilan
 		if ( ! $this->ion_auth->in_group('Dinas'))
 		{
@@ -2303,37 +2306,9 @@ class Dinas extends CI_Controller {
 	public function chart()
 	{
 		$attributeFooter = $this->attributeFooter;
-		//$attributeFooter['JqueryValidation'] = TRUE;
+		$attributeFooter['jspdf'] = TRUE;
 		$data['attributeFooter'] = $attributeFooter;
 		//$data['user'] = $this->ion_auth->user()->row();
-		$data['slf_pemda'] = $this->dinas_model->get_chart_data( 7, 1);
-		$data['slf_pusat'] = $this->dinas_model->get_chart_data( 7, 2);
-		$data['slf_swasta'] = $this->dinas_model->get_chart_data( 7, 3);
-		$data['skk_pemda'] = $this->dinas_model->get_chart_data( 6, 1);
-		$data['skk_pusat'] = $this->dinas_model->get_chart_data( 6, 2);
-		$data['skk_swasta'] = $this->dinas_model->get_chart_data( 6, 3);
-		$data['lhp_plus_pemda'] = $this->dinas_model->get_chart_data( 2, 1);
-		$data['lhp_plus_pusat'] = $this->dinas_model->get_chart_data( 2, 2);
-		$data['lhp_plus_swasta'] = $this->dinas_model->get_chart_data( 2, 3);
-		$data['lhp_min_pemda'] = $this->dinas_model->get_chart_data( 1, 1);
-		$data['lhp_min_pusat'] = $this->dinas_model->get_chart_data( 1, 2);
-		$data['lhp_min_swasta'] = $this->dinas_model->get_chart_data( 1, 3);
-		$data['sp1_pemda'] = $this->dinas_model->get_chart_data( 8, 1);
-		$data['sp1_pusat'] = $this->dinas_model->get_chart_data( 8, 2);
-		$data['sp1_swasta'] = $this->dinas_model->get_chart_data( 8, 3);
-		$data['sp2_pemda'] = $this->dinas_model->get_chart_data( 9, 1);
-		$data['sp2_pusat'] = $this->dinas_model->get_chart_data( 9, 2);
-		$data['sp2_swasta'] = $this->dinas_model->get_chart_data( 9, 3);
-		$data['sp3_pemda'] = $this->dinas_model->get_chart_data( 10, 1);
-		$data['sp3_pusat'] = $this->dinas_model->get_chart_data( 10, 2);
-		$data['sp3_swasta'] = $this->dinas_model->get_chart_data( 10, 3);
-		$data['pskk_pemda'] = $this->dinas_model->get_chart_data( 3, 1);
-		$data['pskk_pusat'] = $this->dinas_model->get_chart_data( 3, 2);
-		$data['pskk_swasta'] = $this->dinas_model->get_chart_data( 3, 3);
-		$data['sub_total1'][0] = $data['slf_pemda'][0]+ $data['skk_pemda'][0]+ $data['lhp_plus_pemda'][0];
-		$data['sub_total1'][1] = $data['slf_pusat'][0]+ $data['skk_pusat'][0]+ $data['lhp_plus_pusat'][0];
-		$data['sub_total1'][2] = $data['slf_swasta'][0]+ $data['skk_swasta'][0]+ $data['lhp_plus_swasta'][0];
-
 		$tot_gdg = $this->dinas_model->count_all_gedung();
 		$list_pemilik_gdg = $this->dinas_model->get_list_pemilik_gdg();
 		$list_kolom_pemeriksaan = $this->dinas_model->get_list_kolom_pemeriksaan();
@@ -2392,6 +2367,66 @@ class Dinas extends CI_Controller {
 		$data['table'] = $table;
 		$data['subtable'] = $subtable;
 		$data['total'] = $total;
+		//$data['application_folder'] = $application_folder;
+		$pdf = new Pdf('P', 'mm', 'FOLIO', true, 'UTF-8', false);
+		// set document information
+		$pdf->SetCreator(PDF_CREATOR);
+		$pdf->SetAuthor('Nicola Asuni');
+		$pdf->SetTitle('TCPDF Example 065');
+		$pdf->SetSubject('TCPDF Tutorial');
+		$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+		// set default header data
+		$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+
+		// set header and footer fonts
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+		// set default monospaced font
+		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+		// set margins
+		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+		// set image scale factor
+		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+		// set some language-dependent strings (optional)
+		if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+			require_once(dirname(__FILE__).'/lang/eng.php');
+			$pdf->setLanguageArray($l);
+		}
+
+		// ---------------------------------------------------------
+
+		// set default font subsetting mode
+		$pdf->setFontSubsetting(true);
+
+		// Set font
+		$pdf->SetFont('helvetica', '', 14, '', true);
+
+		// Add a page
+		// This method has several options, check the source code documentation for more information.
+		$pdf->AddPage();
+
+		// Set some content to print
+		$html = ' 
+		<h1>Example of <a href="http://www.tcpdf.org" style="text-decoration:none;background-color:#CC0000;color:black;">&nbsp;<span style="color:black;">TC</span><span style="color:white;">PDF</span>&nbsp;</a> document in <span style="background-color:#99ccff;color:black;"> PDF/A-1b </span> mode.</h1>
+		<i>This document conforms to the standard <b>PDF/A-1b (ISO 19005-1:2005)</b>.</i>
+		<p>Please check the source code documentation and other examples for further information (<a href="http://www.tcpdf.org">http://www.tcpdf.org</a>).</p>
+		<p style="color:#CC0000;">TO IMPROVE AND EXPAND TCPDF I NEED YOUR SUPPORT, PLEASE <a href="http://sourceforge.net/donate/index.php?group_id=128076">MAKE A DONATION!</a></p>
+		';
+
+		// Print text using writeHTMLCell()
+		$pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+		//$pdf->Output('pdfexample.pdf', 'I');
+		$pdf->Output(FCPATH.'pdf/dinas/example_001.pdf', 'F');
 		$data['main_content'] = 'dinas/chart';
 		$this->load->view('dinas/includes/template', $data);
 	}

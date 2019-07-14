@@ -15,4 +15,5 @@ To do
 14. colorize bagde base on status gedung
 15. data sosialisasi dan simulasi
 16. add user image upload using dropzone.js
+17. detail data gedung (spt tahun pembuatan)
 

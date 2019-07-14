@@ -24,6 +24,7 @@
     echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/buttons.html5.min.js"></script>';
     echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/buttons.print.min.js"></script>';
     echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/tables/jquery-datatable.js"></script>';
+    echo '<script src="'.base_url().'assets/vendor_new/jspdf/jspdf.min.js"></script>';
 } ?>
 
  <!-- SweetAlert Plugin Js -->
