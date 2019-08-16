@@ -2373,7 +2373,7 @@ class Dinas extends CI_Controller {
 		$pdf->SetCreator(PDF_CREATOR);
 		$pdf->SetAuthor('Nicola Asuni');
 		$pdf->SetTitle('TCPDF Example 065');
-		$pdf->SetSubject('TCPDF Tutorial');
+		$pdf->CellSetSubject('TCPDF Tutorial');
 		$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
 		// set default header data

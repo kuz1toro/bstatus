@@ -16,14 +16,18 @@ class Pdf extends TCPDF
 		// Title
 		//$this->Cell(0, 0, 'tes', 0, false, 'C', 0, '', 0, false, 'M', 'M');
 		$this->SetXY(30, 13);
-		$this->Cell(160, 0, 'PEMERINTAH PROVINSI DAERAH KHUSUS IBUKOTA JAKARTA', 1, false, 'C', 0, '', 1, false, 'M', 'M');
+		$this->Cell(160, 0, 'PEMERINTAH PROVINSI DAERAH KHUSUS IBUKOTA JAKARTA', 0, false, 'C', 0, '', 1, false, 'M', 'M');
         //$this->SetFont('times', 'B', 15);
 		$this->SetXY(30, 19);
-		$this->Cell(160, 0, 'DINAS PENANGGULANGAN KEBAKARAN DAN PENYELAMATAN', 1, false, 'C', 0, '', 1, false, 'M', 'M');
+		$this->Cell(160, 0, 'DINAS PENANGGULANGAN KEBAKARAN DAN PENYELAMATAN', 0, false, 'C', 0, '', 1, false, 'M', 'M');
         //$this->Cell(0, 0, '   tes', 1, false, 'C', 0, '', 1, false, 'M', 'M');
         $this->SetFont('times', 'B', 10);
         $this->SetXY(30, 24);
-		$this->Cell(160, 0, 'http://www.jakartafire.net', 1, false, 'C', 0, '', 1, false, 'M', 'M');
+        $this->Cell(160, 0, 'http://www.jakartafire.net', 0, false, 'C', 0, '', 1, false, 'M', 'M');
+        //$this->SetLineWidth(0.2);
+        $color = 'black';
+        $style = array('width' => (0.5), 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => $color);
+        $this->Line(15,27,190,27,$style);
     }
 
     // Page footer
