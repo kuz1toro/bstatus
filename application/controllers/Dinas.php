@@ -2312,7 +2312,7 @@ class Dinas extends CI_Controller {
 		$tot_gdg = $this->dinas_model->count_all_gedung();
 		$list_pemilik_gdg = $this->dinas_model->get_list_pemilik_gdg();
 		$list_kolom_pemeriksaan = $this->dinas_model->get_list_kolom_pemeriksaan();
-		$namaFile[]=array('A1','B1','C1','D1');
+		$namaFile[]=array('A1' => array(''),'B1','C1','D1');
 		$namaFile[]=array('A2','B2','C2','D2');
 		$namaFile[]=array('A3','B3','C3','D3');
 		$namaFile[]=array('A4','B4','C4','D4');
@@ -2384,7 +2384,7 @@ class Dinas extends CI_Controller {
 		$pdf->SetCreator(PDF_CREATOR);
 		$pdf->SetAuthor('Nicola Asuni');
 		$pdf->SetTitle('TCPDF Example 065');
-		$pdf->CellSetSubject('TCPDF Tutorial');
+		//$pdf->CellSetSubject('TCPDF Tutorial');
 		$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
 		// set default header data
