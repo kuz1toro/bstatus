@@ -321,8 +321,9 @@ class Dinas_model extends CI_Model {
 		//$this->db->where('last_status', $status);
 		//$this->db->where('kepemilikan', $kepemilikkan);
 		$query = $this->db->get();
-		$jumlah = $query->num_rows();
-		return $jumlah;
+		//$jumlah = $query->num_rows();
+		//return $jumlah;
+		return $query->result_array();
 	}
 
 
