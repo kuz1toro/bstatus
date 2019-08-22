@@ -4,7 +4,8 @@
             <section class="panel">
                 <header class="panel-heading">
                     POTRET BANGUNAN GEDUNG TINGGI
-                    <?php //print_r($application_folder); ?>
+                    <?php //print_r($table); 
+                    d($table); ?>
                 </header>
                 <div class="panel-body">
                     <table width="100%" class="table table-responsive">

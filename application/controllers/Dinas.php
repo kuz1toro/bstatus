@@ -2312,13 +2312,33 @@ class Dinas extends CI_Controller {
 		$tot_gdg = $this->dinas_model->count_all_gedung();
 		$list_pemilik_gdg = $this->dinas_model->get_list_pemilik_gdg();
 		$list_kolom_pemeriksaan = $this->dinas_model->get_list_kolom_pemeriksaan();
-		$listRow1[]=array('A','B','C','D');
-		$listSubTotalRow1[]=array('O','P','Q','R');
-		$listTotalRow1[]=array('W','X','Y','Z');
+		$listRow=array('A','B','C','D');
+		$listSubTotalRow=array('O','P','Q','R');
+		$listTotalRow=array('W','X','Y','Z');
 		$i = 0;
 		$j = 0;
 		$js = 0;
+		$x = 0;
+		$y = 0;
 		//$table = array();
+		foreach ($list_kolom_pemeriksaan as $row)
+		{
+			$list_status_pemeriksaan = $this->dinas_model->get_list_status_pemeriksaan($row['nama_kolom_hslPemeriksaan']);
+			foreach ($list_status_pemeriksaan as $lsp)
+			{
+				//$table[$i][$j][] = $j+1;
+				//$ket_status_pemeriksaan = $this->dinas_model->get_ket_status_pemeriksaan($lsp['id_kolom_statusGedung']);
+				//$table[$i][$j][] = $ket_status_pemeriksaan['keterangan_kolom_statusGedung'];
+				foreach ($listRow as $lR)
+				{
+					$namaVar = ${$lR . $y};
+					$file[$x][$y] = $namaVar;
+					$y++;
+				}
+				$x++;
+			}
+		}
+
 		foreach ($list_kolom_pemeriksaan as $row)
 		{
 			$list_status_pemeriksaan = $this->dinas_model->get_list_status_pemeriksaan($row['nama_kolom_hslPemeriksaan']);
@@ -2333,6 +2353,7 @@ class Dinas extends CI_Controller {
 					$jumlahGdg = count($listGdg);
 					$table[$i][$j][] = $jumlahGdg;
 					$table[$i][$j][] = round(100.00*$jumlahGdg/$tot_gdg, 2) ;
+					$file[$i][] = ${'a' . 'b'};
 					//array_push($table[$i][$j], $jumlahGdg, $persentase);
 				}
 				$listGdg = $this->dinas_model->get_chart_sum( $lsp['id_kolom_statusGedung'], '%', '%');
