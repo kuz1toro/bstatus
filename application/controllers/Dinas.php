@@ -2321,23 +2321,7 @@ class Dinas extends CI_Controller {
 		$x = 0;
 		$y = 0;
 		//$table = array();
-		foreach ($list_kolom_pemeriksaan as $row)
-		{
-			$list_status_pemeriksaan = $this->dinas_model->get_list_status_pemeriksaan($row['nama_kolom_hslPemeriksaan']);
-			foreach ($list_status_pemeriksaan as $lsp)
-			{
-				//$table[$i][$j][] = $j+1;
-				//$ket_status_pemeriksaan = $this->dinas_model->get_ket_status_pemeriksaan($lsp['id_kolom_statusGedung']);
-				//$table[$i][$j][] = $ket_status_pemeriksaan['keterangan_kolom_statusGedung'];
-				foreach ($listRow as $lR)
-				{
-					$namaVar = ${$lR . $y};
-					$file[$x][$y] = $namaVar;
-					$y++;
-				}
-				$x++;
-			}
-		}
+		
 
 		foreach ($list_kolom_pemeriksaan as $row)
 		{
@@ -2353,15 +2337,27 @@ class Dinas extends CI_Controller {
 					$jumlahGdg = count($listGdg);
 					$table[$i][$j][] = $jumlahGdg;
 					$table[$i][$j][] = round(100.00*$jumlahGdg/$tot_gdg, 2) ;
-					$file[$i][] = ${'a' . 'b'};
 					//array_push($table[$i][$j], $jumlahGdg, $persentase);
+					$namaVar = $listRow[$y].$x;
+					$listRows[$x][] = $namaVar;
+					$pdfFile[$x][] = array ($namaVar => $listGdg, 
+											'status' => $ket_status_pemeriksaan['keterangan_kolom_statusGedung'],
+											'kepemilikkan' => $lpg['kepemilikkan_gedung']);
+					$y++;
 				}
 				$listGdg = $this->dinas_model->get_chart_sum( $lsp['id_kolom_statusGedung'], '%', '%');
 				$jumlahGdg = count($listGdg);
 				$table[$i][$j][] = $jumlahGdg;
 				$table[$i][$j][] = round(100.00*$jumlahGdg/$tot_gdg, 2) ;
 				//array_push($table[$i][$j], $jumlahGdg, $persentase);
+				$namaVar = $listRow[$y].$x;
+				$listRows[$x][] = $namaVar;
+				$pdfFile[$x][] = array ($namaVar => $listGdg, 
+										'status' => $ket_status_pemeriksaan['keterangan_kolom_statusGedung'],
+										'kepemilikkan' => 'Pemerintah DKI, Pemerintah Non DKI, dan Swasta');
 				$j ++ ;
+				$x++;
+				$y = 0;
 			}
 			$subtable[$i][$js][] = 'SUB TOTAL:';
 			foreach ($list_pemilik_gdg as $lpg)
@@ -2371,15 +2367,28 @@ class Dinas extends CI_Controller {
 				$subtable[$i][$js][] = $jumlahGdg;
 				$subtable[$i][$js][] = round(100.00*$jumlahGdg/$tot_gdg, 2) ;
 				//array_push($table[$i][$j], $jumlahGdg, $persentase);
+				$namaVar = $listSubTotalRow[$y].$x;
+				$listSubTotalRows[$x][] = $namaVar;
+				$pdfFile[$x][] = array ($namaVar => $listGdg, 
+										'status' => 'Memenuhi keselamatan kebakaran',
+										'kepemilikkan' => $lpg['kepemilikkan_gedung']);
+				$y++;
 			}
 			$listGdg = $this->dinas_model->get_chart_sum( '%', '%', $row['nama_kolom_hslPemeriksaan']);
 			$jumlahGdg = count($listGdg);
 			$subtable[$i][$js][] = $jumlahGdg;
 			$subtable[$i][$js][] = round(100.00*$jumlahGdg/$tot_gdg, 2) ;
 			//array_push($table[$i][$j], $jumlahGdg, $persentase);
+			$namaVar = $listSubTotalRow[$y].$x;
+			$listSubTotalRows[$x][] = $namaVar;
+			$pdfFile[$x][] = array ($namaVar => $listGdg, 
+									'status' => 'Memenuhi keselamatan kebakaran',
+									'kepemilikkan' => $lpg['kepemilikkan_gedung']);
 			$i ++ ;
 			$j = 0;
 			$js++ ;
+			$x++;
+			$y = 0;
 		}
 		$total[] = 'TOTAL:';
 		foreach ($list_pemilik_gdg as $lpg)
@@ -2394,6 +2403,7 @@ class Dinas extends CI_Controller {
 		$jumlahGdg = count($listGdg);
 		$total[] = $jumlahGdg;
 		$total[] = round(100.00*$jumlahGdg/$tot_gdg, 2) ;
+		$data['pdfFile'] = $pdfFile;
 		$data['table'] = $table;
 		$data['subtable'] = $subtable;
 		$data['total'] = $total;

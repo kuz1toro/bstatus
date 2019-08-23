@@ -5,7 +5,8 @@
                 <header class="panel-heading">
                     POTRET BANGUNAN GEDUNG TINGGI
                     <?php //print_r($table); 
-                    d($table); ?>
+                    d($table);
+                    d($pdfFile); ?>
                 </header>
                 <div class="panel-body">
                     <table width="100%" class="table table-responsive">

@@ -355,7 +355,7 @@ class Dinas_model extends CI_Model {
 
 	public function get_list_pemilik_gdg()
 	{
-		$this->db->select('id_kepemilikkan_gedung');
+		$this->db->select('id_kepemilikkan_gedung, kepemilikkan_gedung');
 		$this->db->from('tabel_kolom_kepemilikkan_gedung');
 		$query = $this->db->get();
 		return $query->result_array();
