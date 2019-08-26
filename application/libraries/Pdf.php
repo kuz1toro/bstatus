@@ -28,6 +28,8 @@ class Pdf extends TCPDF
         $color = 'black';
         $style = array('width' => (0.5), 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => $color);
         $this->Line(15,27,190,27,$style);
+        //$this->SetXY(30, 29);
+        //$this->Cell(220, 0, 'what the hell', 0, false, 'C', 0, '', 1, false, 'M', 'M');
     }
 
     // Page footer

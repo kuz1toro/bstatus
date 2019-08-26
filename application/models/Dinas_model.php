@@ -294,16 +294,18 @@ class Dinas_model extends CI_Model {
 
 	function get_chart_sum($status, $kepemilikkan, $kategori)
 	{
-		$this->db->select('last_status, kepemilikan');
+		$this->db->select('no_gedung,nama_gedung,alamat_gedung,wilayah,last_status, kepemilikan');
 		$this->db->from('gedung_dinas as joinTable');
 		//$this->db->select('tabel_kolom_statusGedung.keterangan_kolom_statusGedung');
 		$this->db->select('tabel_kolom_statusGedung.kategori_kolomHslPemeriksaan');
+		$this->db->select('tabel_kolom_statusGedung.nama_kolom_statusGedung');
+		$this->db->join('tabel_kolom_statusGedung', 'joinTable.last_status =tabel_kolom_statusGedung.id_kolom_statusGedung', 'left');
+		$this->db->select('tabel_kolom_kepemilikkan_gedung.kepemilikkan_gedung');
+		$this->db->join('tabel_kolom_kepemilikkan_gedung', 'joinTable.kepemilikan =tabel_kolom_kepemilikkan_gedung.id_kepemilikkan_gedung', 'left');
 		if ($kategori !== '%')
 		{
 			$this->db->where('tabel_kolom_statusGedung.kategori_kolomHslPemeriksaan', $kategori);
 		}
-		
-		$this->db->join('tabel_kolom_statusGedung', 'joinTable.last_status =tabel_kolom_statusGedung.id_kolom_statusGedung', 'left');
 		if ($status !== '%')
 		{
 			$this->db->where('joinTable.last_status', $status);

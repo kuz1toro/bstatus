@@ -2303,6 +2303,199 @@ class Dinas extends CI_Controller {
 		
 	}
 
+	public function generatePdfFile()
+	{
+		//$data['user'] = $this->ion_auth->user()->row();
+		$tot_gdg = $this->dinas_model->count_all_gedung();
+		$list_pemilik_gdg = $this->dinas_model->get_list_pemilik_gdg();
+		$list_kolom_pemeriksaan = $this->dinas_model->get_list_kolom_pemeriksaan();
+		$listRow=array('A','B','C','D');
+		$listSubTotalRow=array('O','P','Q','R');
+		$listTotalRow=array('W','X','Y','Z');
+		$i = 0;
+		$j = 0;
+		$js = 0;
+		$x = 0;
+		$y = 0;
+		$z = 0;
+		//$table = array();
+		
+
+		foreach ($list_kolom_pemeriksaan as $row)
+		{
+			$list_status_pemeriksaan = $this->dinas_model->get_list_status_pemeriksaan($row['nama_kolom_hslPemeriksaan']);
+			foreach ($list_status_pemeriksaan as $lsp)
+			{
+				$ket_status_pemeriksaan = $this->dinas_model->get_ket_status_pemeriksaan($lsp['id_kolom_statusGedung']);
+				foreach ($list_pemilik_gdg as $lpg)
+				{
+					$listGdg = $this->dinas_model->get_chart_sum( $lsp['id_kolom_statusGedung'], $lpg['id_kepemilikkan_gedung'], '%');
+					//array_push($table[$i][$j], $jumlahGdg, $persentase);
+					$namaVar = $listRow[$y].$x;
+					$listRows[$x][] = $namaVar;
+					$pdfFile[$namaVar] = array ('array' => $listGdg, 
+											'status' => $ket_status_pemeriksaan['keterangan_kolom_statusGedung'],
+											'kepemilikkan' => $lpg['kepemilikkan_gedung']);
+					$y++;
+				}
+				$listGdg = $this->dinas_model->get_chart_sum( $lsp['id_kolom_statusGedung'], '%', '%');
+				//array_push($table[$i][$j], $jumlahGdg, $persentase);
+				$namaVar = $listRow[$y].$x;
+				$listRows[$x][] = $namaVar;
+				$pdfFile[$namaVar] = array ('array' => $listGdg, 
+										'status' => $ket_status_pemeriksaan['keterangan_kolom_statusGedung'],
+										'kepemilikkan' => 'Pemerintah DKI, Pemerintah Non DKI, dan Swasta');
+				$j ++ ;
+				$x++;
+				$y = 0;
+				$z++;
+			}
+			foreach ($list_pemilik_gdg as $lpg)
+			{
+				$listGdg = $this->dinas_model->get_chart_sum( '%', $lpg['id_kepemilikkan_gedung'], $row['nama_kolom_hslPemeriksaan']);
+				//array_push($table[$i][$j], $jumlahGdg, $persentase);
+				$namaVar = $listSubTotalRow[$y].$x;
+				$listSubTotalRows[$x][] = $namaVar;
+				$pdfFile[$namaVar] = array ('array' => $listGdg, 
+										'status' => $listGdg[0]['kategori_kolomHslPemeriksaan'].' keselamatan kebakaran',
+										'kepemilikkan' => $lpg['kepemilikkan_gedung']);
+				$y++;
+			}
+			$listGdg = $this->dinas_model->get_chart_sum( '%', '%', $row['nama_kolom_hslPemeriksaan']);
+			//array_push($table[$i][$j], $jumlahGdg, $persentase);
+			$namaVar = $listSubTotalRow[$y].$x;
+			$listTotalSubTotalRows[$x][] = $namaVar;
+			$pdfFile[$namaVar] = array ('array' => $listGdg, 
+									'status' => $listGdg[0]['kategori_kolomHslPemeriksaan'].' keselamatan kebakaran',
+									'kepemilikkan' => 'Pemerintah DKI, Pemerintah Non DKI, dan Swasta');
+			$i ++ ;
+			$j = 0;
+			$js++ ;
+			$x++;
+			$y = 0;
+			$z = 0;
+		}
+		$x = 0;
+		foreach ($list_pemilik_gdg as $lpg)
+		{
+			$listGdg = $this->dinas_model->get_chart_sum( '%', $lpg['id_kepemilikkan_gedung'], '%');
+			//array_push($table[$i][$j], $jumlahGdg, $persentase);
+			$namaVar = $listTotalRow[$y].$x;
+			$listTotalRows[$x][] = $namaVar;
+			$pdfFile[$namaVar] = array ('array' => $listGdg, 
+									'status' => 'Memenuhi dan Tidak Memenuhi Keselamatan Kebakaran',
+									'kepemilikkan' => $lpg['kepemilikkan_gedung']);
+			$y++;
+		}
+		$listGdg = $this->dinas_model->get_chart_sum( '%', '%', '%');
+		$namaVar = $listTotalRow[$y].$x;
+		$listTotalRows[$x][] = $namaVar;
+		$pdfFile[$namaVar] = array ('array' => $listGdg, 
+								'status' => 'Memenuhi dan Tidak Memenuhi Keselamatan Kebakaran',
+								'kepemilikkan' => 'Pemerintah DKI, Pemerintah Non DKI, dan Swasta');
+		$mergeList = array_merge($listRows, $listSubTotalRows, $listTotalRows);
+		foreach ($mergeList as $lvl1)
+		{
+			foreach ($lvl1 as $lvl2)
+			{
+				$pdfKey[] = $lvl2;
+			}
+		}
+		//create pdf file
+		foreach($listRows as $key1)
+		{
+			foreach($key1 as $key2)
+			{
+				$pdf = new Pdf('P', 'mm', 'FOLIO', true, 'UTF-8', false);
+				// set document information
+				$pdf->SetCreator(PDF_CREATOR);
+				$pdf->SetAuthor('Kuswantoro');
+				$pdf->SetTitle('B-Status Report');
+				//$pdf->CellSetSubject('TCPDF Tutorial');
+				$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+				// set default header data
+				$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+
+				// set header and footer fonts
+				$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+				$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+				// set default monospaced font
+				$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+				// set margins
+				$PDF_MARGIN_TOP = 35;
+				$pdf->SetMargins(PDF_MARGIN_LEFT, $PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+				$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+				$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+				// set auto page breaks
+				$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+				// set image scale factor
+				$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+				// set some language-dependent strings (optional)
+				if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+					require_once(dirname(__FILE__).'/lang/eng.php');
+					$pdf->setLanguageArray($l);
+				}
+
+				// ---------------------------------------------------------
+
+				// add a page
+				$pdf->AddPage();
+				$pdf->SetFont('helvetica', 'B', 20);
+				$pdf->Write(0, 'Daftar Gedung', '', 0, 'L', true, 0, false, false, 0);
+
+				$pdf->SetFont('helvetica', '', 12);
+				$pdf->Write(0, 'Kepemilikkan : '.$pdfFile[$key2]['kepemilikkan'], '', 0, 'L', true, 0, false, false, 0);
+				$pdf->Write(0, 'Status            : '.$pdfFile[$key2]['status'], '', 0, 'L', true, 0, false, false, 0);
+				$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+				// Set some content to print
+				$pdf->SetFont('helvetica', '', 10);
+				$i = 1;
+				$htmlPdf = '';
+				foreach ($pdfFile[$key2]['array'] as $row)
+					{
+						$html1 = '
+						<tr>
+							<td width="30" align="center">'.$i.'</td>
+							<td width="250">'.$row['nama_gedung'].'<br /> <span style="background-color:#99ccff;color:black;">'.$row['no_gedung'].'</span></td>
+							<td width="200">'.$row['alamat_gedung'].'</td>
+							<td width="150">'.$row['wilayah'].'</td>
+						</tr>
+						';
+						$i++;
+						$htmlPdf = $htmlPdf.$html1;
+					}
+				$html = ' 
+				<table cellspacing="0" cellpadding="1" border="1">
+					<thead>
+					<tr style="background-color:#cccccc;">
+						<td width="30" align="center">No</td>
+						<td width="250" align="center">Nama Gedung</td>
+						<td width="200" align="center">Alamat</td>
+						<td width="150" align="center">Wilayah</td>
+					</tr>
+					</thead>'.$htmlPdf.
+					
+					'
+				</table>
+				';
+
+				// Print text using writeHTMLCell()
+				$pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+				//$pdf->writeHTML($html, true, false, false, false, '');
+
+				//$pdf->Output('pdfexample.pdf', 'I');
+				$pdf->Output(FCPATH.'pdf/dinas/'.$key2.'.pdf', 'F');
+			}
+		}
+
+	}
+
 	public function chart()
 	{
 		$attributeFooter = $this->attributeFooter;
@@ -2320,6 +2513,7 @@ class Dinas extends CI_Controller {
 		$js = 0;
 		$x = 0;
 		$y = 0;
+		$z = 0;
 		//$table = array();
 		
 
@@ -2340,7 +2534,7 @@ class Dinas extends CI_Controller {
 					//array_push($table[$i][$j], $jumlahGdg, $persentase);
 					$namaVar = $listRow[$y].$x;
 					$listRows[$x][] = $namaVar;
-					$pdfFile[$x][] = array ($namaVar => $listGdg, 
+					$pdfFile[$namaVar] = array ('array' => $listGdg, 
 											'status' => $ket_status_pemeriksaan['keterangan_kolom_statusGedung'],
 											'kepemilikkan' => $lpg['kepemilikkan_gedung']);
 					$y++;
@@ -2352,12 +2546,13 @@ class Dinas extends CI_Controller {
 				//array_push($table[$i][$j], $jumlahGdg, $persentase);
 				$namaVar = $listRow[$y].$x;
 				$listRows[$x][] = $namaVar;
-				$pdfFile[$x][] = array ($namaVar => $listGdg, 
+				$pdfFile[$namaVar] = array ('array' => $listGdg, 
 										'status' => $ket_status_pemeriksaan['keterangan_kolom_statusGedung'],
 										'kepemilikkan' => 'Pemerintah DKI, Pemerintah Non DKI, dan Swasta');
 				$j ++ ;
 				$x++;
 				$y = 0;
+				$z++;
 			}
 			$subtable[$i][$js][] = 'SUB TOTAL:';
 			foreach ($list_pemilik_gdg as $lpg)
@@ -2369,8 +2564,8 @@ class Dinas extends CI_Controller {
 				//array_push($table[$i][$j], $jumlahGdg, $persentase);
 				$namaVar = $listSubTotalRow[$y].$x;
 				$listSubTotalRows[$x][] = $namaVar;
-				$pdfFile[$x][] = array ($namaVar => $listGdg, 
-										'status' => 'Memenuhi keselamatan kebakaran',
+				$pdfFile[$namaVar] = array ('array' => $listGdg, 
+										'status' => $listGdg[0]['kategori_kolomHslPemeriksaan'].' keselamatan kebakaran',
 										'kepemilikkan' => $lpg['kepemilikkan_gedung']);
 				$y++;
 			}
@@ -2381,16 +2576,18 @@ class Dinas extends CI_Controller {
 			//array_push($table[$i][$j], $jumlahGdg, $persentase);
 			$namaVar = $listSubTotalRow[$y].$x;
 			$listSubTotalRows[$x][] = $namaVar;
-			$pdfFile[$x][] = array ($namaVar => $listGdg, 
-									'status' => 'Memenuhi keselamatan kebakaran',
-									'kepemilikkan' => $lpg['kepemilikkan_gedung']);
+			$pdfFile[$namaVar] = array ('array' => $listGdg, 
+									'status' => $listGdg[0]['kategori_kolomHslPemeriksaan'].' keselamatan kebakaran',
+									'kepemilikkan' => 'Pemerintah DKI, Pemerintah Non DKI, dan Swasta');
 			$i ++ ;
 			$j = 0;
 			$js++ ;
 			$x++;
 			$y = 0;
+			$z = 0;
 		}
 		$total[] = 'TOTAL:';
+		$x = 0;
 		foreach ($list_pemilik_gdg as $lpg)
 		{
 			$listGdg = $this->dinas_model->get_chart_sum( '%', $lpg['id_kepemilikkan_gedung'], '%');
@@ -2398,11 +2595,32 @@ class Dinas extends CI_Controller {
 			$total[] = $jumlahGdg;
 			$total[] = round(100.00*$jumlahGdg/$tot_gdg, 2) ;
 			//array_push($table[$i][$j], $jumlahGdg, $persentase);
+			$namaVar = $listTotalRow[$y].$x;
+			$listTotalRows[$x][] = $namaVar;
+			$pdfFile[$namaVar] = array ('array' => $listGdg, 
+									'status' => 'Memenuhi dan Tidak Memenuhi Keselamatan Kebakaran',
+									'kepemilikkan' => $lpg['kepemilikkan_gedung']);
+			$y++;
 		}
 		$listGdg = $this->dinas_model->get_chart_sum( '%', '%', '%');
 		$jumlahGdg = count($listGdg);
 		$total[] = $jumlahGdg;
 		$total[] = round(100.00*$jumlahGdg/$tot_gdg, 2) ;
+		$namaVar = $listTotalRow[$y].$x;
+		$listTotalRows[$x][] = $namaVar;
+		$pdfFile[$namaVar] = array ('array' => $listGdg, 
+								'status' => 'Memenuhi dan Tidak Memenuhi Keselamatan Kebakaran',
+								'kepemilikkan' => 'Pemerintah DKI, Pemerintah Non DKI, dan Swasta');
+		$mergeList = array_merge($listRows, $listSubTotalRows, $listTotalRows);
+		foreach ($mergeList as $lvl1)
+		{
+			foreach ($lvl1 as $lvl2)
+			{
+				$pdfKey[] = $lvl2;
+			}
+		}
+		//$this -> generatePdfFile();
+		$data['pdfKey'] = $pdfKey;
 		$data['pdfFile'] = $pdfFile;
 		$data['table'] = $table;
 		$data['subtable'] = $subtable;
@@ -2411,8 +2629,8 @@ class Dinas extends CI_Controller {
 		$pdf = new Pdf('P', 'mm', 'FOLIO', true, 'UTF-8', false);
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('Nicola Asuni');
-		$pdf->SetTitle('TCPDF Example 065');
+		$pdf->SetAuthor('Kuswantoro');
+		$pdf->SetTitle('B-Status Report');
 		//$pdf->CellSetSubject('TCPDF Tutorial');
 		$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
@@ -2427,7 +2645,8 @@ class Dinas extends CI_Controller {
 		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
 		// set margins
-		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+		$PDF_MARGIN_TOP = 35;
+		$pdf->SetMargins(PDF_MARGIN_LEFT, $PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
@@ -2446,17 +2665,69 @@ class Dinas extends CI_Controller {
 		// ---------------------------------------------------------
 
 		// set default font subsetting mode
-		$pdf->setFontSubsetting(true);
+		//$pdf->setFontSubsetting(true);
 
 		// Set font
-		$pdf->SetFont('helvetica', '', 14, '', true);
+		//$pdf->SetFont('helvetica', '', 10, '', true);
 
 		// Add a page
 		// This method has several options, check the source code documentation for more information.
-		$pdf->AddPage();
+		//$pdf->AddPage();
 
+		
+
+		// add a page
+		$pdf->AddPage();
+		//$pdf->SetFont('helvetica', '', 10);
+		//$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('helvetica', 'B', 20);
+		$pdf->Write(0, 'Daftar Gedung', '', 0, 'L', true, 0, false, false, 0);
+
+		$pdf->SetFont('helvetica', '', 12);
+		$pdf->Write(0, 'Kepemilikkan :'.$pdfFile['B0']['kepemilikkan'], '', 0, 'L', true, 0, false, false, 0);
+		$pdf->Write(0, 'Status            :'.$pdfFile['B0']['status'], '', 0, 'L', true, 0, false, false, 0);
+		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
 		// Set some content to print
+		$pdf->SetFont('helvetica', '', 10);
+		$i = 1;
+		$htmlPdf = '';
+		foreach ($pdfFile['B0']['array'] as $row)
+			{
+				$html1 = '
+				<tr>
+					<td width="30" align="center">'.$i.'</td>
+					<td width="200">'.$row['nama_gedung'].'<br /> <span style="background-color:#99ccff;color:black;">'.$row['no_gedung'].'</span></td>
+					<td width="200">'.$row['alamat_gedung'].', '.$row['wilayah'].'</td>
+					<td width="100">'.$row['nama_kolom_statusGedung'].'</td>
+					<td width="100">'.$row['kepemilikkan_gedung'].'</td>
+				</tr>
+				';
+				$i++;
+				$htmlPdf = $htmlPdf.$html1;
+			}
 		$html = ' 
+		<table cellspacing="0" cellpadding="1" border="1">
+			<thead>
+			<tr style="background-color:#cccccc;">
+				<td width="30" align="center">No</td>
+				<td width="200" align="center">Nama Gedung</td>
+				<td width="200" align="center">Alamat</td>
+				<td width="100" align="center">Status</td>
+				<td width="100" align="center">Kepemilikkan</td>
+			</tr>
+			</thead>'.$htmlPdf.
+			
+			'
+		</table>
+		
+		
+		
+		
+		
+		
+		<h2>Daftar Gedung</h2>
+		<h2>Kepemilikkan :'.$pdfFile['A0']['kepemilikkan'].'</h2>
+		<h2>Status :'.$pdfFile['A0']['status'].'</h2>
 		<h1>Example of <a href="http://www.tcpdf.org" style="text-decoration:none;background-color:#CC0000;color:black;">&nbsp;<span style="color:black;">TC</span><span style="color:white;">PDF</span>&nbsp;</a> document in <span style="background-color:#99ccff;color:black;"> PDF/A-1b </span> mode.</h1>
 		<i>This document conforms to the standard <b>PDF/A-1b (ISO 19005-1:2005)</b>.</i>
 		<p>Please check the source code documentation and other examples for further information (<a href="http://www.tcpdf.org">http://www.tcpdf.org</a>).</p>
@@ -2465,6 +2736,8 @@ class Dinas extends CI_Controller {
 
 		// Print text using writeHTMLCell()
 		$pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+		//$pdf->writeHTML($html, true, false, false, false, '');
+
 		//$pdf->Output('pdfexample.pdf', 'I');
 		$pdf->Output(FCPATH.'pdf/dinas/example_001.pdf', 'F');
 		$data['main_content'] = 'dinas/chart';
