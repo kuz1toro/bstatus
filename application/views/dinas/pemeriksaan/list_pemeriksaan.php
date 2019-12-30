@@ -58,7 +58,7 @@
                             </ul>
                         </div>
                         <div class="body">
-                            <div class="table-responsive">
+                            <div class="display">
                                 <table class="table table-bordered table-striped table-hover table-condensed dataTable js-datatable-listPemeriksaan">
                                     <thead>
                                         <tr>

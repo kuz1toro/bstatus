@@ -8225,3 +8225,8 @@ html.ie11 .bs-searchbox .form-control {
   border-style: solid;
   border-color: blue;
 }
+
+td a {
+  display:block;
+  width:100%;
+}

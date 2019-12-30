@@ -1,5 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+$GLOBALS['PESAN_ERROR']='TEST';
+
 class Dinas extends CI_Controller {
 
 	/**
@@ -2177,11 +2179,13 @@ class Dinas extends CI_Controller {
 		$attributeFooter['JqueryValidation'] = TRUE;
 		$data['attributeFooter'] = $attributeFooter;
 		$data['user'] = $this->ion_auth->user()->row();
+		$GLOBALS['PESAN_ERROR'] = $this->session->flashdata('error_message');
 		//$data['dbpassword'] = $data['user']->password;
 		//$identity = $data['user']->username;
 		//$OldPassword = 'pencegahan112';
 		//$data['oldpassword'] = $this->ion_auth_model->hash_password($OldPassword);
 		//$data['verify'] = $this->ion_auth_model->verify_password($OldPassword, $data['user']->password, $identity);
+		//$this->output->enable_profiler(TRUE);
 		$data['main_content'] = 'dinas/profile';
 		$this->load->view('dinas/includes/template', $data);
 	}
@@ -2303,329 +2307,51 @@ class Dinas extends CI_Controller {
 		
 	}
 
-	public function generatePdfFile()
+	public function do_upload()
 	{
-		//$data['user'] = $this->ion_auth->user()->row();
-		$tot_gdg = $this->dinas_model->count_all_gedung();
-		$list_pemilik_gdg = $this->dinas_model->get_list_pemilik_gdg();
-		$list_kolom_pemeriksaan = $this->dinas_model->get_list_kolom_pemeriksaan();
-		$listRow=array('A','B','C','D');
-		$listSubTotalRow=array('O','P','Q','R');
-		$listTotalRow=array('W','X','Y','Z');
-		$i = 0;
-		$j = 0;
-		$js = 0;
-		$x = 0;
-		$y = 0;
-		$z = 0;
-		//$table = array();
+		$config['upload_path']          = FCPATH.'upload/';
+		$config['allowed_types']        = 'gif|jpg|png';
+		$config['max_size']             = 200;
+		$config['remove_spaces']=TRUE;  //it will remove all spaces
+		$config['encrypt_name']=TRUE;
+		$this->upload->initialize($config);
 		
-
-		foreach ($list_kolom_pemeriksaan as $row)
+		$attributeFooter = $this->attributeFooter;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['user'] = $this->ion_auth->user()->row();
+		$id = $data['user']->id;
+		$identity = $data['user']->username;
+		$nama_table = 'users';
+		$id_table = 'id';
+		
+		if ( ! $this->upload->do_upload('userfile'))
 		{
-			$list_status_pemeriksaan = $this->dinas_model->get_list_status_pemeriksaan($row['nama_kolom_hslPemeriksaan']);
-			foreach ($list_status_pemeriksaan as $lsp)
-			{
-				$ket_status_pemeriksaan = $this->dinas_model->get_ket_status_pemeriksaan($lsp['id_kolom_statusGedung']);
-				foreach ($list_pemilik_gdg as $lpg)
-				{
-					$listGdg = $this->dinas_model->get_chart_sum( $lsp['id_kolom_statusGedung'], $lpg['id_kepemilikkan_gedung'], '%');
-					//array_push($table[$i][$j], $jumlahGdg, $persentase);
-					$namaVar = $listRow[$y].$x;
-					$listRows[$x][] = $namaVar;
-					$pdfFile[$namaVar] = array ('array' => $listGdg, 
-											'status' => $ket_status_pemeriksaan['keterangan_kolom_statusGedung'],
-											'kepemilikkan' => $lpg['kepemilikkan_gedung']);
-					$y++;
+				$error = array('error' => $this->upload->display_errors());
+				$this->session->set_flashdata('error_message', $error);
+				$this->session->set_flashdata('flash_message', 'error');
+				
+		}
+		else
+		{
+				$upload_data = $this->upload->data();
+				$raw = $upload_data['raw_name'];
+				$file_type = $upload_data['file_ext'];
+				//$fileName = $this->input->post('userfile');
+				//$file_type = substr($fileName, -3);
+				//preg_match('.{3}$',$fileName, $file_type, PREG_OFFSET_CAPTURE);
+				$data_to_store = array('avatar' => $raw.$file_type);
+				
+				if($this->dinas_model->update_setting($nama_table, $id_table, $id, $data_to_store)){
+					$this->session->set_flashdata('flash_message', 'updated');
+				}else{
+					$this->session->set_flashdata('flash_message', 'not_updated');
 				}
-				$listGdg = $this->dinas_model->get_chart_sum( $lsp['id_kolom_statusGedung'], '%', '%');
-				//array_push($table[$i][$j], $jumlahGdg, $persentase);
-				$namaVar = $listRow[$y].$x;
-				$listRows[$x][] = $namaVar;
-				$pdfFile[$namaVar] = array ('array' => $listGdg, 
-										'status' => $ket_status_pemeriksaan['keterangan_kolom_statusGedung'],
-										'kepemilikkan' => 'Pemerintah DKI, Pemerintah Non DKI, dan Swasta');
-				$j ++ ;
-				$x++;
-				$y = 0;
-				$z++;
-			}
-			foreach ($list_pemilik_gdg as $lpg)
-			{
-				$listGdg = $this->dinas_model->get_chart_sum( '%', $lpg['id_kepemilikkan_gedung'], $row['nama_kolom_hslPemeriksaan']);
-				//array_push($table[$i][$j], $jumlahGdg, $persentase);
-				$namaVar = $listSubTotalRow[$y].$x;
-				$listSubTotalRows[$x][] = $namaVar;
-				$pdfFile[$namaVar] = array ('array' => $listGdg, 
-										'status' => $listGdg[0]['kategori_kolomHslPemeriksaan'].' keselamatan kebakaran',
-										'kepemilikkan' => $lpg['kepemilikkan_gedung']);
-				$y++;
-			}
-			$listGdg = $this->dinas_model->get_chart_sum( '%', '%', $row['nama_kolom_hslPemeriksaan']);
-			//array_push($table[$i][$j], $jumlahGdg, $persentase);
-			$namaVar = $listSubTotalRow[$y].$x;
-			$listTotalSubTotalRows[$x][] = $namaVar;
-			$pdfFile[$namaVar] = array ('array' => $listGdg, 
-									'status' => $listGdg[0]['kategori_kolomHslPemeriksaan'].' keselamatan kebakaran',
-									'kepemilikkan' => 'Pemerintah DKI, Pemerintah Non DKI, dan Swasta');
-			$i ++ ;
-			$j = 0;
-			$js++ ;
-			$x++;
-			$y = 0;
-			$z = 0;
 		}
-		$x = 0;
-		foreach ($list_pemilik_gdg as $lpg)
-		{
-			$listGdg = $this->dinas_model->get_chart_sum( '%', $lpg['id_kepemilikkan_gedung'], '%');
-			//array_push($table[$i][$j], $jumlahGdg, $persentase);
-			$namaVar = $listTotalRow[$y].$x;
-			$listTotalRows[$x][] = $namaVar;
-			$pdfFile[$namaVar] = array ('array' => $listGdg, 
-									'status' => 'Memenuhi dan Tidak Memenuhi Keselamatan Kebakaran',
-									'kepemilikkan' => $lpg['kepemilikkan_gedung']);
-			$y++;
-		}
-		$listGdg = $this->dinas_model->get_chart_sum( '%', '%', '%');
-		$namaVar = $listTotalRow[$y].$x;
-		$listTotalRows[$x][] = $namaVar;
-		$pdfFile[$namaVar] = array ('array' => $listGdg, 
-								'status' => 'Memenuhi dan Tidak Memenuhi Keselamatan Kebakaran',
-								'kepemilikkan' => 'Pemerintah DKI, Pemerintah Non DKI, dan Swasta');
-		$mergeList = array_merge($listRows, $listSubTotalRows, $listTotalRows);
-		foreach ($mergeList as $lvl1)
-		{
-			foreach ($lvl1 as $lvl2)
-			{
-				$pdfKey[] = $lvl2;
-			}
-		}
-		//create pdf file
-		foreach($listRows as $key1)
-		{
-			foreach($key1 as $key2)
-			{
-				$pdf = new Pdf('P', 'mm', 'FOLIO', true, 'UTF-8', false);
-				// set document information
-				$pdf->SetCreator(PDF_CREATOR);
-				$pdf->SetAuthor('Kuswantoro');
-				$pdf->SetTitle('B-Status Report');
-				//$pdf->CellSetSubject('TCPDF Tutorial');
-				$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
-
-				// set default header data
-				$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
-
-				// set header and footer fonts
-				$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-				$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-
-				// set default monospaced font
-				$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-				// set margins
-				$PDF_MARGIN_TOP = 35;
-				$pdf->SetMargins(PDF_MARGIN_LEFT, $PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-				$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-				$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
-				// set auto page breaks
-				$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-
-				// set image scale factor
-				$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-				// set some language-dependent strings (optional)
-				if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
-					require_once(dirname(__FILE__).'/lang/eng.php');
-					$pdf->setLanguageArray($l);
-				}
-
-				// ---------------------------------------------------------
-
-				// add a page
-				$pdf->AddPage();
-				$pdf->SetFont('helvetica', 'B', 20);
-				$pdf->Write(0, 'Daftar Gedung', '', 0, 'L', true, 0, false, false, 0);
-
-				$pdf->SetFont('helvetica', '', 12);
-				$pdf->Write(0, 'Kepemilikkan : '.$pdfFile[$key2]['kepemilikkan'], '', 0, 'L', true, 0, false, false, 0);
-				$pdf->Write(0, 'Status            : '.$pdfFile[$key2]['status'], '', 0, 'L', true, 0, false, false, 0);
-				$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
-				// Set some content to print
-				$pdf->SetFont('helvetica', '', 10);
-				$i = 1;
-				$htmlPdf = '';
-				foreach ($pdfFile[$key2]['array'] as $row)
-					{
-						$html1 = '
-						<tr>
-							<td width="30" align="center">'.$i.'</td>
-							<td width="250">'.$row['nama_gedung'].'<br /> <span style="background-color:#99ccff;color:black;">'.$row['no_gedung'].'</span></td>
-							<td width="200">'.$row['alamat_gedung'].'</td>
-							<td width="150">'.$row['wilayah'].'</td>
-						</tr>
-						';
-						$i++;
-						$htmlPdf = $htmlPdf.$html1;
-					}
-				$html = ' 
-				<table cellspacing="0" cellpadding="1" border="1">
-					<thead>
-					<tr style="background-color:#cccccc;">
-						<td width="30" align="center">No</td>
-						<td width="250" align="center">Nama Gedung</td>
-						<td width="200" align="center">Alamat</td>
-						<td width="150" align="center">Wilayah</td>
-					</tr>
-					</thead>'.$htmlPdf.
-					
-					'
-				</table>
-				';
-
-				// Print text using writeHTMLCell()
-				$pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
-				//$pdf->writeHTML($html, true, false, false, false, '');
-
-				//$pdf->Output('pdfexample.pdf', 'I');
-				$pdf->Output(FCPATH.'pdf/dinas/'.$key2.'.pdf', 'F');
-			}
-		}
-
+		redirect('dinas/profile');
 	}
 
-	public function chart()
+	public function generatePdfFile($tgl, $table, $subtable, $total)
 	{
-		$attributeFooter = $this->attributeFooter;
-		$attributeFooter['jspdf'] = TRUE;
-		$data['attributeFooter'] = $attributeFooter;
-		//$data['user'] = $this->ion_auth->user()->row();
-		$tot_gdg = $this->dinas_model->count_all_gedung();
-		$list_pemilik_gdg = $this->dinas_model->get_list_pemilik_gdg();
-		$list_kolom_pemeriksaan = $this->dinas_model->get_list_kolom_pemeriksaan();
-		$listRow=array('A','B','C','D');
-		$listSubTotalRow=array('O','P','Q','R');
-		$listTotalRow=array('W','X','Y','Z');
-		$i = 0;
-		$j = 0;
-		$js = 0;
-		$x = 0;
-		$y = 0;
-		$z = 0;
-		//$table = array();
-		
-
-		foreach ($list_kolom_pemeriksaan as $row)
-		{
-			$list_status_pemeriksaan = $this->dinas_model->get_list_status_pemeriksaan($row['nama_kolom_hslPemeriksaan']);
-			foreach ($list_status_pemeriksaan as $lsp)
-			{
-				$table[$i][$j][] = $j+1;
-				$ket_status_pemeriksaan = $this->dinas_model->get_ket_status_pemeriksaan($lsp['id_kolom_statusGedung']);
-				$table[$i][$j][] = $ket_status_pemeriksaan['keterangan_kolom_statusGedung'];
-				foreach ($list_pemilik_gdg as $lpg)
-				{
-					$listGdg = $this->dinas_model->get_chart_sum( $lsp['id_kolom_statusGedung'], $lpg['id_kepemilikkan_gedung'], '%');
-					$jumlahGdg = count($listGdg);
-					$table[$i][$j][] = $jumlahGdg;
-					$table[$i][$j][] = round(100.00*$jumlahGdg/$tot_gdg, 2) ;
-					//array_push($table[$i][$j], $jumlahGdg, $persentase);
-					$namaVar = $listRow[$y].$x;
-					$listRows[$x][] = $namaVar;
-					$pdfFile[$namaVar] = array ('array' => $listGdg, 
-											'status' => $ket_status_pemeriksaan['keterangan_kolom_statusGedung'],
-											'kepemilikkan' => $lpg['kepemilikkan_gedung']);
-					$y++;
-				}
-				$listGdg = $this->dinas_model->get_chart_sum( $lsp['id_kolom_statusGedung'], '%', '%');
-				$jumlahGdg = count($listGdg);
-				$table[$i][$j][] = $jumlahGdg;
-				$table[$i][$j][] = round(100.00*$jumlahGdg/$tot_gdg, 2) ;
-				//array_push($table[$i][$j], $jumlahGdg, $persentase);
-				$namaVar = $listRow[$y].$x;
-				$listRows[$x][] = $namaVar;
-				$pdfFile[$namaVar] = array ('array' => $listGdg, 
-										'status' => $ket_status_pemeriksaan['keterangan_kolom_statusGedung'],
-										'kepemilikkan' => 'Pemerintah DKI, Pemerintah Non DKI, dan Swasta');
-				$j ++ ;
-				$x++;
-				$y = 0;
-				$z++;
-			}
-			$subtable[$i][$js][] = 'SUB TOTAL:';
-			foreach ($list_pemilik_gdg as $lpg)
-			{
-				$listGdg = $this->dinas_model->get_chart_sum( '%', $lpg['id_kepemilikkan_gedung'], $row['nama_kolom_hslPemeriksaan']);
-				$jumlahGdg = count($listGdg);
-				$subtable[$i][$js][] = $jumlahGdg;
-				$subtable[$i][$js][] = round(100.00*$jumlahGdg/$tot_gdg, 2) ;
-				//array_push($table[$i][$j], $jumlahGdg, $persentase);
-				$namaVar = $listSubTotalRow[$y].$x;
-				$listSubTotalRows[$x][] = $namaVar;
-				$pdfFile[$namaVar] = array ('array' => $listGdg, 
-										'status' => $listGdg[0]['kategori_kolomHslPemeriksaan'].' keselamatan kebakaran',
-										'kepemilikkan' => $lpg['kepemilikkan_gedung']);
-				$y++;
-			}
-			$listGdg = $this->dinas_model->get_chart_sum( '%', '%', $row['nama_kolom_hslPemeriksaan']);
-			$jumlahGdg = count($listGdg);
-			$subtable[$i][$js][] = $jumlahGdg;
-			$subtable[$i][$js][] = round(100.00*$jumlahGdg/$tot_gdg, 2) ;
-			//array_push($table[$i][$j], $jumlahGdg, $persentase);
-			$namaVar = $listSubTotalRow[$y].$x;
-			$listSubTotalRows[$x][] = $namaVar;
-			$pdfFile[$namaVar] = array ('array' => $listGdg, 
-									'status' => $listGdg[0]['kategori_kolomHslPemeriksaan'].' keselamatan kebakaran',
-									'kepemilikkan' => 'Pemerintah DKI, Pemerintah Non DKI, dan Swasta');
-			$i ++ ;
-			$j = 0;
-			$js++ ;
-			$x++;
-			$y = 0;
-			$z = 0;
-		}
-		$total[] = 'TOTAL:';
-		$x = 0;
-		foreach ($list_pemilik_gdg as $lpg)
-		{
-			$listGdg = $this->dinas_model->get_chart_sum( '%', $lpg['id_kepemilikkan_gedung'], '%');
-			$jumlahGdg = count($listGdg);
-			$total[] = $jumlahGdg;
-			$total[] = round(100.00*$jumlahGdg/$tot_gdg, 2) ;
-			//array_push($table[$i][$j], $jumlahGdg, $persentase);
-			$namaVar = $listTotalRow[$y].$x;
-			$listTotalRows[$x][] = $namaVar;
-			$pdfFile[$namaVar] = array ('array' => $listGdg, 
-									'status' => 'Memenuhi dan Tidak Memenuhi Keselamatan Kebakaran',
-									'kepemilikkan' => $lpg['kepemilikkan_gedung']);
-			$y++;
-		}
-		$listGdg = $this->dinas_model->get_chart_sum( '%', '%', '%');
-		$jumlahGdg = count($listGdg);
-		$total[] = $jumlahGdg;
-		$total[] = round(100.00*$jumlahGdg/$tot_gdg, 2) ;
-		$namaVar = $listTotalRow[$y].$x;
-		$listTotalRows[$x][] = $namaVar;
-		$pdfFile[$namaVar] = array ('array' => $listGdg, 
-								'status' => 'Memenuhi dan Tidak Memenuhi Keselamatan Kebakaran',
-								'kepemilikkan' => 'Pemerintah DKI, Pemerintah Non DKI, dan Swasta');
-		$mergeList = array_merge($listRows, $listSubTotalRows, $listTotalRows);
-		foreach ($mergeList as $lvl1)
-		{
-			foreach ($lvl1 as $lvl2)
-			{
-				$pdfKey[] = $lvl2;
-			}
-		}
-		//$this -> generatePdfFile();
-		$data['pdfKey'] = $pdfKey;
-		$data['pdfFile'] = $pdfFile;
-		$data['table'] = $table;
-		$data['subtable'] = $subtable;
-		$data['total'] = $total;
-		//$data['application_folder'] = $application_folder;
 		$pdf = new Pdf('P', 'mm', 'FOLIO', true, 'UTF-8', false);
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
@@ -2681,68 +2407,335 @@ class Dinas extends CI_Controller {
 		//$pdf->SetFont('helvetica', '', 10);
 		//$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
 		$pdf->SetFont('helvetica', 'B', 20);
-		$pdf->Write(0, 'Daftar Gedung', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->Write(0, 'Rekap Hasil Pemeriksaan Bangunan Gedung Tinggi', '', 0, 'L', true, 0, false, false, 0);
 
 		$pdf->SetFont('helvetica', '', 12);
-		$pdf->Write(0, 'Kepemilikkan :'.$pdfFile['B0']['kepemilikkan'], '', 0, 'L', true, 0, false, false, 0);
-		$pdf->Write(0, 'Status            :'.$pdfFile['B0']['status'], '', 0, 'L', true, 0, false, false, 0);
+		$pdf->Write(0, 'per Tanggal :'.$tgl, '', 0, 'L', true, 0, false, false, 0);
+		//$pdf->Write(0, 'Status            :'.$pdfFile['B0']['status'], '', 0, 'L', true, 0, false, false, 0);
 		$pdf->Write(0, '', '', 0, 'L', true, 0, false, false, 0);
 		// Set some content to print
 		$pdf->SetFont('helvetica', '', 10);
 		$i = 1;
-		$htmlPdf = '';
-		foreach ($pdfFile['B0']['array'] as $row)
-			{
-				$html1 = '
-				<tr>
-					<td width="30" align="center">'.$i.'</td>
-					<td width="200">'.$row['nama_gedung'].'<br /> <span style="background-color:#99ccff;color:black;">'.$row['no_gedung'].'</span></td>
-					<td width="200">'.$row['alamat_gedung'].', '.$row['wilayah'].'</td>
-					<td width="100">'.$row['nama_kolom_statusGedung'].'</td>
-					<td width="100">'.$row['kepemilikkan_gedung'].'</td>
-				</tr>
-				';
-				$i++;
-				$htmlPdf = $htmlPdf.$html1;
+		$sub1 = '<tbody>
+		<tr style="background-color: #ececec;">
+			<td colspan="10"> # Memenuhi Syarat Keselamatan Kebakaran</td>
+		</tr>';
+		$sub2 = '
+		<tr style="background-color: #ececec;">
+			<td colspan="10"> # Tidak Memenuhi Syarat Keselamatan Kebakaran</td>
+		</tr>';
+		//baris 1 s.d. 3
+		$count = 1;
+		$htmlPdf1 =''; $htmlPdf2 =''; $htmlPdf3 =''; $htmlPdf4 =''; $htmlPdf5 =''; $g1 ='';
+		foreach ($table[0] as $r1) {
+			foreach ($r1 as $r2) {
+				if($count==1){
+					$htmlPdf1 = '<td width="5%" style="background-color: #F6F6F7;text-align:center;">'.$r2.'</td>';
+				}
+				elseif($count==2){
+					$htmlPdf2 = '<td width="35%" style="background-color: #F6F6F7;text-align:left;">'.$r2.'</td>';
+				}
+				elseif($count % 2 !== 0 && $count > 2){
+					$htmlPdf3a = '<td width="10%" style="background-color: #F6F6F7;text-align:center;">'.$r2.'</td>';
+					$htmlPdf3 = $htmlPdf3.$htmlPdf3a ;
+				}
+				else{
+					$htmlPdf4a = '<td width="5%" style="background-color: #F6F6F7;text-align:center;">'.$r2.'</td>';
+					$htmlPdf4 = $htmlPdf4.$htmlPdf4a ;
+				}
+				$count++;
+				$htmlPdf5 = $htmlPdf5.$htmlPdf1.$htmlPdf2.$htmlPdf3.$htmlPdf4;
+				$htmlPdf1 =''; $htmlPdf2 =''; $htmlPdf3 =''; $htmlPdf4 ='';
 			}
-		$html = ' 
-		<table cellspacing="0" cellpadding="1" border="1">
-			<thead>
-			<tr style="background-color:#cccccc;">
-				<td width="30" align="center">No</td>
-				<td width="200" align="center">Nama Gedung</td>
-				<td width="200" align="center">Alamat</td>
-				<td width="100" align="center">Status</td>
-				<td width="100" align="center">Kepemilikkan</td>
-			</tr>
-			</thead>'.$htmlPdf.
-			
-			'
-		</table>
-		
-		
-		
-		
-		
-		
-		<h2>Daftar Gedung</h2>
-		<h2>Kepemilikkan :'.$pdfFile['A0']['kepemilikkan'].'</h2>
-		<h2>Status :'.$pdfFile['A0']['status'].'</h2>
-		<h1>Example of <a href="http://www.tcpdf.org" style="text-decoration:none;background-color:#CC0000;color:black;">&nbsp;<span style="color:black;">TC</span><span style="color:white;">PDF</span>&nbsp;</a> document in <span style="background-color:#99ccff;color:black;"> PDF/A-1b </span> mode.</h1>
-		<i>This document conforms to the standard <b>PDF/A-1b (ISO 19005-1:2005)</b>.</i>
-		<p>Please check the source code documentation and other examples for further information (<a href="http://www.tcpdf.org">http://www.tcpdf.org</a>).</p>
-		<p style="color:#CC0000;">TO IMPROVE AND EXPAND TCPDF I NEED YOUR SUPPORT, PLEASE <a href="http://sourceforge.net/donate/index.php?group_id=128076">MAKE A DONATION!</a></p>
-		';
+			$count = 1;
+			$g1 = $g1.'<tr>'.$htmlPdf5.'</tr>';
+			$htmlPdf5 = '';
+		}
+		//sub total memenuhi syarat
+		$count = 1;
+		$htmlPdf1 =''; $htmlPdf2 =''; $htmlPdf3 =''; $g2 ='';
+		foreach ($subtable[0][0] as $r2) {
+			if($count % 2 == 0 && $count > 1){
+				$htmlPdf2a = '<td width="10%" style="text-align:center;" >'.$r2.'</td>';
+				$htmlPdf2 = $htmlPdf2.$htmlPdf2a;
+			}elseif ($count == 1) {
+				$htmlPdf1 = '<td colspan="2" width="40%" style="padding-right: 15px; text-align:right;">'.$r2.'</td>';
+			}else{
+				$htmlPdf3a = '<td width="5%" style="text-align:center;">'.$r2.'</td>';
+				$htmlPdf3 = $htmlPdf3.$htmlPdf3a ;
+			}
+			$count++;
+			$g2 = $g2.$htmlPdf1.$htmlPdf2.$htmlPdf3;
+			$htmlPdf1 =''; $htmlPdf2 =''; $htmlPdf3 =''; 
+		}
+		$g2 = '<tr style="background-color: #E1F0F8; font-weight: bold;">'.$g2.'</tr>';
 
+		//baris 4 s.d. 11
+		$count = 1;
+		$htmlPdf1 =''; $htmlPdf2 =''; $htmlPdf3 =''; $htmlPdf4 =''; $htmlPdf5 =''; $g3 ='';
+		foreach ($table[1] as $r1) {
+			foreach ($r1 as $r2) {
+				if($count==1){
+					$htmlPdf1 = '<td width="5%" style="background-color: #F6F6F7;text-align:center;">'.$r2.'</td>';
+				}
+				elseif($count==2){
+					$htmlPdf2 = '<td width="35%" style="background-color: #F6F6F7;text-align:left;">'.$r2.'</td>';
+				}
+				elseif($count % 2 !== 0 && $count > 2){
+					$htmlPdf3a = '<td width="10%" style="background-color: #F6F6F7;text-align:center;">'.$r2.'</td>';
+					$htmlPdf3 = $htmlPdf3.$htmlPdf3a ;
+				}else{
+					$htmlPdf4a = '<td width="5%" style="text-align:center;">'.$r2.'</td>';
+					$htmlPdf4 = $htmlPdf4.$htmlPdf4a ;
+				}
+				$count++;
+				$htmlPdf5 = $htmlPdf5.$htmlPdf1.$htmlPdf2.$htmlPdf3.$htmlPdf4;
+				$htmlPdf1 =''; $htmlPdf2 =''; $htmlPdf3 =''; $htmlPdf4 ='';
+			}
+			$count = 1;
+			$g3 = $g3.'<tr>'.$htmlPdf5.'</tr>';
+			$htmlPdf5 = '';
+		}
+
+		//sub total tidak memenuhi syarat
+		$count = 1;
+		$htmlPdf1 =''; $htmlPdf2 =''; $htmlPdf3 =''; $g4='';
+		foreach ($subtable[1][1] as $r2) {
+			if($count % 2 == 0 && $count > 1){
+				$htmlPdf2a = '<td style="text-align:center;" >'.$r2.'</td>';
+				$htmlPdf2 = $htmlPdf2.$htmlPdf2a;
+			}elseif ($count == 1) {
+				$htmlPdf1 = '<td colspan="2" style="text-align:right;">'.$r2.'</td>';
+			}else{
+				$htmlPdf3a = '<td style="text-align:center;">'.$r2.'</td>';
+				$htmlPdf3 = $htmlPdf3.$htmlPdf3a;
+			}
+			$count++;
+			$g4 = $g4.$htmlPdf1.$htmlPdf2.$htmlPdf3;
+			$htmlPdf1 =''; $htmlPdf2 =''; $htmlPdf3 ='';
+		}
+		$g4 = '<tr style="background-color: #E1F0F8; font-weight: bold;">'.$g4.'</tr>';
+
+		//total 
+		$count = 1;
+		$htmlPdf1 =''; $htmlPdf2 =''; $htmlPdf3 =''; $g5 ='';
+		foreach ($total as $r2) {
+			if($count % 2 == 0 && $count > 1){
+				$htmlPdf2a = '<td style="text-align:center;" >'.$r2.'</td>';
+				$htmlPdf2 = $htmlPdf2.$htmlPdf2a;
+			}elseif ($count == 1) {
+				$htmlPdf1 = '<td colspan="2" style="text-align:right;">'.$r2.'</td>';
+			}else{
+				$htmlPdf3a = '<td style="text-align:center;">'.$r2.'</td>';
+				$htmlPdf3 = $htmlPdf3.$htmlPdf3a;
+			}
+			$count++;
+			$g5 = $g5.$htmlPdf1.$htmlPdf2.$htmlPdf3;
+			$htmlPdf1 =''; $htmlPdf2 =''; $htmlPdf3 ='';
+		}
+		$g5 = '<tr style="background-color: #E1F0F8; font-weight: bold;">'.$g5.'</tr>';
+		
+		$html = ' 
+		<table cellspacing="0" cellpadding="3" border="1">
+			<thead >
+				<tr style="background-color: #d6eaf8 ;">
+					<th rowspan="3" width="5%" style="vertical-align: middle;text-align: center;">No</th> 
+					<th rowspan="3" width="35%" style="vertical-align: middle;text-align: center;">Status Bangunan Gedung</th> 
+					<th colspan="6" width="45%" scope="colgroup"  style="text-align: center;">Kepemilikan</th>
+					<th colspan="2" width="15%" rowspan="2"  style="vertical-align: middle;text-align: center;">Total</th>
+				</tr>
+				<tr style="background-color: #d6eaf8 ;">
+					<th colspan="2"  width="15%" scope="col" style="text-align: center;">Pemerintah DKI</th>
+					<th colspan="2"  width="15%" scope="col" style="text-align: center;">Pemerintah Non DKI</th>
+					<th colspan="2"  width="15%" scope="col" style="text-align: center;">Swasta</th>
+				</tr>
+				<tr style="background-color: #d6eaf8 ;">
+					<th scope="col" width="10%" style="text-align: center;">Angka</th>
+					<th scope="col" width="5%" style="text-align: center;">%</th>
+					<th scope="col" width="10%" style="text-align: center;">Angka</th>
+					<th scope="col" width="5%" style="text-align: center;">%</th>
+					<th scope="col" width="10%" style="text-align: center;">Angka</th>
+					<th scope="col" width="5%" style="text-align: center;">%</th>
+					<th scope="col" width="10%" style="text-align: center;">Angka</th>
+					<th scope="col" width="5%" style="text-align: center;">%</th>
+				</tr>
+			</thead>'.$sub1.$g1.$g2.$sub2.$g3.$g4.$g5.
+		'</table>
+		<br/>';
+
+		$pdf->SetFont('helvetica', '', 8);
+		$html = $html.'
+		<h4>Keterangan :</h4>
+		<ul>
+			<li>Rekomendasi Sertifikat Laik Fungsi = Rekomendasi Teknis Hasil Pemeriksaan Keselamatan Kebakaran Berdasarkan Permohonan PTSP sebagai salah satu Syarat pengajuan SLF</li>
+			<li>Rekomendasi Sertifikat Keselamatan Kebakaran = Rekomendasi Teknis Hasil Pemeriksaan Keselamatan Kebakaran Berdasarkan Permohonan PTSP sebagai salah satu Syarat pengajuan SKK</li>
+			<li>Laporan Hasil Pemeriksaan (LHP) PLUS = Laporan Teknis Hasil Pemeriksaan Keselamatan Kebakaran Berkala untuk bangunan gedung yang memenuhi syarat</li>
+			<li>Laporan Hasil Pemeriksaan (LHP) MIN = Laporan Teknis Hasil Pemeriksaan Keselamatan Kebakaran Berkala untuk bangunan gedung yang tidak memenuhi syarat</li>
+			<li>Surat Peringatan I (SP I) = Surat Peringatan I untuk bangunan gedung yang tidak melakukan perbaikan sistem keselamatan kebakaran gedung setelah jangka waktu tertentu</li>
+			<li>Surat Peringatan II (SP II) = Pemasangan stiker “BANGUNAN INI TIDAK MEMENUHI KESELAMATAN KEBAKARAN” untuk bangunan gedung yang tidak melakukan perbaikan sistem keselamatan kebakaran gedung dalam jangka waktu tertentu setelah SP I</li>
+			<li>Surat Peringatan III (SP III) = Pencabutan Rekomendasi Teknis Keselamatan Kebakaran untuk bangunan gedung yang tidak melakukan perbaikan sistem keselamatan kebakaran gedung dalam jangka waktu tertentu setelah SP II</li>
+			<li>Surat Peringatan IV (SP IV) = Pencabutan Ijin untuk bangunan gedung yang tidak melakukan perbaikan sistem keselamatan kebakaran gedung dalam jangka waktu tertentu setelah SP III</li>
+		  </ul> 
+		';
 		// Print text using writeHTMLCell()
 		$pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 		//$pdf->writeHTML($html, true, false, false, false, '');
 
 		//$pdf->Output('pdfexample.pdf', 'I');
-		$pdf->Output(FCPATH.'pdf/dinas/example_001.pdf', 'F');
-		$data['main_content'] = 'dinas/chart';
-		$this->load->view('dinas/includes/template', $data);
+		$pdf->Output(FCPATH.'pdf/dinas/rekap.pdf', 'F');
 	}
+
+	public function chart()
+	{
+		$url3 = $this->uri->segment(3);
+		//$this->output->enable_profiler(TRUE);
+		$this->load->helper('date');
+		$tgl = date("d-m-Y", now('Asia/Jakarta'));
+		$attributeFooter = $this->attributeFooter;
+		$attributeFooter['dataTable'] = TRUE;
+		$data['attributeFooter'] = $attributeFooter;
+		//$data['user'] = $this->ion_auth->user()->row();
+		$tot_gdg = $this->dinas_model->count_all_gedung();
+		$list_pemilik_gdg = $this->dinas_model->get_list_pemilik_gdg();
+		$list_kolom_pemeriksaan = $this->dinas_model->get_list_kolom_pemeriksaan();
+		$listRow=array('A','B','C','D');
+		$listSubTotalRow=array('O','P','Q','R');
+		$listTotalRow=array('W','X','Y','Z');
+		$i = 0;
+		$j = 0;
+		$js = 0;
+		$x = 0;
+		$y = 0;
+		$z = 0;
+		//$table = array();
+
+		foreach ($list_kolom_pemeriksaan as $row)
+		{
+			$list_status_pemeriksaan = $this->dinas_model->get_list_status_pemeriksaan($row['nama_kolom_hslPemeriksaan']);
+			foreach ($list_status_pemeriksaan as $lsp)
+			{
+				$table[$i][$j][] = $j+1;
+				$ket_status_pemeriksaan = $this->dinas_model->get_ket_status_pemeriksaan($lsp['id_kolom_statusGedung']);
+				$table[$i][$j][] = $ket_status_pemeriksaan['keterangan_kolom_statusGedung'];
+				foreach ($list_pemilik_gdg as $lpg)
+				{
+					$listGdg = $this->dinas_model->get_chart_sum( $lsp['id_kolom_statusGedung'], $lpg['id_kepemilikkan_gedung'], '%');
+					$jumlahGdg = count($listGdg);
+					$table[$i][$j][] = $jumlahGdg;
+					$table[$i][$j][] = round(100.00*$jumlahGdg/$tot_gdg, 1) ;
+					//array_push($table[$i][$j], $jumlahGdg, $persentase);
+					$namaVar = $listRow[$y].$x;
+					$listRows[$x][] = $namaVar;
+					$pdfFile[$namaVar] = array ('array' => $listGdg, 
+											'status' => $ket_status_pemeriksaan['keterangan_kolom_statusGedung'],
+											'kepemilikkan' => $lpg['kepemilikkan_gedung']);
+					$y++;
+				}
+				$listGdg = $this->dinas_model->get_chart_sum( $lsp['id_kolom_statusGedung'], '%', '%');
+				$jumlahGdg = count($listGdg);
+				$table[$i][$j][] = $jumlahGdg;
+				$table[$i][$j][] = round(100.00*$jumlahGdg/$tot_gdg, 1) ;
+				//array_push($table[$i][$j], $jumlahGdg, $persentase);
+				$namaVar = $listRow[$y].$x;
+				$listRows[$x][] = $namaVar;
+				$pdfFile[$namaVar] = array ('array' => $listGdg, 
+										'status' => $ket_status_pemeriksaan['keterangan_kolom_statusGedung'],
+										'kepemilikkan' => 'Pemerintah DKI, Pemerintah Non DKI, dan Swasta');
+				$j ++ ;
+				$x++;
+				$y = 0;
+				$z++;
+			}
+			$subtable[$i][$js][] = 'SUB TOTAL:';
+			foreach ($list_pemilik_gdg as $lpg)
+			{
+				$listGdg = $this->dinas_model->get_chart_sum( '%', $lpg['id_kepemilikkan_gedung'], $row['nama_kolom_hslPemeriksaan']);
+				$jumlahGdg = count($listGdg);
+				$subtable[$i][$js][] = $jumlahGdg;
+				$subtable[$i][$js][] = round(100.00*$jumlahGdg/$tot_gdg, 1) ;
+				//array_push($table[$i][$j], $jumlahGdg, $persentase);
+				$namaVar = $listSubTotalRow[$y].$x;
+				$listSubTotalRows[$x][] = $namaVar;
+				$pdfFile[$namaVar] = array ('array' => $listGdg, 
+										'status' => $listGdg[0]['kategori_kolomHslPemeriksaan'].' keselamatan kebakaran',
+										'kepemilikkan' => $lpg['kepemilikkan_gedung']);
+				$y++;
+			}
+			$listGdg = $this->dinas_model->get_chart_sum( '%', '%', $row['nama_kolom_hslPemeriksaan']);
+			$jumlahGdg = count($listGdg);
+			$subtable[$i][$js][] = $jumlahGdg;
+			$subtable[$i][$js][] = round(100.00*$jumlahGdg/$tot_gdg, 1) ;
+			//array_push($table[$i][$j], $jumlahGdg, $persentase);
+			$namaVar = $listSubTotalRow[$y].$x;
+			$listSubTotalRows[$x][] = $namaVar;
+			$pdfFile[$namaVar] = array ('array' => $listGdg, 
+									'status' => $listGdg[0]['kategori_kolomHslPemeriksaan'].' keselamatan kebakaran',
+									'kepemilikkan' => 'Pemerintah DKI, Pemerintah Non DKI, dan Swasta');
+			$i ++ ;
+			$j = 0;
+			$js++ ;
+			$x++;
+			$y = 0;
+			$z = 0;
+		}
+		$total[] = 'TOTAL:';
+		$x = 0;
+		foreach ($list_pemilik_gdg as $lpg)
+		{
+			$listGdg = $this->dinas_model->get_chart_sum( '%', $lpg['id_kepemilikkan_gedung'], '%');
+			$jumlahGdg = count($listGdg);
+			$total[] = $jumlahGdg;
+			$total[] = round(100.00*$jumlahGdg/$tot_gdg, 1) ;
+			//array_push($table[$i][$j], $jumlahGdg, $persentase);
+			$namaVar = $listTotalRow[$y].$x;
+			$listTotalRows[$x][] = $namaVar;
+			$pdfFile[$namaVar] = array ('array' => $listGdg, 
+									'status' => 'Memenuhi dan Tidak Memenuhi Keselamatan Kebakaran',
+									'kepemilikkan' => $lpg['kepemilikkan_gedung']);
+			$y++;
+		}
+		$listGdg = $this->dinas_model->get_chart_sum( '%', '%', '%');
+		$jumlahGdg = count($listGdg);
+		$total[] = $jumlahGdg;
+		$total[] = round(100.00*$jumlahGdg/$tot_gdg, 1) ;
+		$namaVar = $listTotalRow[$y].$x;
+		$listTotalRows[$x][] = $namaVar;
+		$pdfFile[$namaVar] = array ('array' => $listGdg, 
+								'status' => 'Memenuhi dan Tidak Memenuhi Keselamatan Kebakaran',
+								'kepemilikkan' => 'Pemerintah DKI, Pemerintah Non DKI, dan Swasta');
+		$mergeList = array_merge($listRows, $listSubTotalRows, $listTotalRows);
+		foreach ($mergeList as $lvl1)
+		{
+			foreach ($lvl1 as $lvl2)
+			{
+				$pdfKey[] = $lvl2;
+			}
+		}
+		$this -> generatePdfFile($tgl, $table, $subtable, $total);
+
+		$data['pdfKey'] = $pdfKey;
+		$data['pdfFile'] = $pdfFile;
+		$data['table'] = $table;
+		$data['subtable'] = $subtable;
+		$data['total'] = $total;
+		$data['tgl'] = $tgl;
+		$data['key'] = $url3;
+		$data['test'] = $url3;
+		if (in_array($url3, $pdfKey)) {
+			$this->load->view('dinas/list_gdg_rekap', $data);
+		}
+		else{
+			$data['main_content'] = 'dinas/chart';
+			$this->load->view('dinas/includes/template', $data);
+		}
+
+		
+		
+	}
+
+
+
+	
 
 
 

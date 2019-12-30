@@ -2,12 +2,30 @@
 <?php
     //Modal alert
     pesanModal();
-    //print_r($data_pemeriksaan);
+    //print_r($GLOBALS['PESAN_ERROR']);
     //flash messages
     if($this->session->flashdata('flash_message')=='passwordUpdated'){
         echo'<script>
         window.onload = function(){
             $("#passwordUpdated").modal();
+        };
+        </script>';
+        $this->session->set_flashdata('flash_message', '');
+    }
+    elseif ($this->session->flashdata('flash_message')=='error')
+    {
+        echo'<script>
+        window.onload = function(){
+            $("#error").modal();
+        };
+        </script>';
+        $this->session->set_flashdata('flash_message', '');
+    }
+    elseif ($this->session->flashdata('flash_message')=='updated')
+    {
+        echo'<script>
+        window.onload = function(){
+            $("#updated").modal();
         };
         </script>';
         $this->session->set_flashdata('flash_message', '');
@@ -63,7 +81,8 @@
                     <div class="profile-header">&nbsp;</div>
                     <div class="profile-body">
                         <div class="image-area">
-                            <img src="<?php echo base_url(); ?>upload/damkar.png" alt="AdminBSB - Profile Image" width="220" height="220"/>
+                            <?php $user = $this->ion_auth->user()->row(); ?>
+                            <img src="<?php echo base_url().'upload/'.$user->avatar; ?>" width="220" height="220" alt="User" />
                         </div>
                         <div class="content-area">
                             <h3><?php echo "{$user->first_name} {$user->last_name}" ;?></h3>
@@ -111,6 +130,7 @@
                             <ul class="nav nav-tabs" role="tablist">
                                 <li role="presentation" class="active"><a href="#profile_settings" aria-controls="settings" role="tab" data-toggle="tab">Profile Settings</a></li>
                                 <li role="presentation"><a href="#change_password_settings" aria-controls="settings" role="tab" data-toggle="tab">Rubah Password</a></li>
+                                <li role="presentation"><a href="#change_avatar" aria-controls="settings" role="tab" data-toggle="tab">Rubah Avatar</a></li>
                             </ul>
 
                             <div class="tab-content">
@@ -236,6 +256,33 @@
                                                 <button type="submit" class="btn btn-danger">SIMPAN</button>
                                             </div>
                                         </div>
+                                    <?php echo form_close();?>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade in" id="change_avatar">
+                                <?php
+                                    $attributes = array('class' => 'form-horizontal');
+                                    echo form_open_multipart('dinas/do_upload', $attributes);
+                                ?>
+                                        <div class="image-area" >
+                                            <img src="<?php echo base_url().'upload/'.$user->avatar; ?>" width="220" height="220" alt="User" style="border: 10px solid;" />
+                                        </div>
+                                        <?php //echo $error;?>
+
+                                        <div class="form-group">
+                                            <div class="col-sm-4">
+                                                <div class="form-line">
+                                                    <input type="file" name="userfile"  class="form-control" />
+                                                </div>
+                                                <div class="help-info">max 200 kB, tipe file gif/ jpg/ png</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-sm-4">
+                                                    <button type="submit" class="btn btn-danger">Upload</button>
+                                             </div>
+                                        </div>
+                                        
                                     <?php echo form_close();?>
                                 </div>
                             </div>

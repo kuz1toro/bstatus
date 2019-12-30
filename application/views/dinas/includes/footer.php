@@ -12,20 +12,22 @@
 <!-- Waves Effect Plugin Js -->
 <script src="<?php echo base_url(); ?>assets/vendor_new/node-waves/waves.js"></script>
 
-<!-- Jquery DataTable Plugin Js -->
-<?php if ($attributeFooter['dataTable']){
-    echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/jquery.dataTables.js"></script>';
-    echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>';
-    echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>';
-    echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/buttons.flash.min.js"></script>';
-    echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/jszip.min.js"></script>';
-    echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/pdfmake.min.js"></script>';
-    echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/vfs_fonts.js"></script>';
-    echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/buttons.html5.min.js"></script>';
-    echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/buttons.print.min.js"></script>';
-    echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/tables/jquery-datatable.js"></script>';
-    echo '<script src="'.base_url().'assets/vendor_new/jspdf/jspdf.min.js"></script>';
-} ?>
+ <!-- Jquery DataTable Plugin Js -->
+ <?php if ($attributeFooter['dataTable']){
+        echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/jquery.dataTables.min.js"></script>';
+        echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/dataTables.responsive.min.js"></script>';
+        echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>';
+        echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/jszip.min.js"></script>';
+        echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/pdfmake.min.js"></script>';
+        echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/vfs_fonts.js"></script>';
+        echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/buttons.html5.min.js"></script>';
+        echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/buttons.print.min.js"></script>';
+        echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/tables/jquery-datatable.js"></script>';
+    } ?>
+
+    <?php if ($attributeFooter['jspdf']){
+        echo '<script src="'.base_url().'assets/vendor_new/jspdf/jspdf.min.js"></script>';
+    } ?>
 
  <!-- SweetAlert Plugin Js -->
  <script src="<?php echo base_url(); ?>assets/vendor_new/sweetalert/sweetalert.min.js"></script>
@@ -80,6 +82,10 @@
     echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/script.js"></script>';
     //echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/form-validation.js"></script>';
 } ?>
+
+<?php 
+    echo '<script src="'.base_url().'assets/vendor/animsition/animsition.min.js"></script>';
+?>
 
 <!-- Demo Js -->
 <script src="<?php echo base_url(); ?>assets/vendor_new/adminBSB/js/demo.js"></script>

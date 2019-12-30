@@ -158,6 +158,23 @@ if(!function_exists('pesanModal'))
 				</div>
 			</div>
 		</div>
+		<div class="modal fade" id="error" role="dialog">
+			<div class="modal-dialog modal-sm ">
+				<div class="modal-content">
+					<div class="modal-body">
+						<h3>Ada Error Komandan :';
+						if (isset($GLOBALS['PESAN_ERROR']['error']))
+						{
+							echo $GLOBALS['PESAN_ERROR']['error'];
+						}
+						echo '</h3>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="modal fade" id="gagal" role="dialog">
 			<div class="modal-dialog modal-sm ">
 				<div class="modal-content">
@@ -369,6 +386,8 @@ if(!function_exists('trv_state'))
 		}elseif ($page==='fireHist' && $url1==='dinas' && ($url2==='list_fireHist'|| $url2==='edit_fireHist' || $url2==='add_fireHist')) {
 			echo 'active';
 		}elseif ($page==='profile' && $url1==='dinas' && $url2==='profile') {
+			echo 'active';
+		}elseif ($page==='chart' && $url1==='dinas' && $url2==='chart') {
 			echo 'active';
 		}else{
 			echo '';

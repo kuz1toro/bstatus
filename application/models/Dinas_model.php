@@ -294,7 +294,7 @@ class Dinas_model extends CI_Model {
 
 	function get_chart_sum($status, $kepemilikkan, $kategori)
 	{
-		$this->db->select('no_gedung,nama_gedung,alamat_gedung,wilayah,last_status, kepemilikan');
+		$this->db->select('no_gedung,nama_gedung,alamat_gedung,wilayah,kecamatan,kelurahan,last_status, kepemilikan');
 		$this->db->from('gedung_dinas as joinTable');
 		//$this->db->select('tabel_kolom_statusGedung.keterangan_kolom_statusGedung');
 		$this->db->select('tabel_kolom_statusGedung.kategori_kolomHslPemeriksaan');
@@ -302,6 +302,12 @@ class Dinas_model extends CI_Model {
 		$this->db->join('tabel_kolom_statusGedung', 'joinTable.last_status =tabel_kolom_statusGedung.id_kolom_statusGedung', 'left');
 		$this->db->select('tabel_kolom_kepemilikkan_gedung.kepemilikkan_gedung');
 		$this->db->join('tabel_kolom_kepemilikkan_gedung', 'joinTable.kepemilikan =tabel_kolom_kepemilikkan_gedung.id_kepemilikkan_gedung', 'left');
+		$this->db->select('tabel_kolom_fungsi_gedung.fungsi_gedung');
+		$this->db->join('tabel_kolom_fungsi_gedung', 'joinTable.fungsi =tabel_kolom_fungsi_gedung.id_fungsi_gedung', 'left');
+		$this->db->select('fsm_dinas.nama_FSM');
+		$this->db->join('fsm_dinas', 'joinTable.fsm =fsm_dinas.id_FSM', 'left');
+		$this->db->select('pokja_dinas.nama_pokja');
+		$this->db->join('pokja_dinas', 'joinTable.pokja =pokja_dinas.id_pokja', 'left');
 		if ($kategori !== '%')
 		{
 			$this->db->where('tabel_kolom_statusGedung.kategori_kolomHslPemeriksaan', $kategori);
@@ -314,7 +320,7 @@ class Dinas_model extends CI_Model {
 		{
 			$this->db->where('joinTable.kepemilikan', $kepemilikkan);
 		}
-		
+		$this->db->where('joinTable.deleted', 0);
 		
 		
 		//echo 'count gedung';

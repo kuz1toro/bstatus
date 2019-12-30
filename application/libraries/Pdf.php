@@ -34,11 +34,16 @@ class Pdf extends TCPDF
 
     // Page footer
     public function Footer() {
+        //logo tcpdf
+        $logo = FCPATH.'assets/img/tcpdf.png';
+        $this->Image($logo, 190, 285, 10, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
         // Position at 15 mm from bottom
         $this->SetY(-15);
         // Set font
         $this->SetFont('helvetica', 'I', 8);
         // Page number
-        $this->Cell(0, 10, 'Halaman '.$this->getAliasNumPage().' dari '.$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+        $this->Cell(0, 0, 'Halaman '.$this->getAliasNumPage().' dari '.$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+        $this->Cell(0, 10, 'build with                                .', 0, false, 'C', 0, '', 0, false, 'T', 'M');
+        
     }
 }

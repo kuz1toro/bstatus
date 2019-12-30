@@ -37,24 +37,31 @@
 
     <!-- jquery datatable Css -->
     <?php if ($attributeFooter['dataTable']){
-        echo '<link href="'.base_url().'assets/vendor_new/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">';
+         echo '<link href="'.base_url().'assets/vendor_new/jquery-datatable/skin/bootstrap/css/jquery.dataTables.min.css" rel="stylesheet">';
+         echo '<link href="'.base_url().'assets/vendor_new/jquery-datatable/skin/bootstrap/css/responsive.dataTables.min.css" rel="stylesheet">';
+         echo '<link href="'.base_url().'assets/vendor_new/jquery-datatable/skin/bootstrap/css/buttons.dataTables.min.css" rel="stylesheet">';
     } ?>
 
     <!-- Custom Css -->
     <?php 
         echo '<link href="'.base_url().'assets/vendor_new/adminBSB/css/style.css" rel="stylesheet">';
     ?>
+    <?php 
+        echo '<link href="'.base_url().'assets/vendor/animsition/animsition.min.css" rel="stylesheet">';
+    ?>
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="<?php echo base_url(); ?>assets/vendor_new/adminBSB/css/themes/theme-red.min.css" rel="stylesheet" />
+
+    
 
     <!-- set global variable-->
     <script>var base_url = '<?php echo base_url() ?>';</script>
 </head>
 
-<body class="theme-red" style="background-image: linear-gradient(to left, #BDBBBE 0%, #9D9EA3 100%), radial-gradient(88% 271%, rgba(255, 255, 255, 0.25) 0%, rgba(254, 254, 254, 0.25) 1%, rgba(0, 0, 0, 0.25) 100%), radial-gradient(50% 100%, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%);
+<body class="theme-red " style="background-image: linear-gradient(to left, #BDBBBE 0%, #9D9EA3 100%), radial-gradient(88% 271%, rgba(255, 255, 255, 0.25) 0%, rgba(254, 254, 254, 0.25) 1%, rgba(0, 0, 0, 0.25) 100%), radial-gradient(50% 100%, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%);
  background-blend-mode: normal, lighten, soft-light;">
-    <!-- Page Loader -->
+    <!-- Page Loader 
     <div class="page-loader-wrapper">
         <div class="loader">
             <div class="preloader">
@@ -69,7 +76,7 @@
             </div>
             <p>Tunggu Bentar Ndan...</p>
         </div>
-    </div>
+    </div> -->
     <!-- #END# Page Loader -->
     <!-- Overlay For Sidebars -->
     <div class="overlay"></div>
@@ -109,13 +116,17 @@
             <!-- User Info -->
             <div class="user-info">
                 <div class="image col-xs-2">
-                    <img src="<?php echo base_url(); ?>upload/damkar.png" width="48" height="48" alt="User" />    
+                    <?php $user = $this->ion_auth->user()->row(); ?>
+                    <img src="<?php echo base_url().'upload/'.$user->avatar; ?>" width="48" height="48" alt="User" />    
                 </div>
                 <div class="image col-xs-2">
-                    <img src="<?php echo base_url(); ?>upload/mangekyous_vd9v8796.gif" width="42" height="42" alt="User" />    
+                    <img src="<?php echo base_url(); ?>upload/fire-safety-symbol.png" width="52" height="52" alt="User" />    
+                </div>
+                <div class="image col-xs-2">
+                    <img src="<?php echo base_url(); ?>upload/damkar.png" width="52" height="52" alt="User" />    
                 </div>
                 <div class="info-container col-xs-12">
-                    <?php $user = $this->ion_auth->user()->row();?>
+                    <?php //$user = $this->ion_auth->user()->row();?>
                     <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo "{$user->first_name} {$user->last_name}" ;?></div>
                     <div class="email"><?php echo $user->email;?></div>
                 </div>
