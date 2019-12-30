@@ -6,7 +6,8 @@
                     POTRET BANGUNAN GEDUNG TINGGI
                     <?php //print_r($table); 
                     d($table);
-                    d($pdfFile); ?>
+                    d($pdfFile);
+                    d($pdfKey); ?>
                 </header>
                 <div class="panel-body">
                     <table width="100%" class="table table-responsive">
