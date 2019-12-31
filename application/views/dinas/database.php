@@ -2,6 +2,21 @@
         <div class="container-fluid" >
             <div class="row clearfix">
                 <!-- Line Chart -->
+                
+<?php
+// Inintialize URL to the variable 
+$url = 'https://www.google.co.id/maps/place/Pesakih/@-6.1545287,106.7153888,15z/data=!4m2!3m1!1s0x0:0x9f98afbcf2f5ea4b?hl=en&sa=X&ved=0ahUKEwjO4KzqiabVAhXLq48KHQPSDqUQ_BIIjgEwCg'; 
+      
+// Use parse_url() function to parse the URL  
+// and return an associative array which 
+// contains its various components 
+//$url_components = file_get_contents($url, true); 
+//print_r($test);
+
+preg_match('/@(-?[\d]*\.[\d]*),(-?[\d]*\.[\d]*),/', $url, $latitude, PREG_OFFSET_CAPTURE);
+d($latitude);
+
+?>
                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                     <div class="card">
                         <div class="header">
