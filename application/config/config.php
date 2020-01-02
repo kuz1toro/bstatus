@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 //development
-$config['base_url'] = 'http://localhost/bstatus/';
+$config['base_url'] = 'http://localhost/bstatus_ng/';
 //production
 //$config['base_url'] = 'http://jakarta-bstatus.com';
 

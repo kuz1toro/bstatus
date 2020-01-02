@@ -10,24 +10,6 @@ height: 100%;
 font-family: 'Numans', sans-serif;
 }
 
-/* Small devices (landscape phones, 544px and up) */
-@media (min-width: 544px) {  
-    .kuswantoro h1 {font-size: 1rem;}
-  }
-
-  /* Medium devices (tablets, 768px and up) */
-  @media (min-width: 768px) {  
-    .kuswantoro h1 {font-size: 1rem;}
-  }
-
-  /* Large devices (desktops, 992px and up) */
-  @media (min-width: 992px) { 
-    .kuswantoro h1 {font-size: 1rem;}
-
-  /* Extra large devices (large desktops, 1200px and up) */
-  @media (min-width: 1200px) {  
-    .kuswantoro h1 {font-size: 48px;}
-  }
 
 .container{
 height: 100%;
@@ -35,19 +17,67 @@ align-content: center;
 }
 
 .kuswantoro{
-    padding-top: 20px;
+    padding-top: 2vw;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     color: rgba(255, 255, 255, 1);
     text-align: center;
 }
 
+.kuswantoro h1{
+  font-size:3vw;
+  font-weight: bold;
+  line-height: 2.5vw;
+}
+
+.kuswantoro h2{
+  font-size:2vw;
+  font-weight: bold;
+  line-height: 1.5vw;
+}
+
+
+.kuswantoro:hover
+{
+    color: #fff;
+    text-shadow:
+    -1px -1px 0 #00f,
+    1px -1px 0 #00f,
+    -1px 1px 0 #00f,
+    1px 1px 0 #00f;  
+}
 
 .card{
-height: 370px;
-margin-top: 10rem;
+height: 320px;
+margin-top: 5vw;
 margin-bottom: auto;
 width: 400px;
 background-color: rgba(0,0,0,0.8) !important;
+}
+
+.icon-pemprovDKI {
+  background-image: url("../../icon/logo_dki.ico");
+  background-position: center center;
+  height: 50px;
+  line-height: 24px;
+  width: 50px;
+}
+
+.icon-damkar {
+  background-image: url("../../icon/damkar.ico");
+  background-size: 50px;
+  background-position: center center;
+  height: 50px;
+  line-height: 24px;
+  width: 50px;
+}
+
+.icon-inspektur {
+  background-image: url("../../icon/inspektur.ico");
+  background-size: 50px;
+  background-position: center center;
+  height: 50px;
+  line-height: 24px;
+  width: 50px;
 }
 
 .social_icon span{

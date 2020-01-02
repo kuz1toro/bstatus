@@ -25,22 +25,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 <div class="container">
-    <div class="d-flex justify-content-center h-10" style="border: 1px solid">
+    <div class="d-flex justify-content-center h-10" >
         <div class = "kuswantoro">
             <h1>Dinas Penanggulangan Kebakaran</h1>
             <h1>dan Penyelamatan</h1>
             <h1>Provinsi DKI Jakarta</h1>
         </div>
     </div>
-	<div class="d-flex justify-content-center h-100" style="border: 1px solid">
-       
-		<div class="card" style="border: 1px solid">
+	<div class="d-flex justify-content-center h-10" >
+		<div class = "kuswantoro">
+				<h2>bSTATUS-nG</h2>
+				<h2>Sistem Informasi Status Keselamatan Kebakaran Gedung</h2>
+		</div>
+    </div>
+	<div class="d-flex justify-content-center h-50" >
+		<div class="card" >
 			<div class="card-header" >
 				<h3>Sign In</h3>
 				<div class="d-flex justify-content-end social_icon">
-					<span><i class="fab fa-facebook-square"></i></span>
-					<span><i class="fab fa-google-plus-square"></i></span>
-					<span><i class="fab fa-twitter-square"></i></span>
+					<span><i class="fab icon-pemprovDKI"></i></span>
+					<span><i class="fab icon-damkar"></i></span>
+					<span><i class="fab icon-inspektur"></i></span>
 				</div>
 			</div>
 			<div class="card-body">
@@ -71,7 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 			<div class="card-footer">
 				<div class="d-flex justify-content-center links">
-					Don't have an account?<a href="#">Sign Up</a>
+					
 				</div>
 				<div class="d-flex justify-content-center">
 					<?php echo $message; ?>
