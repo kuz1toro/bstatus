@@ -1,98 +1,97 @@
-<!DOCTYPE html>
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?><!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>Sign In | Bootstrap Based Admin Template - Material Design</title>
+    <title>Sign In | BSTATUS-NG</title>
     <!-- Favicon-->
     <link rel="shortcut icon" type="ico" size="36x36" href="<?php echo base_url(); ?>assets/icon/damkar.ico">
+    <!--Made with love by Mutiullah Samim -->
+   
+	<!--Bootsrap 4 CDN-->
+	<link href="<?php echo base_url(); ?>assets/login/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!--Fontawesome CDN-->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
-
-    <!-- Bootstrap Core Css -->
-    <link href="<?php echo base_url(); ?>assets/vendor_new/bootstrap/css/bootstrap.css" rel="stylesheet">
-
-    <!-- Waves Effect Css -->
-    <link href="<?php echo base_url(); ?>assets/vendor_new/node-waves/waves.css" rel="stylesheet" />
-
-    <!-- Animation Css -->
-    <link href="<?php echo base_url(); ?>assets/vendor_new/animate-css/animate.css" rel="stylesheet" />
-
-    <!-- Custom Css -->
+	<!--Custom styles-->
     <?php 
-        echo '<link href="'.base_url().'assets/vendor_new/adminBSB/css/style.css" rel="stylesheet">';
+        echo '<link href="'.base_url().'assets/login/css/style.css" rel="stylesheet">';
     ?>
+     <!-- set js global variable-->
+     <script>var base_url = '<?php echo base_url() ?>';</script>
 </head>
-
-
- 
-<body class="login-page">
-    <div class="login-box">
-        <div class="logo">
-            <a href="javascript:void(0);"><b>b</b>-STATUS</a>
-            <small>Dinas Penanggulangan Kebakaran dan Penyelamatan</small>
-        </div>
-        <div class="card">
-            <div class="body">
-            <?php
-                $attributes = array('id' => 'sign_in');
-                echo form_open('auth/login', $attributes); 
-            ?>
-                
-                    <div class="msg">Login to start your session</div>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="material-icons">person</i>
-                        </span>
-                        <div class="form-line">
-                            <input type="text" class="form-control" name="identity" placeholder="Username" required autofocus>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="material-icons">lock</i>
-                        </span>
-                        <div class="form-line">
-                            <input type="password" class="form-control" name="password" placeholder="Password" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-8 p-t-5">
-                            <input type="checkbox" id="remember" name="remember" class="filled-in chk-col-pink">
-                            <label for="rememberme">Remember Me</label>
-                        </div>
-                        <div class="col-xs-4">
-                            <button class="btn btn-block bg-pink waves-effect" type="submit">LOGIN</button>
-                        </div>
-                    </div>
-                    <div class="row m-t-15 m-b--20">
-                        <?php echo $message; ?>
-                    </div>
-                <?php echo form_close(); ?>
-            </div>
+<body>
+<div class="container">
+    <div class="d-flex justify-content-center h-10" style="border: 1px solid">
+        <div class = "kuswantoro">
+            <h1>Dinas Penanggulangan Kebakaran</h1>
+            <h1>dan Penyelamatan</h1>
+            <h1>Provinsi DKI Jakarta</h1>
         </div>
     </div>
+	<div class="d-flex justify-content-center h-100" style="border: 1px solid">
+       
+		<div class="card" style="border: 1px solid">
+			<div class="card-header" >
+				<h3>Sign In</h3>
+				<div class="d-flex justify-content-end social_icon">
+					<span><i class="fab fa-facebook-square"></i></span>
+					<span><i class="fab fa-google-plus-square"></i></span>
+					<span><i class="fab fa-twitter-square"></i></span>
+				</div>
+			</div>
+			<div class="card-body">
+                <?php
+                    $attributes = array('id' => 'sign_in');
+                    echo form_open('auth/login', $attributes); 
+                ?>
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-user"></i></span>
+						</div>
+						<input type="text" class="form-control" name="identity" placeholder="username" required autofocus>
+						
+					</div>
+					<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-key"></i></span>
+						</div>
+						<input type="password" class="form-control" name="password" placeholder="password" required>
+					</div>
+					<div class="row align-items-center remember">
+						<input type="checkbox" name="remember">Remember Me
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Login" class="btn float-right login_btn">
+					</div>
+                    <?php echo form_close(); ?>
+			</div>
+			<div class="card-footer">
+				<div class="d-flex justify-content-center links">
+					Don't have an account?<a href="#">Sign Up</a>
+				</div>
+				<div class="d-flex justify-content-center">
+					<?php echo $message; ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Jquery Core Js -->
+<script src="<?php echo base_url(); ?>assets/login/js/jquery-3.4.1.min.js"></script>
 
-    <!-- Jquery Core Js -->
-    <script src="<?php echo base_url(); ?>assets/vendor_new/jquery/jquery.min.js"></script>
+<!-- Bootstrap Core Js -->
+<script src="<?php echo base_url(); ?>assets/login/js/bootstrap.min.js"></script>
 
-    <!-- Bootstrap Core Js -->
-    <script src="<?php echo base_url(); ?>assets/vendor_new/bootstrap/js/bootstrap.js"></script>
-
-    <!-- Waves Effect Plugin Js -->
-    <script src="<?php echo base_url(); ?>assets/vendor_new/node-waves/waves.js"></script>
-
-    <!-- Validation Plugin Js -->
-    <?php
+<!-- Validation Plugin Js -->
+<?php
     echo '<script src="'.base_url().'assets/vendor_new/jquery-validation/jquery.validate.js"></script>';
     ?>
-
-    <!-- Custom Js -->
-    <script src="<?php echo base_url(); ?>assets/vendor_new/adminBSB/js/admin.js"></script>
-    <script src="<?php echo base_url(); ?>assets/vendor_new/adminBSB/js/pages/examples/sign-in.js"></script>
+<!--costum Js -->
+<script src="<?php echo base_url(); ?>assets/login/js/sign-in.js"></script>
 </body>
-
 </html>
+
