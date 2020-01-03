@@ -7571,12 +7571,19 @@ fieldset[disabled] .form-control {
     .sidebar .user-info .image {
       margin-right: 12px;
       display: inline-block; }
+      .sidebar .user-info .image-k {
+        margin-right: 12px;
+        display: inline-block; }
       .sidebar .user-info .image img {
         -webkit-border-radius: 50%;
         -moz-border-radius: 50%;
         -ms-border-radius: 50%;
         border-radius: 50%;
-        vertical-align: bottom !important; }
+        vertical-align: bottom !important; 
+        }
+        .sidebar .user-info .image-k img {
+          vertical-align: bottom !important;
+          }
     .sidebar .user-info .info-container {
       cursor: default;
       display: block;

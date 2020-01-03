@@ -1,258 +1,183 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?>
 <!-- user information -->
 <?php $user = $this->ion_auth->user()->row(); ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-  <title>B-STATUS</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/bootstrap/css/bootstrap.min.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/admin_lte/css/AdminLTE.min.css">
-  <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
-        page. However, you can choose any other skin. Make sure you
-        apply the skin class to the body tag so the changes take effect.
-  -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/admin_lte/css/skins/skin-blue.min.css">
-
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-</head>
-
-
-<body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
-
-  <!-- Main Header -->
-  <header class="main-header">
-
-    <!-- Logo -->
-    <a href="index2.html" class="logo">
-      <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>BS</b></span>
-      <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg" style="font-size:small;"><b>B-STATUS</b></span>
-    </a>
-
-    <!-- Header Navbar -->
-    <nav class="navbar navbar-static-top" role="navigation">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
-      <!-- Navbar Right Menu -->
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav" >
-          <?php /*
-          <!-- Messages: style can be found in dropdown.less-->
-          <li class="dropdown messages-menu">
-            <!-- Menu toggle button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-envelope-o"></i>
-              <span class="label label-success">4</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 4 messages</li>
-              <li>
-                <!-- inner menu: contains the messages -->
-                <ul class="menu">
-                  <li><!-- start message -->
-                    <a href="#">
-                      <div class="pull-left">
-                        <!-- User Image -->
-                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                      </div>
-                      <!-- Message title and timestamp -->
-                      <h4>
-                        Support Team
-                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                      </h4>
-                      <!-- The message -->
-                      <p>Why not buy a new awesome theme?</p>
-                    </a>
-                  </li>
-                  <!-- end message -->
-                </ul>
-                <!-- /.menu -->
-              </li>
-              <li class="footer"><a href="#">See All Messages</a></li>
-            </ul>
-          </li>
-          <!-- /.messages-menu -->
-
-          <!-- Notifications Menu -->
-          <li class="dropdown notifications-menu">
-            <!-- Menu toggle button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">10</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 10 notifications</li>
-              <li>
-                <!-- Inner Menu: contains the notifications -->
-                <ul class="menu">
-                  <li><!-- start notification -->
-                    <a href="#">
-                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                    </a>
-                  </li>
-                  <!-- end notification -->
-                </ul>
-              </li>
-              <li class="footer"><a href="#">View all</a></li>
-            </ul>
-          </li>
-          <!-- Tasks Menu -->
-          <li class="dropdown tasks-menu">
-            <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-flag-o"></i>
-              <span class="label label-danger">9</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 9 tasks</li>
-              <li>
-                <!-- Inner menu: contains the tasks -->
-                <ul class="menu">
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <!-- Task title and progress text -->
-                      <h3>
-                        Design some buttons
-                        <small class="pull-right">20%</small>
-                      </h3>
-                      <!-- The progress bar -->
-                      <div class="progress xs">
-                        <!-- Change the css width attribute to simulate progress -->
-                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">20% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                </ul>
-              </li>
-              <li class="footer">
-                <a href="#">View all tasks</a>
-              </li>
-            </ul>
-          </li>
-          */ ?>
-          <!-- User Account Menu -->
-          <li class="dropdown user user-menu">
-            <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <!-- The user image in the navbar-->
-              <img src="<?php echo base_url(); ?>assets/vendor/admin_lte/img/damkar.png" class="user-image" alt="User Image">
-              <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs"><?php echo $user->username; ?></span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- The user image in the menu -->
-              <li class="user-header">
-                <img src="<?php echo base_url(); ?>assets/vendor/admin_lte/img/damkar.png" class="img-circle" alt="User Image">
-
-                <p>
-                  <?php echo $user->username; ?> - administrator
-                  <small>Member since Maret 2017</small>
-                </p>
-              </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <!--<div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
-                </div>-->
-                <!-- /.row -->
-              </li>
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="pull-right">
-                  <a href="<?php echo site_url("auth/logout")?>" class="btn btn-default btn-flat">Sign out</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <!-- Control Sidebar Toggle Button -->
-          <li>
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
-  <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img src="<?php echo base_url(); ?>assets/vendor/admin_lte/img/damkar.png" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-          <p><?php echo $user->username; ?></p>
-          <!-- Status -->
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-        </div>
-      </div>
-
-      <!-- search form (Optional) -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
-
-      <!-- Sidebar Menu -->
-      <?php 
+<?php 
         $url1 = 'admin';
         $url2 = $this->uri->segment(2); 
         //echo trv_state($page, $url1, $url2);
       ?>
-      <ul class="sidebar-menu">
-        <li class="header">HEADER</li>
-        <!-- Optionally, you can add icons to the links -->
-        <li class="<?php trv_state('users', $url1, $url2);?>"><a href="<?php echo site_url("auth/index")?>"><i class="fa fa-user"></i> <span>Users</span></a></li>
-        <li class="<?php trv_state('groups', $url1, $url2);?>"><a href="<?php echo site_url("auth/show_groups")?>"><i class="fa fa-user"></i> <span>Groups</span></a></li>
-        
-      </ul>
-      <!-- /.sidebar-menu -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>B-Status Dinas Penanggulangan Kebakaran dan Penyelamatan DKI Jakarta</title>
+    <!-- Favicon-->
+    <link rel="shortcut icon" type="ico" size="36x36" href="<?php echo base_url(); ?>assets/icon/damkar.ico">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="<?php echo base_url(); ?>assets/vendor_new/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link href="<?php echo base_url(); ?>assets/vendor_new/node-waves/waves.css" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="<?php echo base_url(); ?>assets/vendor_new/animate-css/animate.css" rel="stylesheet" />
+
+    <!-- Sweetalert Css -->
+    <link href="<?php echo base_url(); ?>assets/vendor_new/sweetalert/sweetalert.css" rel="stylesheet" />
+
+    <!-- Bootstrap Select -->
+    <?php if (isset($attributeFooter) && $attributeFooter['bootstrapSelect']){
+        echo '<link href="'.base_url().'assets/vendor_new/bootstrap-select/css/bootstrap-select.css" rel="stylesheet">';
+    } ?>
+
+    <!-- Bootstrap Material Datetime Picker Css -->
+    <?php if (isset($attributeFooter) && $attributeFooter['datetimePicker']){
+        echo '<link href="'.base_url().'assets/vendor_new/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">';
+        echo '<link href="'.base_url().'assets/vendor_new/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">';
+    } ?>
+
+    <!-- jquery datatable Css -->
+    <?php if (isset($attributeFooter) && $attributeFooter['dataTable']){
+         echo '<link href="'.base_url().'assets/vendor_new/jquery-datatable/skin/bootstrap/css/jquery.dataTables.min.css" rel="stylesheet">';
+         echo '<link href="'.base_url().'assets/vendor_new/jquery-datatable/skin/bootstrap/css/responsive.dataTables.min.css" rel="stylesheet">';
+         echo '<link href="'.base_url().'assets/vendor_new/jquery-datatable/skin/bootstrap/css/buttons.dataTables.min.css" rel="stylesheet">';
+    } ?>
+
+    <!-- Custom Css -->
+    <?php 
+        echo '<link href="'.base_url().'assets/vendor_new/adminBSB/css/style.css" rel="stylesheet">';
+    ?>
+    <?php 
+        echo '<link href="'.base_url().'assets/vendor/animsition/animsition.min.css" rel="stylesheet">';
+    ?>
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="<?php echo base_url(); ?>assets/vendor_new/adminBSB/css/themes/theme-red.min.css" rel="stylesheet" />
+
+    
+
+    <!-- set global variable-->
+    <script>var base_url = '<?php echo base_url() ?>';</script>
+</head>
+
+<body class="theme-red " style="background-image: linear-gradient(to left, #BDBBBE 0%, #9D9EA3 100%), radial-gradient(88% 271%, rgba(255, 255, 255, 0.25) 0%, rgba(254, 254, 254, 0.25) 1%, rgba(0, 0, 0, 0.25) 100%), radial-gradient(50% 100%, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%);
+ background-blend-mode: normal, lighten, soft-light;">
+    <!-- Page Loader 
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <p>Tunggu Bentar Ndan...</p>
+        </div>
+    </div> -->
+    <!-- #END# Page Loader -->
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+    <!-- #END# Overlay For Sidebars -->
+    <!-- Search Bar 
+    <div class="search-bar">
+        <div class="search-icon">
+            <i class="material-icons">search</i>
+        </div>
+        <input type="text" placeholder="START TYPING...">
+        <div class="close-search">
+            <i class="material-icons">close</i>
+        </div>
+    </div> -->
+    <!-- #END# Search Bar -->
+    <!-- Top Bar 
+    perlu ditambahkan tooltip dan konfirmasi
+    -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+            <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand">B-STATUS | Sistem Informasi Status Keselamatan Kebakaran Bangunan Gedung di DKI Jakarta</a>
+            </div> 
+            <div class=" collapse navbar-collapse navbar-nav navbar-right js-sweetalert" id="navbar-collapse"  style="padding: 5px 7px">
+                <button type="button" class="btn bg-red btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="logout" data-type="confirm_logout">
+                    <i class="material-icons">logout</i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <!-- #Top Bar -->
+    <section>
+        <!-- Left Sidebar -->
+        <aside id="leftsidebar" class="sidebar">
+            <!-- User Info -->
+            <div class="user-info">
+                <div class="image col-xs-2">
+                    <?php $user = $this->ion_auth->user()->row(); ?>
+                    <img src="<?php echo base_url().'upload/'.$user->avatar; ?>" width="52" height="52" alt="User" />    
+                </div>
+                <div class="image-k col-xs-2">
+                    <img src="<?php echo base_url(); ?>assets/icon/inspektur.ico" width="55" height="48" alt="User" />    
+                </div>
+                <div class="image col-xs-2">
+                    <img src="<?php echo base_url(); ?>upload/damkar.png" width="52" height="52" alt="User" />    
+                </div>
+                <div class="info-container col-xs-12">
+                    <?php //$user = $this->ion_auth->user()->row();?>
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo "{$user->first_name} {$user->last_name}" ;?></div>
+                    <div class="email"><?php echo $user->email;?></div>
+                </div>
+            </div>
+            <!-- #User Info --> 
+            <!-- Menu -->
+            <?php 	
+	            $url1=$this->uri->segment(1);
+                $url2=$this->uri->segment(2); 
+            ?>
+            <div class="menu">
+                <ul class="list">
+                    <li class="header">MAIN NAVIGATION</li>
+                    <li class="<?php trv_state('auth/index', $url1, $url2);?>">
+                        <a href="<?php echo base_url(); ?>auth/index">
+                            <i class="material-icons">person</i>
+                            <span>Users</span>
+                        </a>
+                    </li>
+                    <li class="<?php trv_state('auth/show_groups', $url1, $url2);?>">
+                        <a href="<?php echo base_url(); ?>auth/show_groups">
+                            <i class="material-icons">group</i>
+                            <span>Groups</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- #Menu -->
+            <!-- Footer -->
+            <div class="legal">
+                <div class="copyright">
+                    &copy; 2018 
+                </div>
+                <a href="javascript:void(0);">Dinas Penanggulangan Kebakaran dan Penyelamatan Provinsi DKI Jakarta</a>
+                <div class="version">
+                    <b>Version: </b> 1.0
+                </div>
+            </div>
+            <!-- #Footer -->
+        </aside>
+        <!-- #END# Left Sidebar -->
     </section>
-    <!-- /.sidebar -->
-  </aside>
+

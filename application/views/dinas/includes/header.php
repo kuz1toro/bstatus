@@ -1,3 +1,6 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?>
 <!DOCTYPE html>
 <html>
 
@@ -25,18 +28,18 @@
     <link href="<?php echo base_url(); ?>assets/vendor_new/sweetalert/sweetalert.css" rel="stylesheet" />
 
     <!-- Bootstrap Select -->
-    <?php if ($attributeFooter['bootstrapSelect']){
+    <?php if (isset($attributeFooter) && $attributeFooter['bootstrapSelect']){
         echo '<link href="'.base_url().'assets/vendor_new/bootstrap-select/css/bootstrap-select.css" rel="stylesheet">';
     } ?>
 
     <!-- Bootstrap Material Datetime Picker Css -->
-    <?php if ($attributeFooter['datetimePicker']){
+    <?php if (isset($attributeFooter) && $attributeFooter['datetimePicker']){
         echo '<link href="'.base_url().'assets/vendor_new/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">';
         echo '<link href="'.base_url().'assets/vendor_new/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet">';
     } ?>
 
     <!-- jquery datatable Css -->
-    <?php if ($attributeFooter['dataTable']){
+    <?php if (isset($attributeFooter) && $attributeFooter['dataTable']){
          echo '<link href="'.base_url().'assets/vendor_new/jquery-datatable/skin/bootstrap/css/jquery.dataTables.min.css" rel="stylesheet">';
          echo '<link href="'.base_url().'assets/vendor_new/jquery-datatable/skin/bootstrap/css/responsive.dataTables.min.css" rel="stylesheet">';
          echo '<link href="'.base_url().'assets/vendor_new/jquery-datatable/skin/bootstrap/css/buttons.dataTables.min.css" rel="stylesheet">';
@@ -119,8 +122,8 @@
                     <?php $user = $this->ion_auth->user()->row(); ?>
                     <img src="<?php echo base_url().'upload/'.$user->avatar; ?>" width="48" height="48" alt="User" />    
                 </div>
-                <div class="image col-xs-2">
-                    <img src="<?php echo base_url(); ?>upload/fire-safety-symbol.png" width="52" height="52" alt="User" />    
+                <div class="image-k col-xs-2">
+                    <img src="<?php echo base_url(); ?>assets/icon/inspektur.ico" width="55" height="48" alt="User" />    
                 </div>
                 <div class="image col-xs-2">
                     <img src="<?php echo base_url(); ?>upload/damkar.png" width="52" height="52" alt="User" />    

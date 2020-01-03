@@ -3,55 +3,46 @@
 @import url('https://fonts.googleapis.com/css?family=Numans');
 
 html,body{
-background-image: url('../img/backgrounds/639249.jpg');
-background-size: cover;
-background-repeat: no-repeat;
-height: 100%;
-font-family: 'Numans', sans-serif;
+  background-image: url('../img/backgrounds/639249.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+  font-family: 'Numans', sans-serif;
+  background-color: rgb(30, 255, 0);
 }
 
-
 .container{
-height: 100%;
-align-content: center;
+  height: 100%;
+  align-content: center;
 }
 
 .kuswantoro{
-    padding-top: 2vw;
+    padding-top: 35px;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    color: rgba(255, 255, 255, 1);
+    color: rgb(255, 255, 255);
     text-align: center;
+    text-shadow:
+    -1px -1px 0 rgb(0, 3, 128);
 }
 
 .kuswantoro h1{
-  font-size:3vw;
+  font-size:55px;
   font-weight: bold;
-  line-height: 2.5vw;
+  line-height: 50px;
 }
 
 .kuswantoro h2{
-  font-size:2vw;
+  font-size:40px;
   font-weight: bold;
-  line-height: 1.5vw;
-}
-
-
-.kuswantoro:hover
-{
-    color: #fff;
-    text-shadow:
-    -1px -1px 0 #00f,
-    1px -1px 0 #00f,
-    -1px 1px 0 #00f,
-    1px 1px 0 #00f;  
+  line-height: 30px;
 }
 
 .card{
-height: 320px;
-margin-top: 5vw;
-margin-bottom: auto;
-width: 400px;
-background-color: rgba(0,0,0,0.8) !important;
+  height: 320px;
+  margin-top: 100px;
+  margin-bottom: auto;
+  width: 400px;
+  background-color: rgba(0, 18, 121, 0.767) !important;
 }
 
 .icon-pemprovDKI {
@@ -103,8 +94,8 @@ top: -45px;
 
 .input-group-prepend span{
 width: 50px;
-background-color: #FFC312;
-color: black;
+background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);
 border:0 !important;
 }
 
@@ -127,14 +118,14 @@ margin-right: 5px;
 }
 
 .login_btn{
-color: black;
-background-color: #FFC312;
+color: rgb(255, 255, 255);
+background-color: rgba(255, 0, 0, 0.76);
 width: 100px;
 }
 
 .login_btn:hover{
-color: black;
-background-color: white;
+color: rgb(255, 255, 255);
+background-color: rgb(255, 0, 0);
 }
 
 .links{
@@ -143,4 +134,72 @@ color: white;
 
 .links a{
 margin-left: 4px;
+}
+
+
+
+/* On screens that are 992px or less, tablet */
+@media screen and (max-width: 992px) {
+  body {
+    background-color: blue;
+  }
+  .kuswantoro{
+    padding-top: 45px;
+  }
+  .kuswantoro h1{
+    font-size:35px;
+    line-height: 30px;
+  }
+  .kuswantoro h2{
+    font-size:25px;
+    line-height: 20px;
+  }
+  .card{
+    margin-top: 200px;
+  }
+}
+
+/* On screens that are 600px or less, phone */
+@media screen and (max-width: 600px) {
+  body {
+    background-color: rgb(255, 0, 0);
+  }
+  .kuswantoro{
+    padding-top: 35px;
+  }
+  .kuswantoro h1{
+    font-size:20px;
+    line-height: 10px;
+  }
+  .kuswantoro h2{
+    font-size:20px;
+    line-height: 16px;
+  }
+  .card{
+    height: 320px;
+    margin-top: 100px;
+    width: 300px;
+  }
+  .icon-pemprovDKI {
+    background-size: 35px;
+    height: 35px;
+    line-height: 24px;
+    width: 35px;
+  }
+  .icon-damkar {
+    background-size: 35px;
+    height: 35px;
+    line-height: 24px;
+    width: 35px;
+  }
+  
+  .icon-inspektur {
+    background-size: 35px;
+    height: 35px;
+    line-height: 24px;
+    width: 35px;
+  }
+  h3 {
+    font-size:20px;
+  }
 }

@@ -116,13 +116,8 @@ if (!defined('PDF_HEADER_LOGO_WIDTH')) {
 	}
 }
 
-if (!defined('K_PATH_CACHE')) {
-	$K_PATH_CACHE = ini_get('upload_tmp_dir') ? ini_get('upload_tmp_dir') : sys_get_temp_dir();
-	if (substr($K_PATH_CACHE, -1) != '/') {
-		$K_PATH_CACHE .= '/';
-	}
-	define ('K_PATH_CACHE', $K_PATH_CACHE);
-}
+$K_PATH_CACHE = FCPATH.'temp/';
+define ('K_PATH_CACHE', $K_PATH_CACHE);
 
 if (!defined('K_BLANK_IMAGE')) {
 	define ('K_BLANK_IMAGE', '_blank.png');

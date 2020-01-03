@@ -13,7 +13,7 @@
 <script src="<?php echo base_url(); ?>assets/vendor_new/node-waves/waves.js"></script>
 
  <!-- Jquery DataTable Plugin Js -->
- <?php if ($attributeFooter['dataTable']){
+ <?php if (isset($attributeFooter) && $attributeFooter['dataTable']){
         echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/jquery.dataTables.min.js"></script>';
         echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/dataTables.responsive.min.js"></script>';
         echo '<script src="'.base_url().'assets/vendor_new/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>';
@@ -25,7 +25,7 @@
         echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/tables/jquery-datatable.js"></script>';
     } ?>
 
-    <?php if ($attributeFooter['jspdf']){
+    <?php if (isset($attributeFooter) && $attributeFooter['jspdf']){
         echo '<script src="'.base_url().'assets/vendor_new/jspdf/jspdf.min.js"></script>';
     } ?>
 
@@ -37,20 +37,20 @@
 
 <!-- Chart Plugins Js -->
 <!-- Chart Js content -->
-<?php if ($attributeFooter['chartJS']){
+<?php if (isset($attributeFooter) && $attributeFooter['chartJS']){
     echo '<script src="'.base_url().'assets/vendor_new/chartjs/Chart.bundle.js"></script>';
     echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/charts/chartjs.js"></script>';
 } ?>
 
 <!-- Jquery Validation -->
-<?php if ($attributeFooter['JqueryValidation']){
+<?php if (isset($attributeFooter) && $attributeFooter['JqueryValidation']){
     echo '<script src="'.base_url().'assets/vendor_new/jquery-validation/jquery.validate.js"></script>';
     echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/form-validation.js"></script>';
 } ?>
 
 
 <!-- autosize, moment, Bootstrap Material Datetime Picker -->
-<?php if ($attributeFooter['datetimePicker']){
+<?php if (isset($attributeFooter) && $attributeFooter['datetimePicker']){
     echo '<script src="'.base_url().'assets/vendor_new/autosize/autosize.js"></script>';
     echo '<script src="'.base_url().'assets/vendor_new/momentjs/moment.js"></script>';
     echo '<script src="'.base_url().'assets/vendor_new/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>';
@@ -60,13 +60,13 @@
 } ?>
 
 <!-- cke editor basic -->
-<?php if ($attributeFooter['ckeEditorBasic']){
+<?php if (isset($attributeFooter) && $attributeFooter['ckeEditorBasic']){
     echo '<script src="'.base_url().'assets/vendor_new/ckeditor-basic/ckeditor.js"></script>';
     echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/editors.js"></script>';
 } ?>
 
 <!-- bootstrap select -->
-<?php if ($attributeFooter['bootstrapSelect']){
+<?php if (isset($attributeFooter) && $attributeFooter['bootstrapSelect']){
     echo '<script src="'.base_url().'assets/vendor_new/bootstrap-select/js/bootstrap-select.js"></script>';
     //echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/form-validation.js"></script>';
 } ?>
@@ -78,7 +78,7 @@
 <script src="<?php echo base_url(); ?>assets/vendor_new/adminBSB/js/pages/ui/tooltips-popovers.js"></script>
 
 <!-- kecamatan kelurahan kodepos select -->
-<?php if ($attributeFooter['kecamatanKelurahan']){
+<?php if (isset($attributeFooter) && $attributeFooter['kecamatanKelurahan']){
     echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/script.js"></script>';
     //echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/form-validation.js"></script>';
 } ?>
