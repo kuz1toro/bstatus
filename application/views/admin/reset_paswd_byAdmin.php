@@ -4,8 +4,7 @@
 			<div class="card">
 				<div class="header">
 					<h1>
-						<?php echo lang('deactivate_heading');?>
-						<small></small>
+						Reset Password
 					</h1>
 					<ol class="breadcrumb">
 						<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -13,16 +12,16 @@
 					</ol>
 				</div>
 				<div class="body">
-					<p><?php echo sprintf(lang('deactivate_subheading'), $user->username);?></p>
+					<p><?php echo 'Reset Password : '.$user->username.'';?></p>
 
-					<?php echo form_open("auth/deactivate/".$user->id);?>
+					<?php echo form_open("auth/myResetPassword/".$user->id);?>
 
 					<div class="demo-radio-button">
 						
-						<input type="radio" name="confirm" id="radio_1" value="yes" checked="checked" class="radio-col-green" checked />
+						<input type="radio" name="confirm" id="radio_1" value="yes" class="radio-col-green" />
 						<label for="radio_1"><?php echo lang('deactivate_confirm_y_label', 'confirm');?></label>
 						
-						<input type="radio" name="confirm" id="radio_2" value="no" class="radio-col-red"/>
+						<input type="radio" name="confirm" id="radio_2" value="no" checked="checked" class="radio-col-red" checked/>
 						<label for="radio_2"><?php echo lang('deactivate_confirm_n_label', 'confirm');?></label>
 					</div>
 

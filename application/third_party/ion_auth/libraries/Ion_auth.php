@@ -449,4 +449,24 @@ class Ion_auth
 		return $this->ion_auth_model->deactivate($id);
 	}
 
+	public function get_identity_byId($id)
+	{
+		$ColIdentity = $this->config->item('identity', 'ion_auth');
+		$arrayId = $this->ion_auth_model->getIdentity($id, $ColIdentity);
+		return $arrayId[0][$ColIdentity];
+	}
+
+	public function myReset_password($id, $identity)
+	{
+		
+		$password = $this->config->item('default_password', 'ion_auth');;
+
+		$hashPassword = $this->ion_auth_model->hash_password($password, $identity);
+
+		$dataPassword = array ('password' => $hashPassword);
+
+		return $this->ion_auth_model->storePassword($id, $dataPassword);
+
+	}
+
 }

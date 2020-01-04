@@ -138,6 +138,7 @@ $config['identity']                   = 'username';             /* You can use a
 															    The values in this column, alongside password, will be used for login purposes
 															    IMPORTANT: If you are changing it from the default (email),
 															    		   update the UNIQUE constraint in your DB */
+$config['default_password']        	  = 'pemadam113';
 $config['min_password_length']        = 8;                   // Minimum Required Length of Password (not enforced by lib - see note above)
 $config['email_activation']           = FALSE;               // Email Activation for registration
 $config['manual_activation']          = FALSE;               // Manual Activation for registration

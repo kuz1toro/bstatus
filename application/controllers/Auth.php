@@ -384,6 +384,55 @@ class Auth extends CI_Controller
 		}
 	}
 
+	//reset password mycode
+	public function myResetPassword($id = NULL)
+	{
+		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
+		{
+			// redirect them to the home page because they must be an administrator to view this
+			show_error('You must be an administrator to view this page.');
+		}
+
+		$id = (int)$id;
+		$identity =$this->ion_auth-> get_identity_byId($id);
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('confirm', $this->lang->line('deactivate_validation_confirm_label'), 'required');
+		//$this->form_validation->set_rules('id', $this->lang->line('deactivate_validation_user_id_label'), 'required|alpha_numeric');
+
+		if ($this->form_validation->run() === FALSE)
+		//if ($id !== NULL)
+		{
+			// insert csrf check
+			$this->data['csrf'] = $this->_get_csrf_nonce();
+			$this->data['user'] = $this->ion_auth->user($id)->row();
+
+			//$this->_render_page('auth' . DIRECTORY_SEPARATOR . 'deactivate_user', $this->data);
+			$this->data['main_content'] = 'admin/reset_paswd_byAdmin';
+			$this->_render_page('admin/includes/template', $this->data);
+		}
+		else
+		{
+			// do we really want to deactivate?
+			if ($this->input->post('confirm') == 'yes')
+			{
+				// do we have a valid request?
+				if ($this->_valid_csrf_nonce() === FALSE || $id != $this->input->post('id'))
+				{
+					show_error($this->lang->line('error_csrf'));
+				}
+
+				// do we have the right userlevel?
+				if ($this->ion_auth->logged_in() && $this->ion_auth->is_admin() && $this->ion_auth->myReset_password($id, $identity))
+				{
+					redirect('auth', 'refresh');
+				}
+			}
+
+			// redirect them back to the auth page
+			redirect('auth/show_groups', 'refresh');
+		}
+	}
+
 	/**
 	 * Activate the user
 	 *
@@ -615,8 +664,8 @@ class Auth extends CI_Controller
 		// validate form input
 		$this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'trim|required');
 		$this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_lname_label'), 'trim|required');
-		$this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'trim|required');
-		$this->form_validation->set_rules('company', $this->lang->line('edit_user_validation_company_label'), 'trim|required');
+		//$this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'trim|required');
+		//$this->form_validation->set_rules('company', $this->lang->line('edit_user_validation_company_label'), 'trim|required');
 		$this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'trim|required|valid_email');
 
 		if (isset($_POST) && !empty($_POST))

@@ -321,8 +321,12 @@ if(!function_exists('trv_state'))
 	function trv_state($page, $url1, $url2){
 		if($page=='home' && $url1=='prainspeksi_gedung' && $url2=='home'){
 			echo 'active';
-		}elseif ($page=='gedung' && $url1=='prainspeksi_gedung' && $url2=='index') {
+		}elseif ($page=='admin' && $url1=='auth' && $url2=='index') {
 			echo 'active';
+		}elseif ($page=='group' && $url1=='auth' && $url2=='show_groups') {
+			echo 'active';
+		}elseif ($page=='gedung' && $url1=='prainspeksi_gedung' && $url2=='index') {
+				echo 'active';
 		}elseif ($page=='gedung' && $url1=='prainspeksi_gedung' && $url2=='add') {
 			echo 'active';
 		}elseif ($page=='gedung' && $url1=='prainspeksi_gedung' && $url2=='update') {

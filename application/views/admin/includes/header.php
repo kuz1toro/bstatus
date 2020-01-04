@@ -4,9 +4,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- user information -->
 <?php $user = $this->ion_auth->user()->row(); ?>
 <?php 
-        $url1 = 'admin';
-        $url2 = $this->uri->segment(2); 
+        $url1=$this->uri->segment(1);
+        $url2=$this->uri->segment(2); 
         //echo trv_state($page, $url1, $url2);
+        $attributeFooter = array(
+			'chartJS' => FALSE,
+			'dataTable' => TRUE,
+			'JqueryValidation' => FALSE,
+			'bootstrapSelect' => TRUE,
+			'datetimePicker' => FALSE,
+			'kecamatanKelurahan' => FALSE,
+			'ckeEditorBasic' => FALSE,
+			'jspdf' => FALSE
+		);
       ?>
 
 <!DOCTYPE html>
@@ -47,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     } ?>
 
     <!-- jquery datatable Css -->
-    <?php if (isset($attributeFooter) && $attributeFooter['dataTable']){
+    <?php if ($attributeFooter['dataTable']){
          echo '<link href="'.base_url().'assets/vendor_new/jquery-datatable/skin/bootstrap/css/jquery.dataTables.min.css" rel="stylesheet">';
          echo '<link href="'.base_url().'assets/vendor_new/jquery-datatable/skin/bootstrap/css/responsive.dataTables.min.css" rel="stylesheet">';
          echo '<link href="'.base_url().'assets/vendor_new/jquery-datatable/skin/bootstrap/css/buttons.dataTables.min.css" rel="stylesheet">';
@@ -62,7 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     ?>
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
-    <link href="<?php echo base_url(); ?>assets/vendor_new/adminBSB/css/themes/theme-red.min.css" rel="stylesheet" />
+    <link href="<?php echo base_url(); ?>assets/vendor_new/adminBSB/css/themes/theme-black.min.css" rel="stylesheet" />
 
     
 
@@ -70,7 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script>var base_url = '<?php echo base_url() ?>';</script>
 </head>
 
-<body class="theme-red " style="background-image: linear-gradient(to left, #BDBBBE 0%, #9D9EA3 100%), radial-gradient(88% 271%, rgba(255, 255, 255, 0.25) 0%, rgba(254, 254, 254, 0.25) 1%, rgba(0, 0, 0, 0.25) 100%), radial-gradient(50% 100%, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%);
+<body class="theme-black " style="background-image: linear-gradient(to left, #BDBBBE 0%, #9D9EA3 100%), radial-gradient(88% 271%, rgba(255, 255, 255, 0.25) 0%, rgba(254, 254, 254, 0.25) 1%, rgba(0, 0, 0, 0.25) 100%), radial-gradient(50% 100%, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%);
  background-blend-mode: normal, lighten, soft-light;">
     <!-- Page Loader 
     <div class="page-loader-wrapper">
@@ -113,8 +123,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <a href="javascript:void(0);" class="bars"></a>
                 <a class="navbar-brand">B-STATUS | Sistem Informasi Status Keselamatan Kebakaran Bangunan Gedung di DKI Jakarta</a>
             </div> 
-            <div class=" collapse navbar-collapse navbar-nav navbar-right js-sweetalert" id="navbar-collapse"  style="padding: 5px 7px">
-                <button type="button" class="btn bg-red btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="logout" data-type="confirm_logout">
+            <div class=" collapse navbar-collapse navbar-nav navbar-right js-sweetalert" id="navbar-collapse"  style="padding: 10px 7px">
+                <button type="button" class="btn bg-blue btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="logout" data-type="confirm_logout">
                     <i class="material-icons">logout</i>
                 </button>
             </div>
@@ -151,13 +161,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="menu">
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
-                    <li class="<?php trv_state('auth/index', $url1, $url2);?>">
+                    <li class="<?php trv_state('admin', $url1, $url2);?>">
                         <a href="<?php echo base_url(); ?>auth/index">
                             <i class="material-icons">person</i>
                             <span>Users</span>
                         </a>
                     </li>
-                    <li class="<?php trv_state('auth/show_groups', $url1, $url2);?>">
+                    <li class="<?php trv_state('group', $url1, $url2);?>">
                         <a href="<?php echo base_url(); ?>auth/show_groups">
                             <i class="material-icons">group</i>
                             <span>Groups</span>

@@ -2785,4 +2785,19 @@ class Ion_auth_model extends CI_Model
 			return FALSE;
 		}
 	}
+
+	public function getIdentity($id = NULL, $ColIdentity)
+	{
+		$this->db->select($ColIdentity);
+		$this->db->from('users');
+		$this->db->where('id', $id);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function storePassword($id, $dataPassword)
+	{
+		$this->db->where('id', $id);
+		return $this->db->update('users', $dataPassword);
+	}
 }
