@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>B-Status Dinas Penanggulangan Kebakaran dan Penyelamatan DKI Jakarta</title>
+    <title>B-Status-nG Dinas Penanggulangan Kebakaran dan Penyelamatan DKI Jakarta</title>
     <!-- Favicon-->
     <link rel="shortcut icon" type="ico" size="36x36" href="<?php echo base_url(); ?>assets/icon/damkar.ico">
 
@@ -30,6 +30,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Bootstrap Select -->
     <?php if (isset($attributeFooter) && $attributeFooter['bootstrapSelect']){
         echo '<link href="'.base_url().'assets/vendor_new/bootstrap-select/css/bootstrap-select.css" rel="stylesheet">';
+    } ?>
+
+    <!-- highcharts css -->
+    <?php if (isset($attributeFooter) && $attributeFooter['highcharts']){
+        echo '<link href="'.base_url().'assets/vendor_new/highcharts/css/highcharts.css" rel="stylesheet">';
+    } ?>
+
+    <!-- highcharts js-->
+    <?php if (isset($attributeFooter) && $attributeFooter['highcharts']){
+        echo '<script src="'.base_url().'assets/vendor_new/highcharts/js/highcharts.js"></script>';
+        echo '<script src="'.base_url().'assets/vendor_new/highcharts/modules/exporting.js"></script>';
+        echo '<script src="'.base_url().'assets/vendor_new/highcharts/modules/offline-exporting.js"></script>';
+        echo '<script src="'.base_url().'assets/vendor_new/highcharts/modules/export-data.js"></script>';
     } ?>
 
     <!-- Bootstrap Material Datetime Picker Css -->
@@ -103,7 +116,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="navbar-header">
             <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand">B-STATUS | Sistem Informasi Status Keselamatan Kebakaran Bangunan Gedung di DKI Jakarta</a>
+                <a class="navbar-brand">bStatus-nG | Sistem Informasi Status Keselamatan Kebakaran Bangunan Gedung di DKI Jakarta</a>
             </div> 
             <div class=" collapse navbar-collapse navbar-nav navbar-right js-sweetalert" id="navbar-collapse"  style="padding: 5px 7px">
                 <button type="button" class="btn bg-red btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="logout" data-type="confirm_logout">

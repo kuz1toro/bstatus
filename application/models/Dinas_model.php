@@ -1,6 +1,7 @@
 <?php
 class Dinas_model extends CI_Model {
 
+
 	/**
 	* Responsable for auto load the database
 	* @return void
@@ -281,8 +282,9 @@ class Dinas_model extends CI_Model {
 	function get_chart_data($parameter, $kepemilikkan)
 	{
 		//echo 'count gedung';
+		$tabelGedung = $this->config->item('nama_tabel_gedung');
 		$this->db->select('*');
-		$this->db->from('gedung_dinas');
+		$this->db->from($tabelGedung);
 		$this->db->where('last_status', $parameter);
 		$this->db->where('kepemilikan', $kepemilikkan);
 		$query = $this->db->get();
@@ -294,8 +296,11 @@ class Dinas_model extends CI_Model {
 
 	function get_chart_sum($status, $kepemilikkan, $kategori)
 	{
+		$tabelPokja = $this->config->item('nama_tabel_pokja');
+		$tabelGedung = $this->config->item('nama_tabel_gedung');
+		$tabelFsm = $this->config->item('nama_tabel_fsm');
 		$this->db->select('no_gedung,nama_gedung,alamat_gedung,wilayah,kecamatan,kelurahan,last_status, kepemilikan');
-		$this->db->from('gedung_dinas as joinTable');
+		$this->db->from($tabelGedung.' as joinTable');
 		//$this->db->select('tabel_kolom_statusGedung.keterangan_kolom_statusGedung');
 		$this->db->select('tabel_kolom_statusGedung.kategori_kolomHslPemeriksaan');
 		$this->db->select('tabel_kolom_statusGedung.nama_kolom_statusGedung');
@@ -304,10 +309,10 @@ class Dinas_model extends CI_Model {
 		$this->db->join('tabel_kolom_kepemilikkan_gedung', 'joinTable.kepemilikan =tabel_kolom_kepemilikkan_gedung.id_kepemilikkan_gedung', 'left');
 		$this->db->select('tabel_kolom_fungsi_gedung.fungsi_gedung');
 		$this->db->join('tabel_kolom_fungsi_gedung', 'joinTable.fungsi =tabel_kolom_fungsi_gedung.id_fungsi_gedung', 'left');
-		$this->db->select('fsm_dinas.nama_FSM');
-		$this->db->join('fsm_dinas', 'joinTable.fsm =fsm_dinas.id_FSM', 'left');
-		$this->db->select('pokja_dinas.nama_pokja');
-		$this->db->join('pokja_dinas', 'joinTable.pokja =pokja_dinas.id_pokja', 'left');
+		$this->db->select($tabelFsm.'.nama_FSM');
+		$this->db->join($tabelFsm, 'joinTable.fsm ='.$tabelFsm.'.id_FSM', 'left');
+		$this->db->select($tabelPokja.'.nama_pokja');
+		$this->db->join($tabelPokja, 'joinTable.pokja ='.$tabelPokja.'.id_pokja', 'left');
 		if ($kategori !== '%')
 		{
 			$this->db->where('tabel_kolom_statusGedung.kategori_kolomHslPemeriksaan', $kategori);
@@ -355,8 +360,9 @@ class Dinas_model extends CI_Model {
 
 	function count_all_gedung()
 	{
+		$tabelGedung = $this->config->item('nama_tabel_gedung');
 		$this->db->select('id_gdg_dinas');
-		$this->db->from('gedung_dinas');
+		$this->db->from($tabelGedung);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
@@ -394,30 +400,33 @@ class Dinas_model extends CI_Model {
 
 	public function get_migrateData()
 	{
+		$tabelPemeriksaan = $this->config->item('nama_tabel_pemeriksaan');
 		$this->db->select('id_pemeriksaan_dinas');
 		$this->db->select('jalur_info1');
 		$this->db->select('hasil_pemeriksaan1');
 		$this->db->select('status_gedung1');
 		$this->db->select('next_status1');
-		$this->db->from('pemeriksaan_dinas');
+		$this->db->from($tabelPemeriksaan);
 		$query = $this->db->get();
 		return $query->result_array();
 	}
 
 	public function get_migrateTgl()
 	{
+		$tabelPemeriksaan = $this->config->item('nama_tabel_pemeriksaan');
 		$this->db->select('id_pemeriksaan_dinas');
 		$this->db->select('tgl_berlaku1');
 		$this->db->select('tgl_expired1');
-		$this->db->from('pemeriksaan_dinas');
+		$this->db->from($tabelPemeriksaan);
 		$query = $this->db->get();
 		return $query->result_array();
 	}
 
 	function fill_column($id, $data)
 	{
+		$tabelPemeriksaan = $this->config->item('nama_tabel_pemeriksaan');
 		$this->db->where('id_pemeriksaan_dinas', $id);
-		$this->db->update('pemeriksaan_dinas', $data);
+		$this->db->update($tabelPemeriksaan, $data);
 	}
 
 	public function get_gedung_by_id($id)
@@ -623,24 +632,26 @@ class Dinas_model extends CI_Model {
 
 	public function get_statusGedung()
 	{
-		$this->db->select('id_gdg_dinas');
-		$this->db->select('last_status');
-		$this->db->from('gedung_dinas');
+		$tabelGedung = $this->config->item('nama_tabel_gedung');
+		$this->db->select('id_gdg_dinas,last_status');
+		$this->db->from($tabelGedung);
 		$query = $this->db->get();
 		return $query->result_array();
 	}
 
 	function fill_gdg($id, $data)
 	{
+		$tabelGedung = $this->config->item('nama_tabel_gedung');
 		$this->db->where('id_gdg_dinas', $id);
-		$this->db->update('gedung_dinas', $data);
+		$this->db->update($tabelGedung, $data);
 	}
 
 	public function get_statusPemeriksaan()
 	{
+		$tabelPemeriksaan = $this->config->item('nama_tabel_pemeriksaan');
 		$this->db->select('id_pemeriksaan_dinas');
 		$this->db->select('status_gedung');
-		$this->db->from('pemeriksaan_dinas');
+		$this->db->from($tabelPemeriksaan);
 		$query = $this->db->get();
 		return $query->result_array();
 	}

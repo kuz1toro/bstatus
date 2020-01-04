@@ -1,7 +1,7 @@
 $(function () {
     skinChanger();
     activateNotificationAndTasksScroll();
-    $('.animsition').animsition();
+    //$('.animsition').animsition();
     setSkinListHeightAndScroll(true);
     setSettingListHeightAndScroll(true);
     $(window).resize(function () {

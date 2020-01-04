@@ -65,12 +65,17 @@
     echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/editors.js"></script>';
 } ?>
 
+<!-- highcharts -->
+<?php if (isset($attributeFooter) && $attributeFooter['highcharts']){
+    echo "<script> var dataChart = '".$dataPemeriksaan."' </script>";
+    echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/charts/highcharts.js"></script>';
+} ?>
+
 <!-- bootstrap select -->
 <?php if (isset($attributeFooter) && $attributeFooter['bootstrapSelect']){
     echo '<script src="'.base_url().'assets/vendor_new/bootstrap-select/js/bootstrap-select.js"></script>';
     //echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/form-validation.js"></script>';
 } ?>
-
 
 <script src="<?php echo base_url(); ?>assets/vendor_new/adminBSB/js/pages/ui/dialogs.js"></script>
 
@@ -84,7 +89,7 @@
 } ?>
 
 <?php 
-    echo '<script src="'.base_url().'assets/vendor/animsition/animsition.min.js"></script>';
+    //echo '<script src="'.base_url().'assets/vendor/animsition/animsition.min.js"></script>';
 ?>
 
 <!-- Demo Js -->

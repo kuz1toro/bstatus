@@ -6,7 +6,8 @@
                 <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                     <div class="card">
                         <div class="body bg-black">
-                            <div class="font-bold m-b--35">DATA GEDUNG KESELURUHAN</div>
+                            <div class="font-bold m-b--35">DATA GEDUNG KESELURUHAN</div> 
+                            <?php //d($kus); ?>
                             <ul class="dashboard-stat-list">
                             <?php
                                 foreach($dataGdgAll as $row)
@@ -90,34 +91,10 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <h2>KINERJA POKJA TAHUN <?php echo $year; ?></h2>
-                            <ul class="header-dropdown m-r--5">
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        <i class="material-icons">more_vert</i>
-                                    </a>
-                                    <ul class="dropdown-menu pull-right">
-                                        <li><a href="javascript:void(0);">Action</a></li>
-                                        <li><a href="javascript:void(0);">Another action</a></li>
-                                        <li><a href="javascript:void(0);">Something else here</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
+                            <h2>Chart Pemeriksaan Gedung</h2>
                         </div>
-                        <div class="body">
-                        <?php 
-                        $label_name = array('label1', 'label2', 'label3', 'label4', 'label5');
-                        $data_name = array('data1', 'data2', 'data3', 'data4', 'data5');
-                        $i = 0;
-                        foreach($dataPemeriksaan as $row)
-                            {
-                                echo '
-                                    <script>var '.$label_name[$i].' = "'.$row['pokja'].'" </script>
-                                    <script>var '.$data_name[$i].' = ['.$row['list_count'].']</script>
-                                ';
-                                $i++;
-                            } ?>
-                            <canvas id="bar_chart" height="auto"></canvas>
+                        <div class="body">                            
+                            <div id="allPemeriksaan" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
                         </div>
                     </div>
                 </div>

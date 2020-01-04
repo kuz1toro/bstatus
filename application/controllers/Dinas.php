@@ -15,6 +15,7 @@ class Dinas extends CI_Controller {
 	private $per_page = 8;
 	var $attributeFooter = array(
 			'chartJS' => FALSE,
+			'highcharts' => FALSE,
 			'dataTable' => FALSE,
 			'JqueryValidation' => FALSE,
 			'bootstrapSelect' => FALSE,
@@ -35,17 +36,19 @@ class Dinas extends CI_Controller {
 		$this->load->model('pelengkap_model');
 		$this->load->model('ion_auth_model');
 		$this->load->library(array('ion_auth','form_validation'));
-		$this->load->library('pdf');
+		//$this->load->library('pdf');
 		//$this->load->add_package_path(APPPATH.'third_party/tcpdf');
 		// verifikasi pangilan
 		if ( ! $this->ion_auth->in_group('Dinas'))
 		{
 			redirect('auth/logout');
 		}
+		$this->config->load('dinas');
 	}
 
 	public function update_status()
 	{
+		$tabelGedung = $this->config->item('nama_tabel_gedung');
 		$this->load->helper('date');
 		$now = date("Y-m-d H:i:s", now('Asia/Jakarta'));
 		$updateTime = strtotime(date("Y-m-d H:i:s", strtotime($now)) . " +1 days");
@@ -59,9 +62,9 @@ class Dinas extends CI_Controller {
 		//update and write to file if its the time
 		if($now >= $TimeWrited){
 			//update kolom last status dan expired di tabel gedung
-			$table_gedung = 'gedung_dinas';
+			$table_gedung = $tabelGedung;
 			$column = 'no_gedung';
-			$table_pemeriksaan = 'pemeriksaan_dinas';
+			$table_pemeriksaan =  $this->config->item('nama_tabel_pemeriksaan');
 			$list_noGdg = $this->dinas_model->get_hslPemeriksaan($table_gedung, $column);
 			foreach($list_noGdg as $noGdg)
 			{
@@ -201,28 +204,36 @@ class Dinas extends CI_Controller {
 		return $result ;
 	}
 
-	public function home_chart()
+	public function home_highcharts()
 	{
 		$this->load->model('home_model');
 		$this->load->helper('date');
-		$year = date("Y", now('Asia/Jakarta'));
+		$startYear = '2018';
+		$endYear = date("Y", now('Asia/Jakarta'));
 		$months = array(1,2,3,4,5,6,7,8,9,10,11,12);
 		$list_pokja = $this->home_model->get_allPokja();
-		foreach($list_pokja as $pokja)
+		$data = [];
+		for($year=$startYear; $year<=$endYear; $year++)
 		{
-			$list_count = '';
+			$i = 0;
+			$list_count = [];
 			foreach($months as $month)
 			{
-				$count = $this->home_model->count_pemeriksaan_byMonth($month,$year,$pokja['id_pokja']);
-				$list_count = ''.$list_count.''.$count.',';
-				//$list_count = '65, 25, 90, 81, 56, 55, 40';
+				$count = $this->home_model->count_pemeriksaan_byMonth($month,$year);
+				$list_count[$i] = $count;
+				$i++;
 			}
-			$result[$pokja['id_pokja']] = array (
-				'pokja' => $pokja['nama_pokja'],
-				'list_count' => $list_count
-			);
+			$yearArray = array('name' => $year, 'data' => $list_count);
+			array_push($data, $yearArray);
 		}
-		return $result;
+		return $data;
+	}
+
+	public function show_expGedung()
+	{
+		$this->load->model('home_model');
+		$this->load->helper('date');
+		$dataPemeriksaan = $this->home_model->getDataPemeriksaan();
 	}
 
 	public function home()
@@ -230,7 +241,7 @@ class Dinas extends CI_Controller {
 		$this->load->helper('date');
 		$this -> update_status();
 		$attributeFooter = $this->attributeFooter;
-		$attributeFooter['chartJS'] = TRUE;
+		$attributeFooter['highcharts'] = TRUE;
 		$attributeFooter['dataTable'] = TRUE;
 		$data['attributeFooter'] = $attributeFooter;
 		//$list_statusGdg = $this->home_model->get_list_status_gedung();
@@ -238,7 +249,7 @@ class Dinas extends CI_Controller {
 		$data['dataGdgPemda'] = $this -> home_card('pemda');
 		$data['dataGdgPemerintah'] = $this -> home_card('pemerintah');
 		$data['dataGdgSwasta'] = $this -> home_card('swasta');
-		$data['dataPemeriksaan'] = $this -> home_chart();
+		$data['dataPemeriksaan'] = json_encode($this -> home_highcharts());
 		$data['year'] = date("Y", now('Asia/Jakarta'));
 		$data['main_content'] = 'dinas/home';
 		$this->load->view('dinas/includes/template', $data);
@@ -1045,7 +1056,7 @@ class Dinas extends CI_Controller {
 		$data['edit_url'] = 'edit_pokja';
 		$data['delete_url'] = 'delete_pokja';
 		$data['add_url'] = 'add_pokja';
-		$nama_table = 'pokja_dinas';
+		$nama_table = $this->config->item('nama_tabel_pokja');
 		$data['data'] = $this->dinas_model->get_all_setting($nama_table);
 		$data['main_content'] = 'dinas/pokja/list_pokja';
 		$this->load->view('dinas/includes/template', $data);
@@ -1053,7 +1064,7 @@ class Dinas extends CI_Controller {
 
 	public function add_pokja()
 	{
-		$nama_table = 'pokja_dinas';
+		$nama_table = $this->config->item('nama_tabel_pokja');
 		//if save button was clicked, get the data sent via post
 		if ($this->input->server('REQUEST_METHOD') === 'POST')
 		{
@@ -1106,7 +1117,7 @@ class Dinas extends CI_Controller {
 	public function edit_pokja()
 	{
 		$id = $this->uri->segment(3);
-		$nama_table = 'pokja_dinas';
+		$nama_table = $this->config->item('nama_tabel_pokja');
 		$id_table = 'id_pokja';
 		//if save button was clicked, get the data sent via post
 		if ($this->input->server('REQUEST_METHOD') === 'POST')
@@ -1161,7 +1172,7 @@ class Dinas extends CI_Controller {
 	public function delete_pokja()
 	{
 		$id = $this->uri->segment(3);
-		$nama_table = 'pokja_dinas';
+		$nama_table = $this->config->item('nama_tabel_pokja');
 		$id_table = 'id_pokja';
 		if ($this->dinas_model->soft_delete_setting($nama_table, $id_table, $id)){
 			$this->session->set_flashdata('flash_message', 'deleted');
@@ -1174,6 +1185,7 @@ class Dinas extends CI_Controller {
 
 	public function list_fireHist()
 	{
+		$tabelGedung = $this->config->item('nama_tabel_gedung');
 		$attributeFooter = $this->attributeFooter;
 		$data['attributeFooter'] = $attributeFooter;
 		$data['thead'] = array(
@@ -1187,8 +1199,8 @@ class Dinas extends CI_Controller {
 		$data['edit_url'] = 'edit_fireHist';
 		$data['delete_url'] = 'delete_fireHist';
 		$data['add_url'] = 'add_fireHist';
-		$table_fireHist = 'riwayat_kebakaran_gdd_dinas';
-		$table_gedung = 'gedung_dinas';
+		$table_fireHist = $this->config->item('nama_tabel_fire_hist');
+		$table_gedung = $tabelGedung;
 		$table_penyebabFire = 'tabel_kolom_penyebabFire';
 		$data['data'] = $this->dinas_model->get_list_fireHist($table_fireHist, $table_gedung, $table_penyebabFire);
 		$data['main_content'] = 'dinas/fire_hist/list_fireHist';
@@ -1217,9 +1229,9 @@ class Dinas extends CI_Controller {
 		$time5 = sqlDate2html($time5);
 		$data['testDate'] = $time5;
 		*/
-		
-		$table_fireHist = 'riwayat_kebakaran_gdd_dinas';
-		$table_gedung = 'gedung_dinas';
+		$tabelGedung = $this->config->item('nama_tabel_gedung');
+		$table_fireHist = $this->config->item('nama_tabel_fire_hist');
+		$table_gedung = $tabelGedung;
 		$table_penyebab = 'tabel_kolom_penyebabFire';
 		//if save button was clicked, get the data sent via post
 		if ($this->input->server('REQUEST_METHOD') === 'POST')
@@ -1278,9 +1290,10 @@ class Dinas extends CI_Controller {
 
 	public function edit_fireHist()
 	{
+		$tabelGedung = $this->config->item('nama_tabel_gedung');
 		$id = $this->uri->segment(3);
-		$table_fireHist = 'riwayat_kebakaran_gdd_dinas';
-		$table_gedung = 'gedung_dinas';
+		$table_fireHist = $this->config->item('nama_tabel_fire_hist');
+		$table_gedung = $tabelGedung;
 		$table_penyebab = 'tabel_kolom_penyebabFire';
 		$id_table = 'id_fireHistDinas';
 		//if save button was clicked, get the data sent via post
@@ -1343,7 +1356,7 @@ class Dinas extends CI_Controller {
 	public function delete_fireHist()
 	{
 		$id = $this->uri->segment(3);
-		$nama_table = 'riwayat_kebakaran_gdd_dinas';
+		$nama_table = $this->config->item('nama_tabel_fire_hist');
 		$id_table = 'id_fireHistDinas';
 		if ($this->dinas_model->soft_delete_setting($nama_table, $id_table, $id)){
 			$this->session->set_flashdata('flash_message', 'deleted');
@@ -1356,6 +1369,7 @@ class Dinas extends CI_Controller {
 
 	public function list_gedung()
 	{
+		$tabelGedung = $this->config->item('nama_tabel_gedung');
 		$attributeFooter = $this->attributeFooter;
 		$attributeFooter['dataTable'] = TRUE;
 		$data['attributeFooter'] = $attributeFooter;
@@ -1373,7 +1387,7 @@ class Dinas extends CI_Controller {
 		$data['edit_url'] = 'edit_gedung';
 		$data['delete_url'] = 'delete_gedung';
 		$data['add_url'] = 'add_gedung';
-		$table_gedung = 'gedung_dinas';
+		$table_gedung = $tabelGedung;
 		$coulum_table_gedung = array ('id_gdg_dinas', 'no_gedung', 'nama_gedung', 'alamat_gedung', 'wilayah', 'kecamatan', 'kelurahan', 'fungsi', 'kepemilikan');
 		$table_fungsi = 'tabel_kolom_fungsi_gedung';
 		$table_kepemilikkan = 'tabel_kolom_kepemilikkan_gedung';
@@ -1386,6 +1400,7 @@ class Dinas extends CI_Controller {
 
 	public function read_gedung()
 	{
+		$tabelGedung = $this->config->item('nama_tabel_gedung');
 		$id = $this->uri->segment(3);
 		//$user = $this->ion_auth->user()->row();
 		//$userName = $user->username;
@@ -1429,22 +1444,22 @@ class Dinas extends CI_Controller {
 		$data['edit_url'] = 'edit_gedung';
 		$data['delete_url'] = 'delete_gedung';
 		$data['add_url'] = 'add_gedung';
-		$table_gedung = 'gedung_dinas';
+		$table_gedung = $tabelGedung;
 		$table_fungsi = 'tabel_kolom_fungsi_gedung';
 		$table_kepemilikkan = 'tabel_kolom_kepemilikkan_gedung';
 		$data['data_gedung'] = $this->dinas_model->get_list_gedung_byId($table_gedung, $table_fungsi, $table_kepemilikkan, $id_gedung, $id);
 		$no_gedung = $this->dinas_model->get_no_gdg_byId($table_gedung, $id_gedung, $id);
-		$table_pemeriksaan = 'pemeriksaan_dinas';
+		$table_pemeriksaan =  $this->config->item('nama_tabel_pemeriksaan');
 		$table_jalurInfo = 'tabel_kolom_jalurInfo';
 		$table_hslPemeriksaan = 'tabel_kolom_hslPemeriksaan';
 		$table_statusGdg = 'tabel_kolom_statusGedung';
-		$table_pokja = 'pokja_dinas';
-		$table_fsm = 'FSM_dinas';
+		$table_pokja = $this->config->item('nama_tabel_pokja');
+		$table_fsm = $this->config->item('nama_tabel_fsm');
 		$table_penyebabFire = 'tabel_kolom_penyebabFire';
 		$data['data_pemeriksaan'] = $this->dinas_model->get_list_pemeriksaan_byNoGdg($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $table_pokja, $table_fsm, $no_gedung_tblPemeriksaan, $no_gedung[0]['no_gedung']);
 		//$table_fsm ='FSM_dinas';
 		//$data['data_fsm'] = $this->dinas_model->get_all_byNoGdg($table_fsm, $no_gedung[0]['no_gedung']);
-		$table_fireHist ='riwayat_kebakaran_gdd_dinas';
+		$table_fireHist =$this->config->item('nama_tabel_fire_hist');
 		$data['fireHist'] = $this->dinas_model->get_fireHist_byNoGdg($table_fireHist, $table_penyebabFire, $no_gedung[0]['no_gedung']);
 
 		//load the view
@@ -1454,7 +1469,7 @@ class Dinas extends CI_Controller {
 
 	public function no_gedung($id_wilayah,$id_kepemilikkan,$id_fungsi)
 	{
-		$table_gedung = 'gedung_dinas';
+		$table_gedung = $this->config->item('nama_tabel_gedung');
 		$kode1 = $this->dinas_model->get_kodeGdg_byId('tabel_wilayah', 'kode1', 'id', $id_wilayah);
 		$kode2 = $this->dinas_model->get_kodeGdg_byId('tabel_kolom_kepemilikkan_gedung', 'kode2', 'id_kepemilikkan_gedung', $id_kepemilikkan);
 		$kode3 = $this->dinas_model->get_kodeGdg_byId('tabel_kolom_fungsi_gedung', 'kode3', 'id_fungsi_gedung', $id_fungsi);
@@ -1492,7 +1507,7 @@ class Dinas extends CI_Controller {
 	public function add_gedung()
 	{
 		$this->load->helper('date');
-		$table_gedung = 'gedung_dinas';
+		$table_gedung = $this->config->item('nama_tabel_gedung');
 		$table_fungsi = 'tabel_kolom_fungsi_gedung';
 		$table_kepemilikkan = 'tabel_kolom_kepemilikkan_gedung';
 		$table_statusGdg = 'tabel_kolom_statusGedung';
@@ -1589,7 +1604,7 @@ class Dinas extends CI_Controller {
 
 	public function edit_no_gedung($id_wilayah,$id_kepemilikkan,$id_fungsi,$existingKode)
 	{
-		$table_gedung = 'gedung_dinas';
+		$table_gedung = $this->config->item('nama_tabel_gedung');
 		$kode1 = $this->dinas_model->get_kodeGdg_byId('tabel_wilayah', 'kode1', 'id', $id_wilayah);
 		$kode2 = $this->dinas_model->get_kodeGdg_byId('tabel_kolom_kepemilikkan_gedung', 'kode2', 'id_kepemilikkan_gedung', $id_kepemilikkan);
 		$kode3 = $this->dinas_model->get_kodeGdg_byId('tabel_kolom_fungsi_gedung', 'kode3', 'id_fungsi_gedung', $id_fungsi);
@@ -1605,7 +1620,7 @@ class Dinas extends CI_Controller {
 	{
 		$this->load->helper('date');
 		$id = $this->uri->segment(3);
-		$table_gedung = 'gedung_dinas';
+		$table_gedung = $this->config->item('nama_tabel_gedung');
 		$table_fungsi = 'tabel_kolom_fungsi_gedung';
 		$table_kepemilikkan = 'tabel_kolom_kepemilikkan_gedung';
 		$table_statusGdg = 'tabel_kolom_statusGedung';
@@ -1695,7 +1710,7 @@ class Dinas extends CI_Controller {
 	public function delete_gedung()
 	{
 		$id = $this->uri->segment(3);
-		$nama_table = 'gedung_dinas';
+		$nama_table = $this->config->item('nama_tabel_gedung');
 		$id_table = 'id_gdg_dinas';
 		if ($this->dinas_model->hard_delete($nama_table, $id_table, $id)){
 			$this->session->set_flashdata('flash_message', 'deleted');
@@ -1728,14 +1743,14 @@ class Dinas extends CI_Controller {
 		$data['edit_url'] = 'edit_pemeriksaan';
 		$data['delete_url'] = 'delete_pemeriksaan';
 		$data['add_url'] = 'add_pemeriksaan';
-		$table_pemeriksaan = 'pemeriksaan_dinas';
+		$table_pemeriksaan =  $this->config->item('nama_tabel_pemeriksaan');
 		$coulum_table_pemeriksaan = array ('id_pemeriksaan_dinas', 'no_permh', 'tgl_permh', 'no_gedungP', 'jalur_info', 'hasil_pemeriksaan', 'status_gedung', 'tgl_berlaku', 'tgl_expired','pokjaP');
 		$table_jalurInfo = 'tabel_kolom_jalurInfo';
 		$table_hslPemeriksaan = 'tabel_kolom_hslPemeriksaan';
 		$table_statGedung = 'tabel_kolom_statusGedung';
-		$table_gedung = 'gedung_dinas';
+		$table_gedung = $this->config->item('nama_tabel_gedung');
 		$table_fungsiGdg = 'tabel_kolom_fungsi_gedung';
-		$table_pokja = 'pokja_dinas';
+		$table_pokja = $this->config->item('nama_tabel_pokja');
 		$data['data'] = $this->dinas_model->get_list_pemeriksaan($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statGedung, $table_gedung, $table_fungsiGdg, $table_pokja, $coulum_table_pemeriksaan);
 
 		//load the view
@@ -1778,14 +1793,14 @@ class Dinas extends CI_Controller {
 		//$table_kepemilikkan = 'tabel_kolom_kepemilikkan_gedung';
 		//$data['data_gedung'] = $this->dinas_model->get_list_gedung_byId($table_gedung, $table_fungsi, $table_kepemilikkan, $id_gedung, $id);
 		//$no_gedung = $this->dinas_model->get_no_gdg_byId($table_gedung, $id_gedung, $id);
-		$table_pemeriksaan = 'pemeriksaan_dinas';
+		$table_pemeriksaan =  $this->config->item('nama_tabel_pemeriksaan');
 		$table_jalurInfo = 'tabel_kolom_jalurInfo';
 		$table_hslPemeriksaan = 'tabel_kolom_hslPemeriksaan';
 		$table_statusGdg = 'tabel_kolom_statusGedung';
-		$table_gedung = 'gedung_dinas';
+		$table_gedung = $this->config->item('nama_tabel_gedung');
 		$table_fungsiGdg = 'tabel_kolom_fungsi_gedung';
-		$table_pokja = 'pokja_dinas';
-		$table_fsm = 'FSM_dinas';
+		$table_pokja = $this->config->item('nama_tabel_pokja');
+		$table_fsm = $this->config->item('nama_tabel_fsm');
 		$id_tblPemeriksaan = 'id_pemeriksaan_dinas';
 		$data['data_pemeriksaan'] = $this->dinas_model->get_list_pemeriksaan_byNoId($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $table_gedung, $table_fungsiGdg, $table_pokja, $table_fsm, $id_tblPemeriksaan, $id);
 		//$table_fsm ='FSM_dinas';
@@ -1809,7 +1824,7 @@ class Dinas extends CI_Controller {
 	public function add_pemeriksaan()
 	{
 		$this->load->helper('date');
-		$table_pemeriksaan = 'pemeriksaan_dinas';
+		$table_pemeriksaan =  $this->config->item('nama_tabel_pemeriksaan');
 		//$coulum_table_pemeriksaan = array ('id_pemeriksaan_dinas', 'no_gedungP', 'jalur_info', 'hasil_pemeriksaan', 'status_gedung', 'tgl_berlaku', 'tgl_expired','pokjaP');
 		$table_jalurInfo = 'tabel_kolom_jalurInfo';
 		$column_jalurInfo = array ('id_kolom_jalurInfo', 'nama_kolom_jalurInfo');
@@ -1817,11 +1832,11 @@ class Dinas extends CI_Controller {
 		$column_hslPemeriksaan = array ('id_kolom_hslPemeriksaan', 'nama_kolom_hslPemeriksaan');
 		$table_statGedung = 'tabel_kolom_statusGedung';
 		//$column_statGedung = array ('id_kolom_statusGedung', 'nama_kolom_statusGedung');
-		$table_gedung = 'gedung_dinas';
+		$table_gedung = $this->config->item('nama_tabel_gedung');
 		$column_table_gedung = array ('no_gedung', 'nama_gedung', 'alamat_gedung');
-		$table_pokja = 'pokja_dinas';
+		$table_pokja = $this->config->item('nama_tabel_pokja');
 		$column_pokja = array ('id_pokja', 'nama_pokja');
-		$table_fsm = 'FSM_dinas';
+		$table_fsm = $this->config->item('nama_tabel_fsm');
 		$column_fsm = array ('id_FSM', 'nama_FSM');
 		//$date = '02-April-2019'; 
 		//$date = htmlDate2sqlDate($date);
@@ -1919,7 +1934,7 @@ class Dinas extends CI_Controller {
 	{
 		$this->load->helper('date');
 		$id = $this->uri->segment(3);
-		$table_pemeriksaan = 'pemeriksaan_dinas';
+		$table_pemeriksaan =  $this->config->item('nama_tabel_pemeriksaan');
 		$id_tblPemeriksaan = 'id_pemeriksaan_dinas';
 		//$coulum_table_pemeriksaan = array ('id_pemeriksaan_dinas', 'no_gedungP', 'jalur_info', 'hasil_pemeriksaan', 'status_gedung', 'tgl_berlaku', 'tgl_expired','pokjaP');
 		$table_jalurInfo = 'tabel_kolom_jalurInfo';
@@ -1929,10 +1944,10 @@ class Dinas extends CI_Controller {
 		$table_statGedung = 'tabel_kolom_statusGedung';
 		//$column_statGedung = array ('id_kolom_statusGedung', 'nama_kolom_statusGedung');
 		$table_fungsiGdg = 'tabel_kolom_fungsi_gedung';
-		$table_gedung = 'gedung_dinas';
+		$table_gedung = $this->config->item('nama_tabel_gedung');
 		$column_table_gedung = array ('no_gedung', 'nama_gedung', 'alamat_gedung');
-		$table_pokja = 'pokja_dinas';
-		$table_fsm = 'FSM_dinas';
+		$table_pokja = $this->config->item('nama_tabel_pokja');
+		$table_fsm = $this->config->item('nama_tabel_fsm');
 		$column_pokja = array ('id_pokja', 'nama_pokja');
 		$column_fsm = array ('id_FSM', 'nama_FSM');
 		//if save button was clicked, get the data sent via post
@@ -2038,7 +2053,7 @@ class Dinas extends CI_Controller {
 		$data['edit_url'] = 'edit_fsm';
 		$data['delete_url'] = 'delete_fsm';
 		$data['add_url'] = 'add_fsm';
-		$table_fsm = 'FSM_dinas';
+		$table_fsm = $this->config->item('nama_tabel_fsm');
 		$data['data'] = $this->dinas_model->get_all_setting($table_fsm);
 		$data['main_content'] = 'dinas/fsm/list_fsm';
 		$this->load->view('dinas/includes/template', $data);
@@ -2046,7 +2061,7 @@ class Dinas extends CI_Controller {
 
 	public function add_fsm()
 	{
-		$table_fsm = 'FSM_dinas';
+		$table_fsm = $this->config->item('nama_tabel_fsm');
 		//$table_gedung = 'gedung_dinas';
 		//$table_penyebab = 'tabel_kolom_penyebabFire';
 		//if save button was clicked, get the data sent via post
@@ -2104,7 +2119,7 @@ class Dinas extends CI_Controller {
 	public function edit_fsm()
 	{
 		$id = $this->uri->segment(3);
-		$nama_table = 'FSM_dinas';
+		$nama_table = $this->config->item('nama_tabel_fsm');
 		$id_table = 'id_FSM';
 		//if save button was clicked, get the data sent via post
 		if ($this->input->server('REQUEST_METHOD') === 'POST')
@@ -2162,7 +2177,7 @@ class Dinas extends CI_Controller {
 	public function delete_fsm()
 	{
 		$id = $this->uri->segment(3);
-		$nama_table = 'FSM_dinas';
+		$nama_table = $this->config->item('nama_tabel_fsm');
 		$id_table = 'id_FSM';
 		if ($this->dinas_model->soft_delete_setting($nama_table, $id_table, $id)){
 			$this->session->set_flashdata('flash_message', 'deleted');
@@ -2352,6 +2367,7 @@ class Dinas extends CI_Controller {
 
 	public function generatePdfFile($tgl, $table, $subtable, $total)
 	{
+		$this->load->library('pdf');
 		$pdf = new Pdf('P', 'mm', 'FOLIO', true, 'UTF-8', false);
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
@@ -2907,7 +2923,7 @@ class Dinas extends CI_Controller {
 
 	public function fungsiGedung_operation()
 	{
-		$nama_table1 ='gedung_dinas';
+		$nama_table1 =$this->config->item('nama_tabel_gedung');
 		$id_table = 'id_gdg_dinas';
 		$nama_table2 ='tabel_kolom_fungsi_gedung';
 		$data_gedung = $this->dinas_model->get_all_setting($nama_table1);
@@ -2933,7 +2949,7 @@ class Dinas extends CI_Controller {
 	
 	public function kepemilikkan_operation()
 	{
-		$nama_table1 ='gedung_dinas';
+		$nama_table1 =$this->config->item('nama_tabel_gedung');
 		$id_table = 'id_gdg_dinas';
 		$nama_table2 ='tabel_kolom_kepemilikkan_gedung';
 		$data_gedung = $this->dinas_model->get_all_setting($nama_table1);
