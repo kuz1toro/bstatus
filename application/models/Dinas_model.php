@@ -383,6 +383,36 @@ class Dinas_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+
+	public function get_all_pemeriksaan($coulum_table_pemeriksaan, $tglStart = NULL, $tglEnd = NULL)
+	{
+		$table_pemeriksaan = $this->config->item('nama_tabel_pemeriksaan');
+		$table_hslPemeriksaan = 'tabel_kolom_hslpemeriksaan';
+		$table_statGedung = 'tabel_kolom_statusgedung';
+		$table_gedung = $this->config->item('nama_tabel_gedung');
+		$table_pokja = $this->config->item('nama_tabel_pokja');
+		$this->db->select($coulum_table_pemeriksaan);
+		$this->db->from($table_pemeriksaan.' as tabelPemeriksaan');
+		$this->db->select($table_hslPemeriksaan.'.nama_kolom_hslPemeriksaan');
+		$this->db->join($table_hslPemeriksaan, 'tabelPemeriksaan.hasil_pemeriksaan ='.$table_hslPemeriksaan.'.id_kolom_hslPemeriksaan', 'left');
+		$this->db->select($table_statGedung.'.nama_kolom_statusGedung');
+		$this->db->join($table_statGedung, 'tabelPemeriksaan.status_gedung  ='.$table_statGedung.'.id_kolom_statusGedung', 'left');
+		$this->db->select($table_gedung.'.nama_gedung');
+		$this->db->select($table_gedung.'.alamat_gedung');
+		$this->db->select($table_gedung.'.fungsi');
+		$this->db->join($table_gedung, 'tabelPemeriksaan.no_gedungP  ='.$table_gedung.'.no_gedung', 'left');
+		$this->db->select($table_pokja.'.nama_pokja');
+		$this->db->join($table_pokja, 'tabelPemeriksaan.pokjaP  ='.$table_pokja.'.id_pokja', 'left');
+		$this->db->where('tabelPemeriksaan.deleted', 0);
+		$this->db->where($table_statGedung.'.deleted', 0);
+		$this->db->where($table_gedung.'.nama_gedung !=', NULL);
+		$this->db->where('tgl_berlaku >=', $tglStart);
+		$this->db->where('tgl_berlaku <=', $tglEnd);
+		//$this->db->order_by('tabelPemeriksaan.id_pemeriksaan_dinas', 'Desc');
+		//$this->db->limit(10);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 	
 
 

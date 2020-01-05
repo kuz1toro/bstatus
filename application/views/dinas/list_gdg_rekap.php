@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <h2 style="text-align: center;">Hasil Pemeriksaan Keselamatan Kebakaran Gedung Tinggi</h2>
+                <h2 style="text-align: center;">Daftar Gedung Hasil Pemeriksaan Sistem Keselamatan Kebakaran</h2>
             </div>
             <?php //print_r($pdfFile[$key]['array']); ?>
             <div class="row justify-content-center">

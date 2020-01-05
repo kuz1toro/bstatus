@@ -2716,6 +2716,7 @@ class Dinas extends CI_Controller {
 		$tgl = date("d-m-Y", now('Asia/Jakarta'));
 		$attributeFooter = $this->attributeFooter;
 		$attributeFooter['dataTable'] = TRUE;
+		$attributeFooter['datetimePicker'] = TRUE;
 		$data['attributeFooter'] = $attributeFooter;
 		//$data['user'] = $this->ion_auth->user()->row();
 		$tot_gdg = $this->dinas_model->count_all_gedung();
@@ -2850,15 +2851,41 @@ class Dinas extends CI_Controller {
 		else{
 			$data['main_content'] = 'dinas/chart';
 			$this->load->view('dinas/includes/template', $data);
-		}
+		}		
+	}
 
-		
-		
+	public function loadReportP()
+	{
+		$tglStart = $_POST['tglStart'];
+		$tglEnd = $_POST['tglEnd'];
+		$tglStart = htmlDate2sqlDate($tglStart);
+		$tglEnd = htmlDate2sqlDate($tglEnd);
+		$coulum_table_pemeriksaan = 'no_gedungP, no_permh, tgl_permh, tgl_berlaku';
+		$result=$this->dinas_model->get_all_pemeriksaan($coulum_table_pemeriksaan, $tglStart, $tglEnd);
+		//$HTML=null;
+		$resultMod = [];
+		$resultArray = [];
+		$i = 1;
+		foreach($result as $row)
+		{
+			$resultMod['no'] = $i; 
+			$resultMod['no_gedungP'] = $row['no_gedungP'];
+			$resultMod['nama_gedung'] = $row['nama_gedung'];
+			$resultMod['no_permh'] = $row['no_permh'];
+			$resultMod['tgl_permh'] = msqlDate2html($row['tgl_permh']);
+			$resultMod['tgl_berlaku'] = msqlDate2html($row['tgl_berlaku']);
+			$resultMod['nama_kolom_hslPemeriksaan'] = $row['nama_kolom_hslPemeriksaan'];
+			$resultMod['nama_kolom_statusGedung'] = $row['nama_kolom_statusGedung'];
+			$resultMod['nama_pokja'] = $row['nama_pokja'];
+			array_push($resultArray, $resultMod);
+			$i++;
+		}
+		$data = json_encode($resultArray);
+		//$this->load->view($data);
+		echo $data;
 	}
 
 
-
-	
 
 
 

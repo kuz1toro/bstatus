@@ -74,6 +74,9 @@ $(function () {
         dom: "Bfrtip",    
         buttons: [{
             extend: 'pdfHtml5',
+            exportOptions: {
+                columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]},
+            title: 'Daftar Gedung Tidak Memenuhi Syarat',
             className: "btn-primary",
             text: 'pdf',
             buttons:
@@ -82,6 +85,9 @@ $(function () {
                 }],
         },{
             extend: 'excelHtml5',
+            exportOptions: {
+                columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]},
+            title: 'Daftar Gedung Tidak Memenuhi Syarat',
             className: "btn-primary",
             text: 'excel',
             buttons:
@@ -90,6 +96,8 @@ $(function () {
                 }],
         },{
             extend: 'print',
+            exportOptions: {
+                columns: [ 0, 1, 2, 3, 4, 5, 6, 7 ]},
             className: "btn-primary",
             text: 'print',
             buttons:

@@ -94,6 +94,12 @@
 
 <!-- Demo Js -->
 <script src="<?php echo base_url(); ?>assets/vendor_new/adminBSB/js/demo.js"></script>
+
+<!-- only on chart page -->
+<?php if ($this->uri->segment(2) == 'chart'){
+    echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/chart_page.js"></script>';
+    //echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/form-validation.js"></script>';
+} ?>
 </body>
 
 </html>
