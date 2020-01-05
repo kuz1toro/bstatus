@@ -1,11 +1,6 @@
 <?php
 class Home_model extends CI_Model {
 
-	protected $namaDB;
-	protected $tabelGedung;
-	protected $tabelPemeriksaan;
-	protected $tabelPokja;
-	protected $tabelFireHist;
 
 	/**
 	* Responsable for auto load the database
@@ -14,11 +9,6 @@ class Home_model extends CI_Model {
 	public function __construct()
 	{
 		$this->load->database();
-		$this->namaDB = $this->config->item('nama_database');
-		$this->tabelGedung = $this->config->item('nama_tabel_gedung');
-		$this->tabelPemeriksaan = $this->config->item('nama_tabel_pemeriksaan');
-		$this->tabelPokja = $this->config->item('nama_tabel_pokja');
-		$this->tabelFireHist = $this->config->item('nama_tabel_fire_hist');
 	}
 
 	public function count_all_gedung()
@@ -110,25 +100,40 @@ class Home_model extends CI_Model {
 		return $query->num_rows();
 	}
 
-	public function getDataPemeriksaan()
+	public function getDataPemeriksaan($now)
 	{
 		$tabelPemeriksaan = $this->config->item('nama_tabel_pemeriksaan');
 		$tabelGedung = $this->config->item('nama_tabel_gedung');
 		$tabelStatusGedung = 'tabel_kolom_statusgedung';
-		$this->db->select('nama_pengelola, no_telp_pengelola, tgl_expired');
+		$tabelFsm = $this->config->item('nama_tabel_fsm');
+		$tabelPokja = $this->config->item('nama_tabel_pokja');
+		$this->db->select('id_pemeriksaan_dinas, no_gedungP, nama_pengelola, no_telp_pengelola, tgl_expired, joinTable.deleted');
 		$this->db->from($tabelPemeriksaan.' as joinTable');
 		//$this->db->select('tabel_kolom_statusGedung.keterangan_kolom_statusGedung');
-		$this->db->select('tabel_kolom_statusGedung.kategori_kolomHslPemeriksaan');
-		$this->db->select('tabel_kolom_statusGedung.nama_kolom_statusGedung');
-		$this->db->join('tabel_kolom_statusGedung', 'joinTable.last_status =tabel_kolom_statusGedung.id_kolom_statusGedung', 'left');
-		$this->db->select('tabel_kolom_kepemilikkan_gedung.kepemilikkan_gedung');
-		$this->db->join('tabel_kolom_kepemilikkan_gedung', 'joinTable.kepemilikan =tabel_kolom_kepemilikkan_gedung.id_kepemilikkan_gedung', 'left');
-		$this->db->select('tabel_kolom_fungsi_gedung.fungsi_gedung');
-		$this->db->join('tabel_kolom_fungsi_gedung', 'joinTable.fungsi =tabel_kolom_fungsi_gedung.id_fungsi_gedung', 'left');
-		$this->db->select('fsm_dinas.nama_FSM');
-		$this->db->join('fsm_dinas', 'joinTable.fsm =fsm_dinas.id_FSM', 'left');
+		$this->db->select($tabelGedung.'.nama_gedung');
+		$this->db->join($tabelGedung, 'joinTable.no_gedungP ='.$tabelGedung.'.no_gedung', 'left');
+		$this->db->select($tabelStatusGedung.'.nama_kolom_statusGedung');
+		$this->db->join($tabelStatusGedung, 'joinTable.status_gedung ='.$tabelStatusGedung.'.id_kolom_statusGedung', 'left');
+		$this->db->select($tabelFsm.'.nama_FSM');
+		$this->db->join($tabelFsm, 'joinTable.fsmP ='.$tabelFsm.'.id_FSM', 'left');
 		$this->db->select($tabelPokja.'.nama_pokja');
-		$this->db->join($tabelPokja, 'joinTable.pokja ='.$tabelPokja.'.id_pokja', 'left');
+		$this->db->join($tabelPokja, 'joinTable.pokjaP ='.$tabelPokja.'.id_pokja', 'left');
+		$this->db->where('joinTable.deleted', 0);
+		$this->db->where($tabelGedung.'.deleted', 0);
+		$this->db->where($tabelGedung.'.nama_gedung !=', NULL);
+		$this->db->where('tgl_expired <', $now);
+		$this->db->group_by('no_gedungP');
+		$this->db->order_by('tgl_expired', 'Asc');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function getNoGedung()
+	{
+		$tabelGedung = $this->config->item('nama_tabel_gedung');
+		$this->db->select('no_gedung');
+		$this->db->from($tabelGedung);
+		$this->db->where('deleted', 0);
 		$query = $this->db->get();
 		return $query->result_array();
 	}

@@ -70,6 +70,36 @@ $(function () {
         "order": [[ 0, "desc" ]]
     });
 
+    $('.listExpired').DataTable({
+        dom: "Bfrtip",    
+        buttons: [{
+            extend: 'pdfHtml5',
+            className: "btn-primary",
+            text: 'pdf',
+            buttons:
+                [{
+                extend: "pdf", className: "btn-primary"
+                }],
+        },{
+            extend: 'excelHtml5',
+            className: "btn-primary",
+            text: 'excel',
+            buttons:
+                [{
+                extend: "excel", className: "btn-primary"
+                }],
+        },{
+            extend: 'print',
+            className: "btn-primary",
+            text: 'print',
+            buttons:
+                [{
+                extend: "print", className: "btn-primary"
+                }],
+        }
+        ]
+    });
+
     //Exportable table
     $('.js-exportable').DataTable({
         dom: 'Bfrtip',

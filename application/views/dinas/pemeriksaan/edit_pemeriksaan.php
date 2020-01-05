@@ -25,7 +25,7 @@
                                         <div class="form-group form-float">
                                             <label class="form-label font-12 font-normal col-grey">'.$thead[0].' </label> 
                                             <select class="form-control selectpicker" name="'.$dhead[0].'" data-live-search="true" required>
-                                                ';
+                                            <option value="">No Data</option>';
                                                 foreach($list_gedung as $row)
                                                     {
                                                         echo '<option value="'.$row['no_gedung'].'"';
@@ -53,7 +53,7 @@
                                                     </div>';
                                                 }elseif($i==3){
                                                     echo '<select class="form-control selectpicker" name="'.$dhead[$i].'" data-live-search="true">
-                                                        <option value="">Silahkan Pilih</option>';
+                                                        <option value="">No Data</option>';
                                                     foreach($list_fsm as $row)
                                                     {
                                                         echo '<option value="'.$row['id_FSM'].'"';
@@ -160,7 +160,8 @@
                                         <div class="col-lg-3 col-sm-12">
                                             <div class="form-group form-float">
                                                 <label class="form-label font-12 font-normal col-grey">'.$thead[12].' </label> 
-                                                <select class="form-control selectpicker" name="'.$dhead[12].'">';
+                                                <select class="form-control selectpicker" name="'.$dhead[12].'">
+                                                <option value="">No Data</option>';
                                                     foreach($list_pokja as $row)
                                                         {
                                                             echo '<option value="'.$row['id_pokja'].'"';

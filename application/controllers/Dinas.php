@@ -229,11 +229,70 @@ class Dinas extends CI_Controller {
 		return $data;
 	}
 
+	public function sortArray($array)
+	{
+		$sortedArray = [];
+		while (count($array) >= 1)
+		{
+			$k = $array[0];
+			$j = 0;
+			$index = $j;
+			foreach($array as $row)
+			{
+				if($k['tgl_expired'] > $row['tgl_expired'])
+				//if($k > $row)
+				{
+					$k = $row;
+					$index = $j;
+				}
+				$j++;
+			}
+			array_splice($array, $index, 1);
+			array_push($sortedArray, $k);
+		}
+		return $sortedArray;
+	}
+
 	public function show_expGedung()
 	{
 		$this->load->model('home_model');
 		$this->load->helper('date');
-		$dataPemeriksaan = $this->home_model->getDataPemeriksaan();
+		$now = date("Y-m-d", now('Asia/Jakarta'));
+		$tgl = date("Y-m-d",strtotime('1900-01-01'));
+		$dataPemeriksaan = $this->home_model->getDataPemeriksaan($now);
+		$listNoGedung = $this->home_model->getNoGedung();
+		$result = [];
+		foreach($listNoGedung as $noGedung)
+		{
+			$i = 0;
+			$duplicates = [];
+			$store = FALSE;
+			foreach($dataPemeriksaan as $pemeriksaan)
+			{
+				if($noGedung['no_gedung'] == $pemeriksaan['no_gedungP'])
+				{
+					$duplicates[$i] = $pemeriksaan;
+					$i++;
+					$store = TRUE;
+				}
+			}
+			if($i > 1)
+			{
+				foreach($duplicates as $duplicate)
+				{
+					if($duplicate['tgl_expired'] > $tgl)
+					{
+						$tgl = $duplicate['tgl_expired'];
+						$higher = $duplicate;
+					}
+				}
+				array_push($result, $higher);
+			}elseif($store)
+			{
+				array_push($result, $duplicates[0]);
+			}
+		}
+		return $result;
 	}
 
 	public function home()
@@ -251,6 +310,12 @@ class Dinas extends CI_Controller {
 		$data['dataGdgSwasta'] = $this -> home_card('swasta');
 		$data['dataPemeriksaan'] = json_encode($this -> home_highcharts());
 		$data['year'] = date("Y", now('Asia/Jakarta'));
+		$data['thead'] = ['No', 'No Gedung', 'Nama Gedung', 'Pengelola', 'FSM', 'Status', 'Expired', 'Pokja', 'Aksi'];
+		$data['dhead'] = ['no_gedungP', 'nama_gedung', 'nama_pengelola', 'nama_FSM', 'nama_kolom_statusGedung', 'tgl_expired', 'nama_pokja'];
+		$show = $this->show_expGedung();
+		$data['expGedung'] = $this->sortArray($show);
+		$data['read_url'] = 'read_pemeriksaan';
+		$data['id_table'] = 'id_pemeriksaan_dinas';
 		$data['main_content'] = 'dinas/home';
 		$this->load->view('dinas/includes/template', $data);
 	}
@@ -1712,6 +1777,20 @@ class Dinas extends CI_Controller {
 		$id = $this->uri->segment(3);
 		$nama_table = $this->config->item('nama_tabel_gedung');
 		$id_table = 'id_gdg_dinas';
+		if ($this->dinas_model->soft_delete_setting($nama_table, $id_table, $id)){
+			$this->session->set_flashdata('flash_message', 'deleted');
+		}
+		else{
+			$this->session->set_flashdata('flash_message', 'failed');
+		}
+		redirect('dinas/list_gedung');
+	}
+
+	public function hard_delete_gedung()
+	{
+		$id = $this->uri->segment(3);
+		$nama_table = $this->config->item('nama_tabel_gedung');
+		$id_table = 'id_gdg_dinas';
 		if ($this->dinas_model->hard_delete($nama_table, $id_table, $id)){
 			$this->session->set_flashdata('flash_message', 'deleted');
 		}
@@ -2038,6 +2117,34 @@ class Dinas extends CI_Controller {
 		$this->load->view('dinas/includes/template', $data);
 	}
 
+	public function delete_pemeriksaan()
+	{
+		$id = $this->uri->segment(3);
+		$nama_table = $this->config->item('nama_tabel_pemeriksaan');
+		$id_table = 'id_pemeriksaan_dinas';
+		if ($this->dinas_model->soft_delete_setting($nama_table, $id_table, $id)){
+			$this->session->set_flashdata('flash_message', 'deleted');
+		}
+		else{
+			$this->session->set_flashdata('flash_message', 'failed');
+		}
+		redirect('dinas/list_pemeriksaan');
+	}
+
+	public function hard_delete_pemeriksaan()
+	{
+		$id = $this->uri->segment(3);
+		$nama_table = $this->config->item('nama_tabel_pemeriksaan');
+		$id_table = 'id_pemeriksaan_dinas';
+		if ($this->dinas_model->hard_delete($nama_table, $id_table, $id)){
+			$this->session->set_flashdata('flash_message', 'deleted');
+		}
+		else{
+			$this->session->set_flashdata('flash_message', 'failed');
+		}
+		redirect('dinas/list_pemeriksaan');
+	}
+
 	public function list_fsm()
 	{
 		$attributeFooter = $this->attributeFooter;
@@ -2179,7 +2286,7 @@ class Dinas extends CI_Controller {
 		$id = $this->uri->segment(3);
 		$nama_table = $this->config->item('nama_tabel_fsm');
 		$id_table = 'id_FSM';
-		if ($this->dinas_model->soft_delete_setting($nama_table, $id_table, $id)){
+		if ($this->dinas_model->hard_delete($nama_table, $id_table, $id)){
 			$this->session->set_flashdata('flash_message', 'deleted');
 		}
 		else{

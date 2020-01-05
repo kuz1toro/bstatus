@@ -7,7 +7,7 @@
                     <div class="card">
                         <div class="body bg-black">
                             <div class="font-bold m-b--35">DATA GEDUNG KESELURUHAN</div> 
-                            <?php //d($kus); ?>
+                            <?php //d($test); ?>
                             <ul class="dashboard-stat-list">
                             <?php
                                 foreach($dataGdgAll as $row)
@@ -98,7 +98,51 @@
                         </div>
                     </div>
                 </div>
-                <!-- #END# Bar Chart -->
+                <!-- #table expire gedung -->
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>Daftar Gedung Status Tidak Memenuhi Syarat</h2>
+                        </div>
+                        <div class="body">                            
+                            <div class="display">
+                                <table class="table table-bordered table-striped table-hover table-condensed dataTable listExpired">
+                                    <thead>
+                                        <tr>
+                                        <?php foreach($thead as $row)
+                                                    {
+                                                        echo '<th>'.$row.'</th>';
+                                                    }
+                                            ?>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                        $count = 1;
+                                        foreach($expGedung as $row)
+                                        {
+                                            echo '<tr>';
+                                                echo '<td>'.$count.'</td>';
+                                                echo '<td><span class="badge bg-blue-grey">'.$row[$dhead[0]].'</span></td>';
+                                                for($i=1; $i<=6; $i++)
+                                                {
+                                                    echo '<td>';
+                                                    echo $row[$dhead[$i]].'</td>';
+                                                }
+                                                echo '<td class="js-sweetalert">
+                                                    <a href="'.$read_url.'/'.$row[$id_table].'" class="btn bg-green btn-circle waves-effect waves-circle waves-float" data-toggle="tooltip" title="lihat"><i class="material-icons">open_in_new</i></a>
+                                                </td>';
+                                                $count++;
+                                            echo '</tr>';
+                                        }
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <!-- #END table expire gedung -->
             </div>
         </div>
     </section>
