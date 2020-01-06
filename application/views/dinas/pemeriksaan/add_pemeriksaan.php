@@ -5,9 +5,11 @@
                 <div class="col-lg-8 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <h2>
-                                <?php echo $header; ?>
-                            </h2>
+                            <div class="breadcrumb breadcrumb-bg-red">
+                                <li><a href="home"><i class="material-icons">home</i> Home</a></li>
+                                <li><a href="list_pemeriksaan"><i class="material-icons">assessment</i> Data Pemeriksaan</a></li>
+                                <li class="active"><i class="material-icons">queue</i> <?php echo $header;  ?></li>
+                            </div>
                         </div>
                         <div class="body">
                             <?php
@@ -23,7 +25,7 @@
                                     echo '
                                     <div class="col-sm-12">
                                         <div class="form-group form-float">
-                                            <label class="form-label font-12 font-normal col-grey">'.$thead[0].' </label> 
+                                            <label class="form-label"><span class = "font-bold">'.$thead[0].' </span></label> 
                                             <select class="form-control selectpicker" name="'.$dhead[0].'" data-live-search="true" required>
                                                 <option value="">Silahkan Ketik dan Pilih Gedung</option>';
                                                 foreach($list_gedung as $row)
@@ -41,7 +43,7 @@
                                         echo '
                                         <div class="col-lg-4 col-sm-12">
                                             <div class="form-group form-float">
-                                                <label class="form-label font-12 font-normal col-grey">'.$thead[$i].'</label>';
+                                                <label class="form-label"><span class = "font-bold">'.$thead[$i].'</span></label>';
                                                 if($i==2){
                                                     echo '
                                                     <div class="form-line" id="bs_datepicker_container">
@@ -76,7 +78,7 @@
                                              <div class="form-group form-float">
                                                  <div class="form-line ">
                                                      <input type="text" class="form-control" name="'.$dhead[$i].'" >
-                                                     <label class="form-label">'.$thead[$i].'</label>
+                                                     <label class="form-label"><span class = "font-bold">'.$thead[$i].'</span></label>
                                                  </div>
                                              </div>
                                          </div>
@@ -92,7 +94,7 @@
                                         echo '
                                         <div class="col-lg-4 col-sm-12">
                                             <div class="form-group form-float">
-                                                <label class="form-label font-12 font-normal col-grey">'.$thead[$i].' </label> 
+                                                <label class="form-label"><span class = "font-bold">'.$thead[$i].'</span> </label> 
                                                 <select class="form-control selectpicker" name="'.$dhead[$i].'"';
                                                 if ($i==8) { echo 'id="hslPeriksa" required';} 
                                                 echo '>';
@@ -113,7 +115,7 @@
                                     echo '
                                         <div class="col-lg-4 col-sm-12">
                                             <div class="form-group form-float">
-                                                <label class="form-label font-12 font-normal col-grey">'.$thead[9].' </label> 
+                                                <label class="form-label"><span class = "font-bold">'.$thead[9].' </span></label> 
                                                 <select class="form-control selectpicker" name="'.$dhead[9].'" id="statGdg" required >
                                                     <option value="">Pilih Hasil Pemeriksaan Terlebih Dahulu</option>
                                                 </select>
@@ -122,7 +124,7 @@
                                     //catatan
                                     echo '
                                     <div class="col-sm-12 col-lg-9">
-                                        <label class="form-label">'.$thead[10].'</label>
+                                        <label class="form-label"><span class = "font-bold">'.$thead[10].'</span></label>
                                         <div class="form-group form-float">
                                             <div class="form-line ">
                                                 <textarea rows="2" class="form-control no-resize" name="'.$dhead[10].'" id="ckeditor">
@@ -138,7 +140,7 @@
                                         </div>
                                         <div class="col-lg-3 col-sm-12">
                                             <div class="form-group form-float">
-                                                <label class="form-label font-12 font-normal col-grey">'.$thead[11].'</label>
+                                                <label class="form-label"><span class = "font-bold">'.$thead[11].'</span></label>
                                                 <div class="form-line " id="bs_datepicker_container">
                                                     <input type="text" class="form-control" name="'.$dhead[11].'" required>
                                                 </div>
@@ -147,7 +149,7 @@
                                     echo '
                                         <div class="col-lg-3 col-sm-12">
                                             <div class="form-group form-float">
-                                                <label class="form-label font-12 font-normal col-grey">'.$thead[12].' </label> 
+                                                <label class="form-label"><span class = "font-bold">'.$thead[12].'</span> </label> 
                                                 <select class="form-control selectpicker" name="'.$dhead[12].'" required>';
                                                 echo '
                                                     <option value="">Silahkan Pilih</option>';

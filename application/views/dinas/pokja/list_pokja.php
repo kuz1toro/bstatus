@@ -43,14 +43,15 @@
                 <div class="col-lg-8 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <h2>
-                                <?php echo $header; ?>
-                            </h2>
+                            <div class="breadcrumb breadcrumb-bg-red">
+                                <li><a href="home"><i class="material-icons">home</i> Home</a></li>
+                                <li class="active"><i class="material-icons">group</i> <?php echo $header;  ?></li>
                                 <ul class="header-dropdown m-r--5">
-                                <li>
-                                    <a href="<?php echo $add_url; ?>" class="btn btn-primary waves-effect"><i class="material-icons">queue</i><span>Tambah</span></a>
-                                </li>
-                            </ul>
+                                    <li>
+                                        <a href="<?php echo $add_url; ?>" class="btn btn-primary waves-effect"><i class="material-icons">queue</i><span>Tambah</span></a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="body">
                             <div class="table-responsive"r>

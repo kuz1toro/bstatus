@@ -1,17 +1,17 @@
 To do
-1. table and chart
+1. table and chart (done)
 2. gmaps picker
-3. export data
+3. export data (done)
 4. responsive design
 5. sudin app
 6. add pokja to tabel gedung and intelegently suggest a pokja for create pemeriksaan (100%)
 7. import detail data gedung (pump, etc)
 8. add file upload to data pemeriksaan and data gedung
-9. add profile page and change user data (50%)
+9. add profile page and change user data (80%)
 10. autofocus di setiap form
 11. chat app
 12. forum app
-13. export pdf
+13. export pdf(done)
 14. colorize bagde base on status gedung
 15. data sosialisasi dan simulasi
 16. add user image upload using dropzone.js

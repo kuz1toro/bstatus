@@ -24,17 +24,17 @@ class Pelengkap_model extends CI_Model
 		if($loadType=="kecamatan"){
 			$fieldList='id,Kecamatan as name';
 			$table='tabel_kecamatan';
-			$fieldName='Wilayah_K';
+			$fieldName='Wilayah_id';
 			$orderByField='Kecamatan';
 		}else if($loadType=="kelurahan"){
 			$fieldList='id,Kelurahan as name';
 			$table='tabel_kelurahan';
-			$fieldName='Kec_k';
+			$fieldName='Kec_id';
 			$orderByField='Kelurahan';
 		}else{
 			$fieldList='id,KodePos as name';
 			$table='tabel_kelurahan';
-			$fieldName='Kelurahan';
+			$fieldName='id';
 			$orderByField='KodePos';
 		}
 		$this->db->select($fieldList);

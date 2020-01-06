@@ -1,0 +1,3 @@
+- page read_gedung menunjukkan wilayah masih dalam kode angka (fixed)
+- pada page edit gedung terdapat error undifined index karena id_fungsi_gdg dan id_kepemilikkan_gdg (fixed)
+- ketika col gedung_dinas.last_status byk yg null maka page chart and report error with undifined index

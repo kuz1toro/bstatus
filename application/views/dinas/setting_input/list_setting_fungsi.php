@@ -3,7 +3,6 @@
         <?php
         //Modal alert
         pesanModal();
-        //d($data);
 		//flash messages
 		if($this->session->flashdata('flash_message')=='sukses'){
 			echo'<script>
@@ -41,25 +40,16 @@
         <div class="container-fluid">
             <div class="row clearfix">
                 <!-- Content -->
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-8 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
                     <div class="card">
-                        
                         <div class="header">
-                            <div class="breadcrumb breadcrumb-bg-red">
-                                <li><a href="home"><i class="material-icons">home</i> Home</a></li>
-                                <li class="active"><i class="material-icons">business</i> <?php echo $header;  ?></li>
-                             
-                                <ul class="header-dropdown m-r--5">
-                                    <li>
-                                        <a href="<?php echo $add_url; ?>" class="btn btn-primary waves-effect"><i class="material-icons">queue</i><span>Tambah</span></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            
+                            <h2>
+                                <?php echo $header; ?>
+                            </h2>
                         </div>
                         <div class="body">
-                            <div class="display">
-                                <table class="table table-bordered table-striped table-hover table-condensed dataTable js-basic-example">
+                            <div class="table-responsive"r>
+                                <table class="table table-bordered table-hover table-condensed ">
                                     <thead>
                                         <tr>
                                             <th class="hidden">id</th>
@@ -73,30 +63,31 @@
                                     <tbody>
                                         <?php
                                         $count = 1;
-                                        $i = 0;
-                                        foreach($data as $row)
+                                        foreach($data_jalurInfo as $row)
                                         {
                                             echo '<tr>';
                                                 echo '<td class="hidden">'.$row[$id_table].'</td>';
                                                 echo '<td>'.$count.'</td>';
-                                                echo '<td><span class="badge bg-blue-grey">'.$row[$dhead[0]].'</span><br/>'.$row[$dhead[1]].'</td>';
-                                                echo '<td>'.$row[$dhead[2]].'<br/>'.$row[$dhead[3]].',&nbsp '.$row[$dhead[4]].',&nbsp '.$row[$dhead[5]].'</td>';
-                                                for($i=6; $i<=7; $i++)
+                                                foreach($dhead as $col)
                                                 {
-                                                    echo '<td>';
-                                                    echo $row[$dhead[$i]].'</td>';
+                                                    echo '<td>'.$row[$col].'</td>';
                                                 }
                                                 echo '<td class="js-sweetalert">
-                                                    <a href="'.$read_url.'/'.$row[$id_table].'" class="btn bg-green btn-circle waves-effect waves-circle waves-float" data-toggle="tooltip" title="lihat"><i class="material-icons">open_in_new</i></a>
+                                                    <a href="'.$edit_url.'/'.$row[$id_table].'" class="btn bg-blue btn-circle waves-effect waves-circle waves-float" data-toggle="tooltip" title="Edit"><i class="material-icons">edit</i></a>
+                                                    <button type="button" class="btn bg-red btn-circle waves-effect waves-circle waves-float" value="'.$row[$id_table].'" data-toggle="tooltip" title="Hapus" data-type="confirm_del_settingInput">
+                                                        <i class="material-icons">delete</i>
+                                                    </button>
                                                 </td>';
                                                 $count++;
-                                            echo '</tr>';
+                                            echo '<tr>';
                                         }
                                         ?>
                                     </tbody>
                                 </table>
                             </div>
-                            
+                            <div class="m-t-10 align-right">
+                                <a href="<?php echo $add_url; ?>" class="btn btn-primary waves-effect"><i class="material-icons">queue</i><span>Tambah</span></a>
+                            </div>
                         </div>
                     </div>
                 </div>

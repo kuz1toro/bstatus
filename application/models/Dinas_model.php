@@ -95,6 +95,12 @@ class Dinas_model extends CI_Model {
 		$this->db->join($table_fungsi, 'tabelGedung.fungsi ='.$table_fungsi.'.id_fungsi_gedung', 'left');
 		$this->db->select($table_kepemilikkan.'.kepemilikkan_gedung');
 		$this->db->join($table_kepemilikkan, 'tabelGedung.kepemilikan ='.$table_kepemilikkan.'.id_kepemilikkan_gedung', 'left');
+		$this->db->select('tabel_wilayah.Wilayah as wilayah');
+		$this->db->join('tabel_wilayah', 'tabelGedung.Wilayah = tabel_wilayah.id', 'left');
+		$this->db->select('tabel_kecamatan.Kecamatan as kecamatan');
+		$this->db->join('tabel_kecamatan', 'tabelGedung.Kecamatan = tabel_kecamatan.id', 'left');
+		$this->db->select('tabel_kelurahan.Kelurahan as kelurahan');
+		$this->db->join('tabel_kelurahan', 'tabelGedung.Kelurahan = tabel_kelurahan.id', 'left');
 		$this->db->where('tabelGedung.deleted', 0);
 		//$this->db->limit(10);
 		$query = $this->db->get();
@@ -103,12 +109,23 @@ class Dinas_model extends CI_Model {
 
 	public function get_list_gedung_byId($table_gedung, $table_fungsi, $table_kepemilikkan, $id_gedung, $id)
 	{
-		$this->db->select('*');
+		$coulum_table_gedung = 'id_gdg_dinas, no_gedung, nama_gedung, alamat_gedung, fungsi, kepemilikan, jml_tower, jml_lantai, jml_basement, tinggi_gedung, created_by, 
+								create_at, edit_by, edit_at, catatan_gedung, latitude, longitude';
+		$this->db->select($coulum_table_gedung);
 		$this->db->from($table_gedung.' as tabelGedung');
 		$this->db->select($table_fungsi.'.fungsi_gedung');
 		$this->db->join($table_fungsi, 'tabelGedung.fungsi ='.$table_fungsi.'.id_fungsi_gedung', 'left');
 		$this->db->select($table_kepemilikkan.'.kepemilikkan_gedung');
 		$this->db->join($table_kepemilikkan, 'tabelGedung.kepemilikan ='.$table_kepemilikkan.'.id_kepemilikkan_gedung', 'left');
+		$this->db->select('tabel_wilayah.Wilayah as wilayah');
+		$this->db->join('tabel_wilayah', 'tabelGedung.Wilayah = tabel_wilayah.id', 'left');
+		$this->db->select('tabel_kecamatan.id as id_kecamatan');
+		$this->db->select('tabel_kecamatan.Kecamatan as kecamatan');
+		$this->db->join('tabel_kecamatan', 'tabelGedung.Kecamatan = tabel_kecamatan.id', 'left');
+		$this->db->select('tabel_kelurahan.id as id_kelurahan');
+		$this->db->select('tabel_kelurahan.Kelurahan as kelurahan');
+		$this->db->select('tabel_kelurahan.KodePos as kodepos');
+		$this->db->join('tabel_kelurahan', 'tabelGedung.Kelurahan = tabel_kelurahan.id', 'left');
 		$this->db->where($id_gedung, $id);
 		//$this->db->limit(10);
 		$query = $this->db->get();

@@ -5,15 +5,17 @@
                 <div class="col-lg-8 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <h2>
-                                <?php echo $header; ?>
-                            </h2>
+                            <div class="breadcrumb breadcrumb-bg-red">
+                                <li><a href="home"><i class="material-icons">home</i> Home</a></li>
+                                <li><a href="list_gedung"><i class="material-icons">business</i> Data Gedung</a></li>
+                                <li class="active"><i class="material-icons">queue</i> <?php echo $header;  ?></li>
+                            </div>
                         </div>
                         <div class="body">
                             <?php
                                 //form data
                                 //print_r($tes);
-                                //print_r ($testDate);
+                                //print_r ($list_wil);
                                 $attributes = array('id' => 'form_validation');
                                 echo form_open('dinas/'.$contrl_url.'', $attributes);
                             ?>
@@ -27,7 +29,7 @@
                                             <div class="form-group form-float">
                                                 <div class="form-line ">
                                                     <input type="text" class="form-control" name="'.$dhead[$i].'" required >
-                                                    <label class="form-label">'.$thead[$i].'</label>
+                                                    <label class="form-label"><span class = "font-bold">'.$thead[$i].'</span></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -41,7 +43,7 @@
                                         echo '
                                         <div class="col-sm-12 col-md-6">
                                             <div class="form-group">
-                                                <label class="form-label font-12 font-normal col-grey">'.$thead[$i].' </label> 
+                                                <label class="form-label"><span class = "font-bold">'.$thead[$i].' </span></label> 
                                                 <select class="form-control selectpicker" name="'.$dhead[$i].'" id="'.$id[$j].'"';
                                                 if ($i==2) { echo 'required';} 
                                                 echo '>';
@@ -49,7 +51,7 @@
                                                     echo '<option value="">Pilih Wilayah</option>';
                                                     foreach($list_wil as $row)
                                                     {
-                                                        echo '<option value="'.$row['Wilayah'].'"';
+                                                        echo '<option value="'.$row['id'].'"';
                                                         echo '>'.$row['Wilayah'].'</option>';
                                                     }
                                                 }
@@ -64,7 +66,7 @@
                                     echo '
                                         <div class="col-sm-12 col-md-6">
                                             <div class="form-group">
-                                                <label class="form-label font-12 font-normal col-grey">'.$thead[5].'</label>
+                                                <label class="form-label"><span class = "font-bold">'.$thead[5].'</span></label>
                                                 <div class="form-line ">
                                                     <input type="text" class="form-control" id="kodepos_dropdown" name="'.$dhead[5].'" readonly>
                                                 </div>
@@ -80,7 +82,7 @@
                                         echo '
                                         <div class="col-sm-12 col-md-6">
                                             <div class="form-group form-float">
-                                                <label class="form-label font-12 font-normal col-grey">'.$thead[$i].' </label> 
+                                                <label class="form-label"><span class = "font-bold">'.$thead[$i].' </span></label> 
                                                 <select class="form-control " name="'.$dhead[$i].'" required>';
                                                 echo '<option value="">Pilih '.$thead[$i].'</option>';
                                                 foreach($table[$j] as $row)
@@ -100,7 +102,7 @@
                                         echo '
                                         <div class="col-sm-12 col-md-3">
                                             <div class="form-group form-float">
-                                                <label class="form-label font-12 font-normal col-grey">'.$thead[$i].'</label>
+                                                <label class="form-label"><span class = "font-bold">'.$thead[$i].'</span></label>
                                                 <div class="form-line ">
                                                     <input type="number" class="form-control" name="'.$dhead[$i].'" >
                                                     
@@ -115,7 +117,7 @@
                                             <div class="form-group form-float">
                                                 <div class="form-line ">
                                                 <textarea rows="2" class="form-control no-resize" name="'.$dhead[12].'"></textarea>
-                                                    <label class="form-label">'.$thead[12].'</label>
+                                                    <label class="form-label"><span class = "font-bold">'.$thead[12].'</span></label>
                                                 </div>
                                             </div>
                                         </div>';
@@ -128,12 +130,15 @@
                                             <div class="form-group form-float">
                                                 <div class="form-line ">
                                                     <input type="text" class="form-control" name="'.$dhead[$i].'" >
-                                                    <label class="form-label">'.$thead[$i].'</label>
+                                                    <label class="form-label"><span class = "font-bold">'.$thead[$i].'</span></label>
                                                 </div>
                                             </div>
                                         </div>';
                                     }
                                 ?>
+                                <!-- #hidden input untuk kecamatan dan kelurahan selectpicker -->
+                                <input type="hidden" class="form-control" name="kecamatanHidden" id="kecamatanHidden" >
+                                <input type="hidden" class="form-control" name="kelurahanHidden" id="kelurahanHidden" >
                                 <div class="align-right">
                                 <div class="btn-group">
                                     <a href="<?php echo base_url().'dinas/'.$cancel_url.''; ?>" class="btn btn-primary waves-effect"><i class="material-icons">cancel</i><span>Cancel</span></a>

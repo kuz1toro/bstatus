@@ -1,4 +1,6 @@
 ﻿// kecamatan kelurahan dropdown
+$('#kecamatanHidden').val($('#kecamatan_dropdown').selectpicker('val'));
+
 $('#Wilayah').on('change', function(e){
 	//console.log(this.value,this.options[this.selectedIndex].value,$(this).find("option:selected").val(),);
 	selectKec(this.options[this.selectedIndex].value);
@@ -6,10 +8,15 @@ $('#Wilayah').on('change', function(e){
 
 $('#kecamatan_dropdown').on('change', function(e){
 	selectKel(this.options[this.selectedIndex].value);
+	var nilai = $('#kecamatan_dropdown').selectpicker('val');
+	$('#kecamatanHidden').val(nilai);
+	$('#kelurahanHidden').val('');
 });
 
 $('#kelurahan_dropdown').on('change', function(e){
 	showKodepos(this.options[this.selectedIndex].value);
+	var nilai = $('#kelurahan_dropdown').selectpicker('val');
+	$('#kelurahanHidden').val(nilai);
 });
 
 function selectKec(wil_id){

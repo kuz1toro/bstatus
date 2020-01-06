@@ -5,9 +5,11 @@
                 <div class="col-lg-8 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <h2>
-                                <?php echo $header; ?>
-                            </h2>
+                            <div class="breadcrumb breadcrumb-bg-red">
+                                <li><a href="<?php echo base_url();?>"><i class="material-icons">home</i> Home</a></li>
+                                <li><a href="<?php echo base_url().'dinas/list_pokja';?>"><i class="material-icons">group</i> Data Pokja</a></li>
+                                <li class="active"><i class="material-icons">mode_edit</i> <?php echo $header;  ?></li>
+                            </div>
                         </div>
                         <div class="body">
                         <?php

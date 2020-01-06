@@ -5,9 +5,11 @@
                 <div class="col-lg-8 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <h2>
-                                <?php echo $header; ?>
-                            </h2>
+                            <div class="breadcrumb breadcrumb-bg-red">
+                                <li><a href="home"><i class="material-icons">home</i> Home</a></li>
+                                <li><a href="list_fireHist"><i class="material-icons">history</i> Data Riwayat Kebakaran</a></li>
+                                <li class="active"><i class="material-icons">queue</i> <?php echo $header;  ?></li>
+                            </div>
                         </div>
                         <div class="body">
                             <?php
@@ -20,7 +22,7 @@
                             <div class="row clearfix">
                                 <div class="col-sm-12">
                                     <div class="form-group form-float">
-                                        <label class="form-label font-12 font-normal col-grey"><?php echo $thead[0]; ?></label> 
+                                        <label class="form-label "><span class = "font-bold"><?php echo $thead[0]; ?></span></label> 
                                         <select class="form-control show-tick" name="<?php echo $dhead[0]; ?>" data-live-search="true" required>
                                             <option value="">Silahkan Ketik Nama Gedung kemudian Pilih Gedung</option>
                                             <?php 
@@ -48,7 +50,7 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group form-float">
-                                        <label class="form-label font-12 font-normal col-grey"><?php echo $thead[3]; ?></label> 
+                                        <label class="form-label "><span class = "font-bold"><?php echo $thead[3]; ?></span></label> 
                                         <select class="form-control show-tick" name="<?php echo $dhead[3]; ?>" required>
                                             <option value="">Silahkan Pilih Penyebab Kebakaran</option>
                                             <?php 
@@ -64,7 +66,7 @@
                                     <div class="form-group form-float">
                                         <div class="form-line">
                                             <input type="text" class="form-control" name="<?php echo $dhead[4]; ?>">
-                                            <label class="form-label"><?php echo $thead[4]; ?></label>
+                                            <label class="form-label"><span class = "font-bold"><?php echo $thead[4]; ?></span></label>
                                         </div>
                                     </div>
                                 </div>
@@ -72,7 +74,7 @@
                                     <div class="form-group form-float">
                                         <div class="form-line">
                                             <textarea rows="4" class="form-control no-resize" name="<?php echo $dhead[5]; ?>"></textarea>
-                                            <label class="form-label"><?php echo $thead[5]; ?></label>
+                                            <label class="form-label"><span class = "font-bold"><?php echo $thead[5]; ?></span></label>
                                         </div>
                                     </div>
                                 </div>

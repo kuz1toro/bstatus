@@ -44,18 +44,20 @@
                 <div class="col-lg-8 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <h2>
-                                <?php echo $header; ?>
-                            </h2>
-                            <ul class="header-dropdown m-r--5">
-                                <li>
-                                    <a href="<?php echo $add_url; ?>" class="btn btn-primary waves-effect"><i class="material-icons">queue</i><span>Tambah</span></a>
-                                </li>
-                            </ul>
+                            <div class="breadcrumb breadcrumb-bg-red">
+                                <li><a href="home"><i class="material-icons">home</i> Home</a></li>
+                                <li class="active"><i class="material-icons">pages</i> <?php echo $header;  ?></li>
+                             
+                                <ul class="header-dropdown m-r--5">
+                                    <li>
+                                        <a href="<?php echo $add_url; ?>" class="btn btn-primary waves-effect"><i class="material-icons">queue</i><span>Tambah</span></a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="body">
-                            <div class="table-responsive"r>
-                                <table class="table table-bordered table-hover table-condensed ">
+                            <div class="display">
+                                <table class="table table-bordered table-striped table-hover table-condensed dataTable fsm_dataTable">
                                     <thead>
                                         <tr>
                                             <th class="hidden">id</th>
@@ -78,7 +80,7 @@
                                                 {
                                                     echo '<td>';
                                                     if ($col == 'tgl_sert_berlaku' || $col == 'tgl_sert_expired'){
-                                                        echo msqlDate2html($row[$col]);
+                                                        echo msqlDate2html($row[$col]).'</td>';
                                                     }else{
                                                         echo $row[$col].'</td>';
                                                     }
@@ -90,7 +92,7 @@
                                                     </button>
                                                 </td>';
                                                 $count++;
-                                            echo '<tr>';
+                                            echo '</tr>';
                                         }
                                         ?>
                                     </tbody>

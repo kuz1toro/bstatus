@@ -5,9 +5,11 @@
                 <div class="col-lg-8 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <h2>
-                                <?php echo $header; ?>
-                            </h2>
+                            <div class="breadcrumb breadcrumb-bg-red">
+                                <li><a href="home"><i class="material-icons">home</i> Home</a></li>
+                                <li><a href="list_fsm"><i class="material-icons">pages</i> Data FSM</a></li>
+                                <li class="active"><i class="material-icons">queue</i> <?php echo $header;  ?></li>
+                            </div>
                         </div>
                         <div class="body">
                             <?php

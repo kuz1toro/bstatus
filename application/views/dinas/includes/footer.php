@@ -88,6 +88,13 @@
     //echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/form-validation.js"></script>';
 } ?>
 
+<!-- bootstrapNotify -->
+<?php if (isset($attributeFooter) && $attributeFooter['bootstrapNotify']){
+    echo '<script src="'.base_url().'assets/vendor_new/bootstrap-notify/bootstrap-notify.min.js"></script>';
+    echo '<script src="'.base_url().'assets/vendor_new/bootstrap-notify/my-notify.js"></script>';
+    //echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/form-validation.js"></script>';
+} ?>
+
 <?php 
     //echo '<script src="'.base_url().'assets/vendor/animsition/animsition.min.js"></script>';
 ?>

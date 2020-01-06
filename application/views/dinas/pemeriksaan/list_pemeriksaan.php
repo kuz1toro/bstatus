@@ -42,20 +42,18 @@
             <div class="row clearfix">
                 <!-- Content -->
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="alert bg-blue alert-dismissible" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <i class="material-icons">warning</i>&nbsp Untuk Menghindari duplikasi data pemeriksaan, pastikan bahwa data pemeriksaan yang akan diinput belum terdapat pada database ini, dengan cara mengecek no permohonan atau no gedung
-                    </div>
                     <div class="card">
                         <div class="header">
-                            <h2>
-                                <?php echo $header;  ?>
-                            </h2>
-                            <ul class="header-dropdown m-r--5">
-                                <li>
-                                    <a href="<?php echo $add_url; ?>" class="btn btn-primary waves-effect"><i class="material-icons">queue</i><span>Tambah</span></a>
-                                </li>
-                            </ul>
+                            <div class="breadcrumb breadcrumb-bg-red">
+                                <li><a href="home"><i class="material-icons">home</i> Home</a></li>
+                                <li class="active"><i class="material-icons">assessment</i> <?php echo $header;  ?></li>
+                             
+                                <ul class="header-dropdown m-r--5">
+                                    <li>
+                                        <a href="<?php echo $add_url; ?>" class="btn btn-primary waves-effect"><i class="material-icons">queue</i><span>Tambah</span></a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="body">
                             <div class="display">
