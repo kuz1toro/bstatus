@@ -3276,210 +3276,190 @@ class Dinas extends CI_Controller {
 	}
 	*/
 
-	/**
-	* Load the main view with all the current model model's data.
-	* @return void
-	*/
-	public function index()
+	public function fillid_gdg_dinas()
 	{
-		//load gedung library
-		$this->load->library('gedung');
-		//all the posts sent by the view
-		$search_string = $this->input->get('search_string');
-		$search_in = $this->input->get('search_in');
-		$order = $this->input->get('order');
-		$order_type = $this->input->get('order_type');
-		//console_log( var_dump($order_type) );
-
-		//pagination settings
-		$config['per_page'] = $this->per_page;
-		$config['base_url'] = base_url().'prainspeksi_gedung/index';
-
-		//limit end
-		$page = $this->uri->segment(3);
-
-		//use gedung lib untuk paginasi
-		$data = $this->gedung->list_gedung($search_string, $search_in, $order, $order_type, $this->uri->segment(3), $config['per_page']);
-
-		$config['total_rows'] = $data['count_gedungs'];
-
-		//initializate the panination helper
-		$this->pagination->initialize($config);
-
-		//load the view
-		$data['main_content'] = 'prainspeksi/gedung/list';
-		$this->load->view('prainspeksi/includes/template', $data);
-
-	}//index
-
-	public function add()
-	{
-		//if save button was clicked, get the data sent via post
-		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		$noGdgs = $this->dinas_model->getNoGdgDkGdg();
+		$i = 0;
+		foreach($noGdgs as $noGdg)
 		{
-
-			//form validation
-			$this->form_validation->set_rules('NamaGedung', 'NamaGedung', 'required');
-			$this->form_validation->set_rules('Alamat', 'Alamat', 'required');
-			$this->form_validation->set_rules('Status', 'Status', 'required');
-			$this->form_validation->set_rules('Fungsi', 'Fungsi', 'required');
-			$this->form_validation->set_rules('JmlMasaBang', 'JmlMasaBang', 'required');
-			$this->form_validation->set_rules('Lantai', 'Lantai', 'required');
-			$this->form_validation->set_rules('Basement', 'Basement', 'required');
-			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
-
-			//$tglImb = $this->input->post('TglImb');
-			//$tgl_imb = date('Y-m-d',strtotime("$tglImb"));
-
-
-			//if the form has passed through the validation
-			if ($this->form_validation->run())
-			{
-				$data_to_store = array(
-					'NamaGedung' => $this->input->post('NamaGedung'),
-					'Alamat' => $this->input->post('Alamat'),
-					'Kecamatan' => $this->input->post('Kecamatan'),
-					'Kelurahan' => $this->input->post('Kelurahan'),
-					'Wilayah' => $this->input->post('Wilayah'),
-					'KodePos' => $this->input->post('KodePos'),
-					'NoImb' => $this->input->post('NoImb'),
-					'TglImb' => htmlDate2sqlDate($this->input->post('TglImb')),
-					'NoRekomtekAkhir' => $this->input->post('NoRekomtekAkhir'),
-					'TglRekomtekAkhir' => htmlDate2sqlDate($this->input->post('TglRekomtekAkhir')),
-					'NoSlfAkhir' => $this->input->post('NoSlfAkhir'),
-					'TglSlfAkhir' => htmlDate2sqlDate($this->input->post('TglSlfAkhir')),
-					'NoSkkAkhir' => $this->input->post('NoSkkAkhir'),
-					'TglSkkAkhir' => htmlDate2sqlDate($this->input->post('TglSkkAkhir')),
-					'NoLhp' => $this->input->post('NoLhp'),
-					'TglLhp' => htmlDate2sqlDate($this->input->post('TglLhp')),
-					'Status' => $this->input->post('Status'),
-					'Fungsi' => $this->input->post('Fungsi'),
-					'JmlMasaBang' => $this->input->post('JmlMasaBang'),
-					'Lantai' => $this->input->post('Lantai'),
-					'LuasLantai' => $this->input->post('LuasLantai'),
-					'Basement' => $this->input->post('Basement'),
-					'Keterangan' => $this->input->post('Keterangan')
-				);
-				//if the insert has returned true then we show the flash message
-				if($this->gedung_model->store_gedung($data_to_store)){
-					//$data['flash_message'] = TRUE;
-					$this->session->set_flashdata('flash_message', 'added');
-					$per_page = $this->per_page;
-					$num_buiding = $this->gedung_model->count_gedung();
-					$page = ceil($num_buiding/$per_page);
-					redirect('Prainspeksi_gedung/index/'.$page.'');
-				}else{
-					$data['flash_message'] = FALSE;
-				}
-
-			}
-
+			$nama_table = 'dk_data_gedung';
+			$id_table = 'no_gedung';
+			$id = $noGdg['no_gedung'];
+			$data = array( 'id_gdg_dinas' => $i);
+			$this->dinas_model->update_setting($nama_table, $id_table, $id, $data);
+			$i++;
 		}
-		//load the view
-		$data['main_content'] = 'prainspeksi/gedung/add';
-		$this->load->view('prainspeksi/includes/template', $data);
+		redirect('dinas/database_operation');
 	}
 
-	/**
-	* Update item by his id
-	* @return void
-	*/
-	public function update()
+	public function copyDkGdgToGdgDinas()
 	{
-		//product id
-		$id = $this->uri->segment(3);
-
-		//if save button was clicked, get the data sent via post
-		if ($this->input->server('REQUEST_METHOD') === 'POST')
+		$dkGdgs = $this->dinas_model->getAllGdgDkGdg();
+		foreach($dkGdgs as $dkGdg)
 		{
-			//form validation
-			$this->form_validation->set_rules('NamaGedung', 'NamaGedung', 'required');
-			$this->form_validation->set_rules('Alamat', 'Alamat', 'required');
-			$this->form_validation->set_rules('Status', 'Status', 'required');
-			$this->form_validation->set_rules('Fungsi', 'Fungsi', 'required');
-			$this->form_validation->set_rules('JmlMasaBang', 'JmlMasaBang', 'required');
-			$this->form_validation->set_rules('Lantai', 'Lantai', 'required');
-			$this->form_validation->set_rules('Basement', 'Basement', 'required');
-			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
-			//if the form has passed through the validation
-			if ($this->form_validation->run())
+			$nama_table = 'gedung_dinas_new';
+			$data = array( 
+				'no_gedung' => $dkGdg['no_gedung'],
+				'nama_gedung' => $dkGdg['nama_gedung'],
+				'alamat_gedung' => $dkGdg['alamat_gedung'],
+				'wilayah' => $dkGdg['id_wilayah'],
+				'kecamatan' => $dkGdg['id_kecamatan'],
+				'kelurahan' => $dkGdg['id_kelurahan'],
+				'kodeKelurahan' => $dkGdg['kodeKelurahan'],
+				'peruntukan' => $dkGdg['id_peruntukan'],
+				'kepemilikan1' => $dkGdg['id_kepemilikan'],
+				'jml_lantai' => $dkGdg['jml_lantai'],
+				'jml_basement' => $dkGdg['jml_basement'],
+				'latitude' => $dkGdg['latitude'],
+				'longitude' => $dkGdg['longitude'],
+				'link_location' => $dkGdg['link_location']
+			);
+			$this->dinas_model->add_setting($nama_table, $data);
+		}
+		redirect('dinas/database_operation');
+	}
+
+	public function updateGdgDinas()
+	{
+		$fungsi = array( 
+			'01' => 1,
+			'02' => 2,
+			'03' => 3,
+			'04' => 4,
+			'11' => 5,
+			'12' => 6,
+			'13' => 7,
+			'14' => 8,
+			'21' => 9,
+			'22' => 10,
+			'23' => 11
+		);
+		$kepemilik = array( 
+			'D' => 1,
+			'P' => 2,
+			'S' => 3
+		);
+		$dkGdgs = $this->dinas_model->getAllGdgDkGdg('gedung_dinas_new');
+		$nama_table = 'gedung_dinas_new';
+		$id_table = 'id_gdg_dinas';
+		$success = 0;
+		foreach($dkGdgs as $dkGdg)
+		{
+			if (array_key_exists($dkGdg['peruntukan'], $fungsi) && array_key_exists($dkGdg['kepemilikan1'], $kepemilik) )
 			{
-
-				$data_to_store = array(
-					'NamaGedung' => $this->input->post('NamaGedung'),
-					'Alamat' => $this->input->post('Alamat'),
-					'Kecamatan' => $this->input->post('Kecamatan'),
-					'Kelurahan' => $this->input->post('Kelurahan'),
-					'Wilayah' => $this->input->post('Wilayah'),
-					'KodePos' => $this->input->post('KodePos'),
-					'NoImb' => $this->input->post('NoImb'),
-					'TglImb' => htmlDate2sqlDate($this->input->post('TglImb')),
-					'NoRekomtekAkhir' => $this->input->post('NoRekomtekAkhir'),
-					'TglRekomtekAkhir' => htmlDate2sqlDate($this->input->post('TglRekomtekAkhir')),
-					'NoSlfAkhir' => $this->input->post('NoSlfAkhir'),
-					'TglSlfAkhir' => htmlDate2sqlDate($this->input->post('TglSlfAkhir')),
-					'NoSkkAkhir' => $this->input->post('NoSkkAkhir'),
-					'TglSkkAkhir' => htmlDate2sqlDate($this->input->post('TglSkkAkhir')),
-					'NoLhp' => $this->input->post('NoLhp'),
-					'TglLhp' => htmlDate2sqlDate($this->input->post('TglLhp')),
-					'Status' => $this->input->post('Status'),
-					'Fungsi' => $this->input->post('Fungsi'),
-					'JmlMasaBang' => $this->input->post('JmlMasaBang'),
-					'Lantai' => $this->input->post('Lantai'),
-					'LuasLantai' => $this->input->post('LuasLantai'),
-					'Basement' => $this->input->post('Basement'),
-					'Keterangan' => $this->input->post('Keterangan')
+				$id = $dkGdg['id_gdg_dinas'];
+				$data = array( 	'fungsi' => $fungsi[$dkGdg['peruntukan']],
+								'kepemilikan' => $kepemilik[$dkGdg['kepemilikan1']]
 				);
-				//if the insert has returned true then we show the flash message
-				if($this->gedung_model->update_gedung($id, $data_to_store)){
-					$this->session->set_flashdata('flash_message', 'updated');
-				}else{
-					$this->session->set_flashdata('flash_message', 'not_updated');
+				if ( $this->dinas_model->update_setting($nama_table, $id_table, $id, $data))
+				{
+					$success++;
 				}
-
-				// next page setup
-				if (strlen($_SESSION['search_string_selected'])==0){
-					$next_page = $_SESSION['hal_skr'];
-				} else {
-					$next_page = ''.$_SESSION['hal_skr'].'?search_string='.$_SESSION['search_string_selected'].'&search_in='.$_SESSION['search_in_field'].'&order='.$_SESSION['order'].'&order_type='.$_SESSION['order_type'].'';
-				}
-
-				//redirect('Prainspeksi_gedung/update/'.$id.'');
-				redirect($next_page);
-
-			}//validation run
-
+			}
 		}
 
-		//if we are updating, and the data did not pass trough the validation
-		//the code below wel reload the current data
+		$attributeFooter = $this->attributeFooter;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['message']= $success;
+		$data['main_content'] = 'dinas/database';
+		$this->load->view('dinas/includes/template', $data);
+	}
+	
 
-		//product data
-		$data['gedungs'] = $this->gedung_model->get_gedung_by_id($id);
-		//load the view
-		$data['main_content'] = 'prainspeksi/gedung/edit';
-		$this->load->view('prainspeksi/includes/template', $data);
+	public function copyDkPmrToPmrDinas()
+	{
+		$tblGdg = 'dk_data_pemeriksaan';
+		$nama_table = 'pemeriksaan_dinas_ng';
+		$dkpmrs = $this->dinas_model->getAllGdgDkGdg($tblGdg);
+		foreach($dkpmrs as $dkGdg)
+		{
+			$data = array( 
+				'no_gedungP' => $dkGdg['no_gedung'],
+				'jalur_info1' => $dkGdg['jalur_informasi'],
+				'hasil_pemeriksaan1' => $dkGdg['hasil_pemeriksaan'],
+				'status_gedung1' => $dkGdg['status_gedung'],
+				'tgl_berlaku' => $dkGdg['mulai_berlaku'],
+				'tgl_expired' => $dkGdg['sampai_dengan'],
+				'catatan' => $dkGdg['catatan'],
+				'created_atP' => $dkGdg['created_date'],
+				'edit_atP' => $dkGdg['updated_date']
+			);
+			$this->dinas_model->add_setting($nama_table, $data);
+		}
+		redirect('dinas/database_operation');
+	}
 
-	}//update
+	public function updatePmrDinas()
+	{
+		$listJlrInfo = array( 
+			'pemeriksaan' => 2,
+			'permintaan' => 1
+		);
+		$hslPemrks = array( 
+			'memenuhi' => 1,
+			'tidak_memenuhi' => 2
+		);
+		$statusGdg = array( 
+			'LHP_min' => 4,
+			'LHP_plus' => 3,
+			'penangguhan_SKK' => 9,
+			'penangguhan_SLF' => 10,
+			'pengawasan' => 11,
+			'SKK' => 2,
+			'SLF' => 1,
+			'SP1' => 5,
+			'SP2' => 6,
+			'SP3' => 7,
+			'SP4' => 8
+		);
+		$listStatP = $this->dinas_model->getStatP();
+		$nama_table = 'pemeriksaan_dinas_ng';
+		$id_table = 'id_pemeriksaan_dinas';
+		$success = 0;
+		foreach($listStatP as $stat)
+		{
+			if (array_key_exists($stat['jalur_info1'], $listJlrInfo) && array_key_exists($stat['hasil_pemeriksaan1'], $hslPemrks) && array_key_exists($stat['status_gedung1'], $statusGdg))
+			{
+				$id = $stat['id_pemeriksaan_dinas'];
+				$data = array( 	'jalur_info' => $listJlrInfo[$stat['jalur_info1']],
+								'hasil_pemeriksaan' => $hslPemrks[$stat['hasil_pemeriksaan1']],
+								'status_gedung' => $statusGdg[$stat['status_gedung1']],
+				);
+				if ( $this->dinas_model->update_setting($nama_table, $id_table, $id, $data))
+				{
+					$success++;
+				}
+			}
+		}
+		$attributeFooter = $this->attributeFooter;
+		$data['attributeFooter'] = $attributeFooter;
+		$data['message']= $success;
+		$data['main_content'] = 'dinas/database';
+		$this->load->view('dinas/includes/template', $data);
+	}
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/**
-	* Delete product by his id
+	* Tutorial page
 	* @return void
 	*/
-	public function delete()
-	{
-		//product id
-		$id = $this->uri->segment(3);
-		$this->gedung_model->delete_gedung($id);
-		// page setup
-		if (strlen($_SESSION['search_string_selected'])==0){
-			$next_page = $_SESSION['hal_skr'];
-		} else {
-			$next_page = ''.$_SESSION['hal_skr'].'?search_string='.$_SESSION['search_string_selected'].'&search_in='.$_SESSION['search_in_field'].'&order='.$_SESSION['order'].'&order_type='.$_SESSION['order_type'].'';
-		}
-		redirect($next_page);
-		//redirect('prainspeksi/gedung');
-	}//delete
 
 	public function tutorial()
 	{

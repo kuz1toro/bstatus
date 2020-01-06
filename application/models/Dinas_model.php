@@ -414,9 +414,38 @@ class Dinas_model extends CI_Model {
 		return $query->result_array();
 	}
 	
+	public function getNoGdgDkGdg()
+	{
+		$this->db->select('no_gedung');
+		$this->db->from('dk_data_gedung');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function getAllGdgDkGdg($tblGdg='dk_data_gedung')
+	{
+		$this->db->select('*');
+		$this->db->from($tblGdg);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+
+	public function getStatP()
+	{
+		$this->db->select('id_pemeriksaan_dinas, jalur_info1, hasil_pemeriksaan1, status_gedung1');
+		$this->db->from('pemeriksaan_dinas_ng');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 
 
 
+
+
+
+
+	
 
 
 

@@ -245,7 +245,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <li class="<?php trv_state('chart', $url1, $url2);?>">
                         <a href="<?php echo base_url(); ?>dinas/chart">
                             <i class="material-icons">insert_chart</i>
-                            <span>Chart</span>
+                            <span>Chart & Report</span>
                         </a>
                     </li>
                 </ul>
