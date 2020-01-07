@@ -2,7 +2,7 @@
 
 $GLOBALS['PESAN_ERROR']='TEST';
 
-class Dinas extends CI_Controller {
+class Sudins extends CI_Controller {
 
 	/**
 	* name of the folder responsible for the views
