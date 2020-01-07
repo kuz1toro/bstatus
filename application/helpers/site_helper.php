@@ -393,6 +393,8 @@ if(!function_exists('trv_state'))
 			echo 'active';
 		}elseif ($page==='chart' && $url1==='dinas' && $url2==='chart') {
 			echo 'active';
+		}elseif ($page==='map' && $url1==='dinas' && $url2==='map') {
+			echo 'active';
 		}else{
 			echo '';
 		}

@@ -457,7 +457,38 @@ class Dinas_model extends CI_Model {
 	}
 
 
+	public function getMapData()
+	{
+		$tabel_gedung = $this->config->item('nama_tabel_gedung');
+		$column = 'id_gdg_dinas, no_gedung, nama_gedung, jml_lantai, jml_basement, latitude, longitude' ;
+		$this->db->select($column);
+		$this->db->from($tabel_gedung.' as joinTable');
+		$this->db->select('tabel_kolom_statusGedung.nama_kolom_statusGedung');
+		$this->db->join('tabel_kolom_statusGedung', 'joinTable.last_status =tabel_kolom_statusGedung.id_kolom_statusGedung', 'left');
+		$this->db->select('tabel_kolom_kepemilikkan_gedung.kepemilikkan_gedung');
+		$this->db->join('tabel_kolom_kepemilikkan_gedung', 'joinTable.kepemilikan =tabel_kolom_kepemilikkan_gedung.id_kepemilikkan_gedung', 'left');
+		$this->db->select('tabel_kolom_fungsi_gedung.fungsi_gedung');
+		$this->db->join('tabel_kolom_fungsi_gedung', 'joinTable.fungsi =tabel_kolom_fungsi_gedung.id_fungsi_gedung', 'left');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 
+	public function getMapDataById($id)
+	{
+		$tabel_gedung = $this->config->item('nama_tabel_gedung');
+		$column = 'id_gdg_dinas, no_gedung, nama_gedung, jml_lantai, jml_basement, latitude, longitude' ;
+		$this->db->select($column);
+		$this->db->from($tabel_gedung.' as joinTable');
+		$this->db->select('tabel_kolom_statusGedung.nama_kolom_statusGedung');
+		$this->db->join('tabel_kolom_statusGedung', 'joinTable.last_status =tabel_kolom_statusGedung.id_kolom_statusGedung', 'left');
+		$this->db->select('tabel_kolom_kepemilikkan_gedung.kepemilikkan_gedung');
+		$this->db->join('tabel_kolom_kepemilikkan_gedung', 'joinTable.kepemilikan =tabel_kolom_kepemilikkan_gedung.id_kepemilikkan_gedung', 'left');
+		$this->db->select('tabel_kolom_fungsi_gedung.fungsi_gedung');
+		$this->db->join('tabel_kolom_fungsi_gedung', 'joinTable.fungsi =tabel_kolom_fungsi_gedung.id_fungsi_gedung', 'left');
+		$this->db->where('joinTable.id_gdg_dinas', $id);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 
 
 
@@ -731,5 +762,6 @@ class Dinas_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+	
 
 }

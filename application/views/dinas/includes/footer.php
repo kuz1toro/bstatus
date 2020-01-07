@@ -95,6 +95,17 @@
     //echo '<script src="'.base_url().'assets/vendor_new/adminBSB/js/pages/forms/form-validation.js"></script>';
 } ?>
 
+<!-- Leaflet -->
+<?php if (isset($attributeFooter) && $attributeFooter['mapLeaflet']){
+    echo '<script src="'.base_url().'assets/vendor_new/leaflet/Leaflet.markercluster/leaflet.markercluster-src.js"></script>';
+    echo '<script src="'.base_url().'assets/vendor_new/leaflet/Leaflet.zoomdisplay/leaflet.zoomdisplay-src.js"></script>';
+    //echo '<script src="'.base_url().'assets/vendor_new/leaflet/geojson-sample.js"></script>';
+    if($this->uri->segment(2) == 'map') {echo '<script src="'.base_url().'assets/vendor_new/leaflet/map-all-gdg.js"></script>';} 
+    else {echo '<script src="'.base_url().'assets/vendor_new/leaflet/map-gdg.js"></script>';}
+    
+} ?>
+
+
 <?php 
     //echo '<script src="'.base_url().'assets/vendor/animsition/animsition.min.js"></script>';
 ?>

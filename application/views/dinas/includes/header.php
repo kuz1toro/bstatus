@@ -58,6 +58,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
          //echo '<link href="'.base_url().'assets/vendor_new/jquery-datatable/skin/bootstrap/css/buttons.dataTables.min.css" rel="stylesheet">';
     } ?>
 
+    <!-- Leaflet -->
+    <?php if (isset($attributeFooter) && $attributeFooter['mapLeaflet']){
+         echo '<link href="'.base_url().'assets/vendor_new/leaflet/leaflet/leaflet.css" rel="stylesheet">';
+         echo '<script src="'.base_url().'assets/vendor_new/leaflet/leaflet/leaflet-src.js"></script>';
+         
+         echo '<link href="'.base_url().'assets/vendor_new/leaflet/Leaflet.zoomdisplay/leaflet.zoomdisplay.css" rel="stylesheet">';
+         echo '<link href="'.base_url().'assets/vendor_new/leaflet/Leaflet.markercluster/css/MarkerCluster.css" rel="stylesheet">';
+         echo '<link href="'.base_url().'assets/vendor_new/leaflet/Leaflet.markercluster/css/MarkerCluster.Default.css" rel="stylesheet">';
+         if($this->uri->segment(2) == 'map') {echo '<link href="'.base_url().'assets/vendor_new/leaflet/screen-all.css" rel="stylesheet">';} 
+        else {echo '<link href="'.base_url().'assets/vendor_new/leaflet/screen.css" rel="stylesheet">';}
+    } ?>
+
+
     <!-- Custom Css -->
     <?php 
         echo '<link href="'.base_url().'assets/vendor_new/adminBSB/css/style.css" rel="stylesheet">';
@@ -73,6 +86,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!-- set global variable-->
     <script>var base_url = '<?php echo base_url() ?>';</script>
+    <?php   if(isset($id)){ echo '<script>var idGdg ='.$id.';</script>';} 
+            if(isset($latGdg)){ echo '<script>var latGdg ='.$latGdg.';</script>';}
+            if(isset($lonGdg)){ echo '<script>var lonGdg ='.$lonGdg.';</script>';}
+    ?>
 </head>
 
 <body class="theme-red " style="background-image: linear-gradient(to left, #BDBBBE 0%, #9D9EA3 100%), radial-gradient(88% 271%, rgba(255, 255, 255, 0.25) 0%, rgba(254, 254, 254, 0.25) 1%, rgba(0, 0, 0, 0.25) 100%), radial-gradient(50% 100%, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%);
@@ -192,50 +209,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <span>Data Riwayat Kebakaran</span>
                         </a>
                     </li>
-                    <li class="<?php trv_state('setting', $url1, $url2);?>">
-                        <a href="javascript:void(0);" class="menu-toggle">
-                            <i class="material-icons">settings_input_component</i>
-                            <span>Setting Input</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li class="<?php trv_state('fungsiGedung', $url1, $url2);?>">
-                                <a href="<?php echo base_url(); ?>dinas/list_fungsiGedung" class="waves-effect waves-block">
-                                    <span>Fungsi Gedung</span>
-                                </a>
-                            </li>
-                            <li class="<?php trv_state('kepemilknGedung', $url1, $url2);?>">
-                                <a href="<?php echo base_url(); ?>dinas/list_kepemilknGedung" class="waves-effect waves-block">
-                                    <span>Kepemilikkan Gedung</span>
-                                </a>
-                            </li>
-                            <li class="<?php trv_state('jalurInfo', $url1, $url2);?>">
-                                <a href="<?php echo base_url(); ?>dinas/list_jalurInfo" class="waves-effect waves-block">
-                                    <span>Jalur Informasi</span>
-                                </a>
-                            </li>
-                            <li class="<?php trv_state('hslPemeriksaan', $url1, $url2);?>">
-                                <a href="<?php echo base_url(); ?>dinas/list_hslPemeriksaan" class="waves-effect waves-block">
-                                    <span>Hasil Pemeriksaan</span>
-                                </a>
-                            </li>
-                            <li class="<?php trv_state('statusGedung', $url1, $url2);?>">
-                                <a href="<?php echo base_url(); ?>dinas/list_statusGedung" class="waves-effect waves-block">
-                                    <span>Status Gedung</span>
-                                </a>
-                            </li>
-                            <li class="<?php trv_state('penyebabFire', $url1, $url2);?>">
-                                <a href="<?php echo base_url(); ?>dinas/list_penyebabFire" class="waves-effect waves-block">
-                                    <span>Penyebab Kebakaran</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="<?php echo base_url(); ?>dinas/database_operation">
-                            <i class="material-icons">text_fields</i>
-                            <span>Database</span>
-                        </a>
-                    </li>
+                   
                     <li class="<?php trv_state('profile', $url1, $url2);?>">
                         <a href="<?php echo base_url(); ?>dinas/profile">
                             <i class="material-icons">person</i>
@@ -246,6 +220,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <a href="<?php echo base_url(); ?>dinas/chart">
                             <i class="material-icons">insert_chart</i>
                             <span>Chart & Report</span>
+                        </a>
+                    </li>
+                    <li class="<?php trv_state('map', $url1, $url2);?>">
+                        <a href="<?php echo base_url(); ?>dinas/map">
+                            <i class="material-icons">map</i>
+                            <span>Peta</span>
                         </a>
                     </li>
                 </ul>

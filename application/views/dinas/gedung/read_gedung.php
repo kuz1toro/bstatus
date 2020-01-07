@@ -71,9 +71,12 @@
                                 <a href="#gedung" data-toggle="tab"  ><?php echo $header1;  ?></a></li>
                                 <li role="presentation">
                                 <a href="#riwayat" data-toggle="tab"><?php echo $header4;  ?></a></li>
+                                <li role="presentation">
+                                <a href="#peta" data-toggle="tab">Peta</a></li>
                             </ul>
                             <!-- Tab panes -->
                             <div class="tab-content">
+                                <!-- Data Gedung -->
                                 <div role="tabpanel" class="tab-pane fade in active" id="gedung">
                                     <table class="table">
                                         <tbody>
@@ -131,6 +134,11 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <!-- Maps -->
+                                <div role="tabpanel" class="tab-pane fade" id="peta">
+                                <div class="body">
+                                    <div id="map"></div>
+                                </div></div>
                             </div>
                         </div>
                     </div>

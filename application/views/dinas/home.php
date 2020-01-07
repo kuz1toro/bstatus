@@ -87,12 +87,9 @@
                         </div>
                     </div>
                 </div>
-                <!-- Bar Chart -->
+                <!-- line Chart -->
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
-                        <div class="header">
-                            <h2>Chart Pemeriksaan Gedung</h2>
-                        </div>
                         <div class="body">                            
                             <div id="allPemeriksaan" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
                         </div>
@@ -102,7 +99,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <h2>Daftar Gedung Status Tidak Memenuhi Syarat</h2>
+                            <h2>Daftar Gedung Status Habis Masa Berlaku</h2>
                         </div>
                         <div class="body">                            
                             <div class="display">

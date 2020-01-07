@@ -173,6 +173,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <span>Groups</span>
                         </a>
                     </li>
+                    <li class="<?php trv_state('setting', $url1, $url2);?>">
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">settings_input_component</i>
+                            <span>Setting Input</span>
+                        </a>
+                        <ul class="ml-menu">
+                            <li class="<?php trv_state('fungsiGedung', $url1, $url2);?>">
+                                <a href="<?php echo base_url(); ?>admin/list_fungsiGedung" class="waves-effect waves-block">
+                                    <span>Fungsi Gedung</span>
+                                </a>
+                            </li>
+                            <li class="<?php trv_state('kepemilknGedung', $url1, $url2);?>">
+                                <a href="<?php echo base_url(); ?>admin/list_kepemilknGedung" class="waves-effect waves-block">
+                                    <span>Kepemilikkan Gedung</span>
+                                </a>
+                            </li>
+                            <li class="<?php trv_state('jalurInfo', $url1, $url2);?>">
+                                <a href="<?php echo base_url(); ?>admin/list_jalurInfo" class="waves-effect waves-block">
+                                    <span>Jalur Informasi</span>
+                                </a>
+                            </li>
+                            <li class="<?php trv_state('hslPemeriksaan', $url1, $url2);?>">
+                                <a href="<?php echo base_url(); ?>admin/list_hslPemeriksaan" class="waves-effect waves-block">
+                                    <span>Hasil Pemeriksaan</span>
+                                </a>
+                            </li>
+                            <li class="<?php trv_state('statusGedung', $url1, $url2);?>">
+                                <a href="<?php echo base_url(); ?>admin/list_statusGedung" class="waves-effect waves-block">
+                                    <span>Status Gedung</span>
+                                </a>
+                            </li>
+                            <li class="<?php trv_state('penyebabFire', $url1, $url2);?>">
+                                <a href="<?php echo base_url(); ?>admin/list_penyebabFire" class="waves-effect waves-block">
+                                    <span>Penyebab Kebakaran</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="<?php echo base_url(); ?>admin/database_operation">
+                            <i class="material-icons">text_fields</i>
+                            <span>Database</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <!-- #Menu -->

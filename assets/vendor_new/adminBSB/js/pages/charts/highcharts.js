@@ -5,7 +5,7 @@ Highcharts.chart('allPemeriksaan', {
         type: 'line'
     },
     title: {
-        text: 'Jumlah Pemeriksaan Bangunan Gedung'
+        text: 'Pemeriksaan Bangunan Gedung per Tahun'
     },
     subtitle: {
         text: ''
