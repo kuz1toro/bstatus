@@ -1,15 +1,3 @@
-<?php 
-        $attributeFooter = array(
-			'chartJS' => FALSE,
-			'dataTable' => TRUE,
-			'JqueryValidation' => FALSE,
-			'bootstrapSelect' => TRUE,
-			'datetimePicker' => FALSE,
-			'kecamatanKelurahan' => FALSE,
-			'ckeEditorBasic' => FALSE,
-			'jspdf' => FALSE
-		);
-      ?>
 
 <!-- Jquery Core Js -->
 <script src="<?php echo base_url(); ?>assets/vendor_new/jquery/jquery.min.js"></script>
@@ -97,7 +85,7 @@
 } ?>
 
 <?php 
-    echo '<script src="'.base_url().'assets/vendor/animsition/animsition.min.js"></script>';
+    echo '<script src="'.base_url().'assets/vendor_new/animsition/animsition.min.js"></script>';
 ?>
 
 <!-- Demo Js -->

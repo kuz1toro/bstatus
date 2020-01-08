@@ -41,7 +41,7 @@
         <div class="container-fluid">
             <div class="row clearfix">
                 <!-- Content -->
-                <div class="col-lg-8 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
                             <div class="breadcrumb breadcrumb-bg-red">

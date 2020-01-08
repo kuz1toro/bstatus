@@ -68,7 +68,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         echo '<link href="'.base_url().'assets/vendor_new/adminBSB/css/style.css" rel="stylesheet">';
     ?>
     <?php 
-        echo '<link href="'.base_url().'assets/vendor/animsition/animsition.min.css" rel="stylesheet">';
+        echo '<link href="'.base_url().'assets/vendor_new/animsition/animsition.min.css" rel="stylesheet">';
     ?>
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->

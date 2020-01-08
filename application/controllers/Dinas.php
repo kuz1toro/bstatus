@@ -689,6 +689,487 @@ class Dinas extends CI_Controller {
 		$this->load->view('dinas/includes/template', $data);
 	}
 
+/** 
+	public function generatePdfGedung()
+	{
+		$this->load->library('pdf');
+		$this->load->helper('date');
+		$tgl = date("d-m-Y", now('Asia/Jakarta'));
+		$table_gedung = $this->config->item('nama_tabel_gedung');
+		$id = $this->uri->segment(3);
+		//$user = $this->ion_auth->user()->row();
+		//$userName = $user->username;
+		//console_log( $attributeFooter );
+		$id_gedung = 'id_gdg_dinas';
+		$no_gedung_tblPemeriksaan = 'no_gedungP';
+		$table_fungsi = 'tabel_kolom_fungsi_gedung';
+		$table_kepemilikkan = 'tabel_kolom_kepemilikkan_gedung';
+		$dataGdg = $this->dinas_model->get_list_gedung_byId($table_gedung, $table_fungsi, $table_kepemilikkan, $id_gedung, $id);
+		//$no_gedung = $this->dinas_model->get_no_gdg_byId($table_gedung, $id_gedung, $id);
+		$table_pemeriksaan =  $this->config->item('nama_tabel_pemeriksaan');
+		$table_jalurInfo = 'tabel_kolom_jalurInfo';
+		$table_hslPemeriksaan = 'tabel_kolom_hslPemeriksaan';
+		$table_statusGdg = 'tabel_kolom_statusGedung';
+		$table_pokja = $this->config->item('nama_tabel_pokja');
+		$table_fsm = $this->config->item('nama_tabel_fsm');
+		$table_penyebabFire = 'tabel_kolom_penyebabFire';
+		$dataPmrks = $this->dinas_model->get_list_pemeriksaan_byNoGdg($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $table_pokja, $table_fsm, $no_gedung_tblPemeriksaan, $dataGdg[0]['no_gedung']);
+		$table_fireHist =$this->config->item('nama_tabel_fire_hist');
+		$dataFire = $this->dinas_model->get_fireHist_byNoGdg($table_fireHist, $table_penyebabFire, $dataGdg[0]['no_gedung']);
+		$countDataPmrks = count($dataPmrks);
+		$countDataFire = count($dataFire);
+
+		// Create the pdf  
+
+		$pdf = new Pdf('P', 'mm', 'FOLIO', true, 'UTF-8', false);
+		// set document information 
+		$pdf->SetCreator(PDF_CREATOR);
+		$pdf->SetAuthor('bStatus-nG');
+		$pdf->SetTitle('B-Status Report');
+		//$pdf->CellSetSubject('TCPDF Tutorial');
+		$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+		// set default header data
+		$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+
+		// set header and footer fonts
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+		// set default monospaced font
+		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+		// set margins
+		$PDF_MARGIN_TOP = 35;
+		$pdf->SetMargins(PDF_MARGIN_LEFT, $PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+		// set image scale factor
+		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+		// set some language-dependent strings (optional)
+		if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+			require_once(dirname(__FILE__).'/lang/eng.php');
+			$pdf->setLanguageArray($l);
+		}
+		// Set some content to print
+		$pdf->SetFont('helvetica', 'B', 20);
+		// add a page
+		$pdf->AddPage();
+
+		$pdf->Write(0, 'Data Bangunan Gedung', '', 0, 'L', true, 0, false, false, 0);
+
+		// print barcode
+		// find the latest pemeriksaan
+		if($countDataPmrks > 0)
+		{
+			$chosenDate = date("Y-m-d", strtotime($dataPmrks[0]['tgl_berlaku']));
+			$chosenPmrks = $dataPmrks[0];
+			foreach($dataPmrks as $data)
+			{
+				$testDate =  date("Y-m-d", strtotime($data['tgl_berlaku']));
+				if($chosenDate < $testDate)
+				{
+					$chosenDate = $testDate;
+					$chosenPmrks = $data;
+				}
+			}
+		}else{
+			$chosenDate['nama_kolom_statusGedung'] = 'no data'; 
+		}
+		$skpd = $this->config->item('skpd');
+		$jSonData = '{"tgl_cetak" : "'.$tgl.'", "id_gedung" : "'.$id.'", "no_gedung" : "'.$dataGdg[0]['no_gedung'].'", "fungsi" : "'.$dataGdg[0]['fungsi_gedung'].'", 
+					"kepemilikkan" : "'.$dataGdg[0]['kepemilikkan_gedung'].'", "status" : "'.$chosenPmrks['nama_kolom_statusGedung'].'", 
+					"SKPD" : "'.$skpd.'", "tipe_doc" : "Data Gedung"}';
+		//$pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+		//$pdf->writeHTML($html, true, false, false, false, '');
+		// set style for barcode
+		$style = array(
+			'border' => 2,
+			'vpadding' => 'auto',
+			'hpadding' => 'auto',
+			'fgcolor' => array(0,0,0),
+			'bgcolor' => false, //array(255,255,255)
+			'module_width' => 1, // width of a single module in points
+			'module_height' => 1 // height of a single module in points
+		);
+		//write barcode
+		// QRCODE,H : QR-CODE Best error correction
+		$pdf->write2DBarcode($jSonData, 'QRCODE,H', 140, 50, 50, 50, $style, 'N');
+
+		$pdf->MultiCell(10, 0, '', 0, 'J', false, 1, 125, 30, true, 0, false, true, 0, 'T', false);
+		// give space after tittle
+		$pdf->Ln(10);
+
+		// print data gedung
+		$pdf->SetFont('times', 'B', 12);
+		$pdf->Write(0, 'Data Gedung', '', 0, 'L', true, 0, false, false, 0);
+		$pdf->SetFont('times', '', 12);
+
+		//$pdf->SetCellPadding(0);
+		//$pdf->SetLineWidth(2);
+
+		// set color for background
+		//$pdf->SetFillColor(255, 255, 255);
+
+		$left = array ('No Gedung', 'Nama Gedung', 'Alamat', 'Kota Administrasi', 'Kecamatan', 'Kelurahan', 'Koordinat','Fungsi', 'Kepemikkan', 'Jumlah Tower', 'Jumlah Lantai', 'Jumlah Basement');
+		$right = array ('no_gedung', 'nama_gedung', 'alamat_gedung', 'wilayah', 'kecamatan', 'kelurahan', 'latitude', 'longitude', 'fungsi_gedung', 'kepemilikkan_gedung', 'jml_tower',
+							'jml_lantai', 'jml_basement') ;
+		//$pdf->MultiRow($left, $right);
+
+		$i = 0;
+		foreach($left as $row)
+		{
+			$subJdl = $row;
+			$content = ': '.$dataGdg[0][$right[$i]];
+			if ($i == 6) { 
+				$content = ': [ '.$dataGdg[0][$right[$i]].', '.$dataGdg[0][$right[$i+1]].' ]' ; 
+				$i++;
+			}
+			$pdf->MultiRowGedung($subJdl, $content);
+			$i++;
+		}
+
+		
+
+		//print data pemeriksaan
+		$pdf->Ln(2);
+		$pdf->SetFont('times', 'B', 12);
+		$pdf->Write(0, 'Data Pemeriksaan', '', 0, 'L', true, 0, false, false, 0);
+
+		//setting text kiri dan kanan
+		$left = array ('No Permohonan', 'Tanggal Permohonan', 'Jalur', 'Hasil Pemeriksaan', 'Status Gedung', 'Catatan Pemeriksaan', 'Tanggal Berlaku', 'Tanggal Expired', 'Nama Pengelola', 'No Telp Pengelola', 
+									'Nama FSM' );
+		$right = array ('no_permh', 'tgl_permh', 'nama_kolom_jalurInfo', 'nama_kolom_hslPemeriksaan', 'nama_kolom_statusGedung', 'catatan', 'tgl_berlaku', 'tgl_expired', 'nama_pengelola',
+									'no_telp_pengelola', 'nama_FSM') ;
+
+		if($countDataPmrks > 0)
+		{
+			foreach($dataPmrks as $data)
+			{
+				$pdf->SetFont('times', 'U', 12);
+				$year = date("Y", strtotime($data['tgl_berlaku']));
+				$pdf->Write(0, 'Tahun '.$year, '', 0, 'L', true, 0, false, false, 0);
+				$pdf->SetFont('times', '', 12);
+				$i = 0;
+				foreach($left as $row)
+				{
+					$subJdl = $row;
+					$content = ': '.$data[$right[$i]];
+					if ($i == 5) { 
+						$bodytag1 = str_replace("</li>", ", ", htmlspecialchars_decode($data[$right[$i]]) );
+						$bodytag2 = strip_tags($bodytag1);
+						$content = ': '.$bodytag2 ; 
+					}
+					$pdf->MultiRow($subJdl, $content);
+					$i++;
+				}
+			}
+			
+		}else
+		{
+			$pdf->SetFont('times', '', 12);
+			$pdf->Write(0, 'Tidak ada data', '', 0, 'L', true, 0, false, false, 0);
+		}
+
+		// Print Fire Hist
+		$pdf->Ln(2);
+		$pdf->SetFont('times', 'B', 12);
+		$pdf->Write(0, 'Data Riwayat Kebakaran', '', 0, 'L', true, 0, false, false, 0);
+
+		//setting text kiri dan kanan
+		$left = array ('Tanggal Kejadian', 'Waktu Kejadian', 'Dugaan Penyebab', 'Keterangan');
+		$right = array ('tgl_kejadian', 'waktu_kejadian', 'penyebab', 'keterangan') ;
+
+		if($countDataFire > 0)
+		{
+			foreach($dataFire as $data)
+			{
+				$pdf->SetFont('times', 'U', 12);
+				$year = date("Y", strtotime($data['tgl_kejadian']));
+				$pdf->Write(0, 'Tahun '.$year, '', 0, 'L', true, 0, false, false, 0);
+				$pdf->SetFont('times', '', 12);
+				$i = 0;
+				foreach($left as $row)
+				{
+					$subJdl = $row;
+					$content = ': '.$data[$right[$i]];
+					$pdf->MultiRow($subJdl, $content);
+					$i++;
+				}
+			}
+			
+		}else
+		{
+			$pdf->SetFont('times', '', 12);
+			$pdf->Write(0, 'Tidak ada riwayat kebakaran', '', 0, 'L', true, 0, false, false, 0);
+		}
+
+		
+		//$pdf->Text(20, 205, 'QRCODE H');
+
+		$pdf->lastPage();
+		$file_pdfDataGdg = $this->config->item('data_gdg_pdf');
+		$pdf->Output(FCPATH.$file_pdfDataGdg , 'F');
+
+		//$pdf->Output($dataGdg[0]['no_gedung'].'--Bstatus.pdf', 'D');
+		//$pdf->Output(FCPATH.'pdf/dinas/rekap.pdf', 'F');
+
+		redirect('dinas/read_gedung/'.$id.'');
+	}
+	*/
+	public function generatePdfHtmlGedung()
+	{
+		$this->load->library('pdf');
+		$this->load->helper('date');
+		$tgl = date("d-m-Y", now('Asia/Jakarta'));
+		$table_gedung = $this->config->item('nama_tabel_gedung');
+		$id = $this->uri->segment(3);
+		//$user = $this->ion_auth->user()->row();
+		//$userName = $user->username;
+		//console_log( $attributeFooter );
+		$id_gedung = 'id_gdg_dinas';
+		$no_gedung_tblPemeriksaan = 'no_gedungP';
+		$table_fungsi = 'tabel_kolom_fungsi_gedung';
+		$table_kepemilikkan = 'tabel_kolom_kepemilikkan_gedung';
+		$dataGdg = $this->dinas_model->get_list_gedung_byId($table_gedung, $table_fungsi, $table_kepemilikkan, $id_gedung, $id);
+		//$no_gedung = $this->dinas_model->get_no_gdg_byId($table_gedung, $id_gedung, $id);
+		$table_pemeriksaan =  $this->config->item('nama_tabel_pemeriksaan');
+		$table_jalurInfo = 'tabel_kolom_jalurInfo';
+		$table_hslPemeriksaan = 'tabel_kolom_hslPemeriksaan';
+		$table_statusGdg = 'tabel_kolom_statusGedung';
+		$table_pokja = $this->config->item('nama_tabel_pokja');
+		$table_fsm = $this->config->item('nama_tabel_fsm');
+		$table_penyebabFire = 'tabel_kolom_penyebabFire';
+		$dataPmrks = $this->dinas_model->get_list_pemeriksaan_byNoGdg($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $table_pokja, $table_fsm, $no_gedung_tblPemeriksaan, $dataGdg[0]['no_gedung']);
+		$table_fireHist =$this->config->item('nama_tabel_fire_hist');
+		$dataFire = $this->dinas_model->get_fireHist_byNoGdg($table_fireHist, $table_penyebabFire, $dataGdg[0]['no_gedung']);
+		$countDataPmrks = count($dataPmrks);
+		$countDataFire = count($dataFire);
+
+		/* Create the pdf */
+
+		$pdf = new Pdf('P', 'mm', 'FOLIO', true, 'UTF-8', false);
+		// set document information
+		$pdf->SetCreator(PDF_CREATOR);
+		$pdf->SetAuthor('bStatus-nG');
+		$pdf->SetTitle('B-Status Report');
+		//$pdf->CellSetSubject('TCPDF Tutorial');
+		$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+		// set default header data
+		$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+
+		// set header and footer fonts
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+		// set default monospaced font
+		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+		// set margins
+		$PDF_MARGIN_TOP = 35;
+		$pdf->SetMargins(PDF_MARGIN_LEFT, $PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+		// set image scale factor
+		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+		// set some language-dependent strings (optional)
+		if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
+			require_once(dirname(__FILE__).'/lang/eng.php');
+			$pdf->setLanguageArray($l);
+		}
+		// Set some content to print
+		$pdf->SetFont('helvetica', 'B', 20);
+		// add a page
+		$pdf->AddPage();
+
+		$pdf->Write(0, 'Data Bangunan Gedung', '', 0, 'L', true, 0, false, false, 0);
+
+		// print barcode
+		// find the latest pemeriksaan
+		if($countDataPmrks > 0)
+		{
+			$chosenDate = date("Y-m-d", strtotime($dataPmrks[0]['tgl_berlaku']));
+			$chosenPmrks = $dataPmrks[0];
+			foreach($dataPmrks as $data)
+			{
+				$testDate =  date("Y-m-d", strtotime($data['tgl_berlaku']));
+				if($chosenDate < $testDate)
+				{
+					$chosenDate = $testDate;
+					$chosenPmrks = $data;
+				}
+			}
+		}else{
+			$chosenDate['nama_kolom_statusGedung'] = 'no data'; 
+		}
+		$skpd = $this->config->item('skpd');
+		$jSonData = '{"tgl_cetak" : "'.$tgl.'", "id_gedung" : "'.$id.'", "no_gedung" : "'.$dataGdg[0]['no_gedung'].'", "fungsi" : "'.$dataGdg[0]['fungsi_gedung'].'", 
+					"kepemilikkan" : "'.$dataGdg[0]['kepemilikkan_gedung'].'", "status" : "'.$chosenPmrks['nama_kolom_statusGedung'].'", 
+					"SKPD" : "'.$skpd.'", "tipe_doc" : "Data Gedung"}';
+		//$pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+		//$pdf->writeHTML($html, true, false, false, false, '');
+		// set style for barcode
+		$style = array(
+			'border' => 2,
+			'vpadding' => 'auto',
+			'hpadding' => 'auto',
+			'fgcolor' => array(0,0,0),
+			'bgcolor' => false, //array(255,255,255)
+			'module_width' => 1, // width of a single module in points
+			'module_height' => 1 // height of a single module in points
+		);
+		//write barcode
+		// QRCODE,H : QR-CODE Best error correction
+		$pdf->write2DBarcode($jSonData, 'QRCODE,H', 140, 50, 50, 50, $style, 'N');
+
+		$pdf->MultiCell(10, 0, '', 0, 'J', false, 1, 125, 30, true, 0, false, true, 0, 'T', false);
+		// give space after tittle
+		$pdf->Ln(5);
+
+		// print data gedung
+		$htmlPdf1 = '<tr><td colspan="3" width="67%"><span style="font-weight:bold">Data Gedung</span></td></tr>';
+
+		//$pdf->SetCellPadding(0);
+		//$pdf->SetLineWidth(2);
+
+		// set color for background
+		//$pdf->SetFillColor(255, 255, 255);
+
+		$left = array ('No Gedung', 'Nama Gedung', 'Alamat', 'Kota Administrasi', 'Kecamatan', 'Kelurahan', 'Koordinat','Fungsi', 'Kepemikkan', 'Jumlah Tower', 'Jumlah Lantai', 'Jumlah Basement');
+		$right = array ('no_gedung', 'nama_gedung', 'alamat_gedung', 'wilayah', 'kecamatan', 'kelurahan', 'latitude', 'longitude', 'fungsi_gedung', 'kepemilikkan_gedung', 'jml_tower',
+							'jml_lantai', 'jml_basement') ;
+
+
+		$i = 0;
+		$htmlPdf ='';
+		foreach($left as $row)
+		{
+			$subJdl = $row;
+			$content = $dataGdg[0][$right[$i]];
+			if ($i == 6) { 
+				$content = '[ '.$dataGdg[0][$right[$i]].', '.$dataGdg[0][$right[$i+1]].' ]' ; 
+				$i++;
+			}
+			$htmlPdf2 = '<tr><td width="25%"> <span class="n">'.$row.'</span></td><td width="7%"> <span class="n">:</span></td><td width="35%"> <span class="n">'.$content.'</span></td></tr>';
+			$htmlPdf = $htmlPdf.$htmlPdf2;
+			$i++;
+		}
+		$htmlPdf = $htmlPdf1.$htmlPdf ;
+		$html1 = '<table cellspacing="0" cellpadding="3" border="0"><tbody>'.$htmlPdf.'</tbody></table>';
+
+		
+		//print data pemeriksaan
+		$pdf->Ln(2);
+		//$pdf->SetFont('times', 'B', 12);
+		$htmlPdf1 = '<tr ><td colspan="3"><span style="font-weight:bold">Data Pemeriksaan</span></td></tr>';
+
+		//setting text kiri dan kanan
+		$left = array ('No Permohonan', 'Tanggal Permohonan', 'Jalur', 'Hasil Pemeriksaan', 'Status Gedung', 'Catatan Pemeriksaan', 'Tanggal Berlaku', 'Tanggal Expired', 'Nama Pengelola', 'No Telp Pengelola', 
+									'Nama FSM' );
+		$right = array ('no_permh', 'tgl_permh', 'nama_kolom_jalurInfo', 'nama_kolom_hslPemeriksaan', 'nama_kolom_statusGedung', 'catatan', 'tgl_berlaku', 'tgl_expired', 'nama_pengelola',
+									'no_telp_pengelola', 'nama_FSM') ;
+
+		if($countDataPmrks > 0)
+		{
+			$htmlPdf4 =''; $htmlPdf='';
+			foreach($dataPmrks as $data)
+			{
+				$pdf->SetFont('times', 'U', 12);
+				$year = date("Y", strtotime($data['tgl_berlaku']));
+				$htmlPdf2 = '<tr><td colspan="3"> <span class="n">Tahun '.$year.'</span></td></tr>';
+				$i = 0;
+				foreach($left as $row)
+				{
+					$content = $data[$right[$i]];
+					if ($i == 5) { 
+						$content =htmlspecialchars_decode($data[$right[$i]]);
+						if($content != strip_tags($content)  ){
+							$htmlPdf3 = '<tr><td width="25%"> <span class="n">'.$row.'</span></td><td width="2%"> <span class="n">:</span></td><td width="73%"> <span class="n">'.$content.'</span></td></tr>';
+							if($content != strip_tags($content) && $content != str_replace("<p>", "", $content ) ){
+								$htmlPdf3 = '<tr><td width="25%"> <span class="n">'.$row.'</span></td><td width="7%"> <span class="n">:</span></td><td width="73%"> <span class="n">'.$content.'</span></td></tr>';
+							}
+						}else{
+							$htmlPdf3 = '<tr><td width="25%"> <span class="n">'.$row.'</span></td><td width="7%"> <span class="n">:</span></td><td width="68%"> <span class="n">'.$content.'</span></td></tr>';
+						}
+					}else{
+						$htmlPdf3 = '<tr><td width="25%"> <span class="n">'.$row.'</span></td><td width="7%"> <span class="n">:</span></td><td width="68%"> <span class="n">'.$content.'</span></td></tr>';
+					}
+					$htmlPdf4 = $htmlPdf4.$htmlPdf3;
+					$i++;
+				}
+				$htmlPdf = $htmlPdf.$htmlPdf2.$htmlPdf4;
+			}
+		}else
+		{
+			$htmlPdf = '<tr><td >Tidak ada data</td></tr>';
+		}
+		$htmlPdf = $htmlPdf1.$htmlPdf ;
+		$html2 = '<table cellspacing="0" cellpadding="3" border="0"><tbody>'.$htmlPdf.'</tbody></table>';
+		// Print Fire Hist
+		$pdf->Ln(2);
+		$pdf->SetFont('times', 'B', 12);
+		$htmlPdf1 = '<tr ><td colspan="3"><span class="b">Data Riwayat Kebakaran</span></td></tr>';
+
+		//setting text kiri dan kanan
+		$left = array ('Tanggal Kejadian', 'Waktu Kejadian', 'Dugaan Penyebab', 'Keterangan');
+		$right = array ('tgl_kejadian', 'waktu_kejadian', 'penyebab', 'keterangan') ;
+
+		if($countDataFire > 0)
+		{
+			$htmlPdf4 =''; $htmlPdf='';
+			foreach($dataFire as $data)
+			{
+				$pdf->SetFont('times', 'U', 12);
+				$year = date("Y", strtotime($data['tgl_kejadian']));
+				$htmlPdf2 = '<tr><td colspan="3"> <span class="n">Tahun '.$year.'</span></td></tr>';
+				$pdf->SetFont('times', '', 12);
+				$i = 0;
+				foreach($left as $row)
+				{
+					$content = $data[$right[$i]];
+					$htmlPdf3 = '<tr><td width="25%"> <span class="n">'.$row.'</span></td><td width="7%"> <span class="n">:</span></td><td width="68%"> <span class="n">'.$content.'</span></td></tr>';
+					$htmlPdf4 = $htmlPdf4.$htmlPdf3;
+					$i++;
+				}
+				$htmlPdf = $htmlPdf.$htmlPdf2.$htmlPdf4;
+			}
+			
+		}else
+		{
+			$htmlPdf = '<tr><td > <span class="n">Tidak ada riwayat kebakaran</span></td></tr>';
+		}
+		$htmlPdf = $htmlPdf1.$htmlPdf ;
+		$html3 = '<style>
+		.b { font-weight:bold }
+		.n { font-weight:normal }
+		</style><table cellspacing="0" cellpadding="3" border="0"><tbody>'.$htmlPdf.'</tbody></table>';
+		
+		//$pdf->Text(20, 205, 'QRCODE H');
+		$html = $html1.$html2.$html3 ;
+		//$pdf->lastPage();
+		$pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+		//$file_pdfDataGdg = $this->config->item('data_gdg_pdf');
+		//$pdf->Output(FCPATH.$file_pdfDataGdg , 'F');
+
+		$pdf->Output($dataGdg[0]['no_gedung'].'--Bstatus.pdf', 'D');
+		//$pdf->Output(FCPATH.'pdf/dinas/rekap.pdf', 'F');
+
+		redirect('dinas/read_gedung/'.$id.'');
+	}
+
+
+
 	public function read_gedung()
 	{
 		$tabelGedung = $this->config->item('nama_tabel_gedung');
@@ -738,8 +1219,10 @@ class Dinas extends CI_Controller {
 		$table_gedung = $tabelGedung;
 		$table_fungsi = 'tabel_kolom_fungsi_gedung';
 		$table_kepemilikkan = 'tabel_kolom_kepemilikkan_gedung';
-		$data['data_gedung'] = $this->dinas_model->get_list_gedung_byId($table_gedung, $table_fungsi, $table_kepemilikkan, $id_gedung, $id);
+		$dataGdg = $this->dinas_model->get_list_gedung_byId($table_gedung, $table_fungsi, $table_kepemilikkan, $id_gedung, $id);
+		$data['data_gedung'] = $dataGdg ;
 		$no_gedung = $this->dinas_model->get_no_gdg_byId($table_gedung, $id_gedung, $id);
+		//$data['no_gedung'] = $no_gedung ;
 		$table_pemeriksaan =  $this->config->item('nama_tabel_pemeriksaan');
 		$table_jalurInfo = 'tabel_kolom_jalurInfo';
 		$table_hslPemeriksaan = 'tabel_kolom_hslPemeriksaan';
@@ -747,12 +1230,15 @@ class Dinas extends CI_Controller {
 		$table_pokja = $this->config->item('nama_tabel_pokja');
 		$table_fsm = $this->config->item('nama_tabel_fsm');
 		$table_penyebabFire = 'tabel_kolom_penyebabFire';
-		$data['data_pemeriksaan'] = $this->dinas_model->get_list_pemeriksaan_byNoGdg($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $table_pokja, $table_fsm, $no_gedung_tblPemeriksaan, $no_gedung[0]['no_gedung']);
+		$dataPmrks = $this->dinas_model->get_list_pemeriksaan_byNoGdg($table_pemeriksaan, $table_jalurInfo, $table_hslPemeriksaan, $table_statusGdg, $table_pokja, $table_fsm, $no_gedung_tblPemeriksaan, $no_gedung[0]['no_gedung']);
+		$data['data_pemeriksaan'] = $dataPmrks ;
 		//$table_fsm ='FSM_dinas';
 		//$data['data_fsm'] = $this->dinas_model->get_all_byNoGdg($table_fsm, $no_gedung[0]['no_gedung']);
 		$table_fireHist =$this->config->item('nama_tabel_fire_hist');
-		$data['fireHist'] = $this->dinas_model->get_fireHist_byNoGdg($table_fireHist, $table_penyebabFire, $no_gedung[0]['no_gedung']);
-		
+		$dataFire = $this->dinas_model->get_fireHist_byNoGdg($table_fireHist, $table_penyebabFire, $no_gedung[0]['no_gedung']);
+		$data['fireHist'] = $dataFire;
+		//generate pdf
+		//$this->generatePdfGedung($id,$dataGdg,$dataPmrks,$dataFire);
 		//map
 		$data['id'] = $id;
 		if(count($data['data_gedung']) > 0)
@@ -1566,7 +2052,6 @@ class Dinas extends CI_Controller {
 		if ($this->input->server('REQUEST_METHOD') === 'POST')
 		{
 			//form validation
-			$this->form_validation->set_rules('first_name', 'first_name', 'required');
 			$this->form_validation->set_rules('username', 'username', 'required');
 			$this->form_validation->set_rules('email', 'email', 'required');
 			$this->form_validation->set_error_delimiters('<div class="alert alert-error"><a class="close" data-dismiss="alert">×</a><strong>', '</strong></div>');
@@ -1574,8 +2059,7 @@ class Dinas extends CI_Controller {
 			if ($this->form_validation->run())
 			{
 				$data_to_store = array(
-					'first_name' => $this->input->post('first_name'),
-					'last_name' => $this->input->post('last_name'),
+					'nip' => $this->input->post('nip'),
 					'username' => $this->input->post('username'),
 					'email' => $this->input->post('email'),
 					'company' => isZonk($this->input->post('company')),
@@ -1718,7 +2202,7 @@ class Dinas extends CI_Controller {
 		$pdf = new Pdf('P', 'mm', 'FOLIO', true, 'UTF-8', false);
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('Kuswantoro');
+		$pdf->SetAuthor('b-Status-nG');
 		$pdf->SetTitle('B-Status Report');
 		//$pdf->CellSetSubject('TCPDF Tutorial');
 		$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
@@ -1945,7 +2429,8 @@ class Dinas extends CI_Controller {
 		//$pdf->writeHTML($html, true, false, false, false, '');
 
 		//$pdf->Output('pdfexample.pdf', 'I');
-		$pdf->Output(FCPATH.'pdf/dinas/rekap.pdf', 'F');
+		$file_pdfRekapGdg = $this->config->item('rekap_gdg_pdf');
+		$pdf->Output(FCPATH.$file_pdfRekapGdg , 'F');
 	}
 
 	public function chart()

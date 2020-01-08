@@ -74,6 +74,13 @@
         </script>';
     } 
 ?>
+ <?php
+        $user = $this->ion_auth->user()->row();
+        $avatar_file = base_url().'upload/avatar/'.$user->avatar;
+        if (! file_exists($avatar_file)) {
+            $avatar_file = base_url().'upload/avatar/default.png';
+        }
+    ?>
     <div class="container-fluid">
         <div class="row clearfix">
             <div class="col-xs-12 col-sm-3">
@@ -81,8 +88,7 @@
                     <div class="profile-header">&nbsp;</div>
                     <div class="profile-body">
                         <div class="image-area">
-                            <?php $user = $this->ion_auth->user()->row(); ?>
-                            <img src="<?php echo base_url().'upload/'.$user->avatar; ?>" width="220" height="220" alt="User" />
+                            <img src="<?php echo $avatar_file; ?>" width="220" height="220" alt="User" />
                         </div>
                         <div class="content-area">
                             <h3><?php echo "{$user->first_name} {$user->last_name}" ;?></h3>
@@ -140,26 +146,18 @@
                                     echo form_open('dinas/edit_user', $attributes);
                                 ?>
                                         <div class="form-group">
-                                            <label for="first_name" class="col-sm-2 control-label">Nama Awal*</label>
-                                            <div class="col-sm-10">
-                                                <div class="form-line">
-                                                    <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo $user->first_name ; ?>" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="last_name" class="col-sm-2 control-label">Nama Akhir</label>
-                                            <div class="col-sm-10">
-                                                <div class="form-line">
-                                                    <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo $user->last_name ; ?>" >
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
                                             <label for="username" class="col-sm-2 control-label">Username*</label>
                                             <div class="col-sm-10">
                                                 <div class="form-line">
                                                     <input type="text" class="form-control" id="username" name="username" value="<?php echo $user->username ; ?>" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="username" class="col-sm-2 control-label">NIP</label>
+                                            <div class="col-sm-10">
+                                                <div class="form-line">
+                                                    <input type="text" class="form-control" id="nip" name="nip" value="<?php echo $user->nip ; ?>" >
                                                 </div>
                                             </div>
                                         </div>
@@ -264,7 +262,7 @@
                                     echo form_open_multipart('dinas/do_upload', $attributes);
                                 ?>
                                         <div class="image-area" >
-                                            <img src="<?php echo base_url().'upload/'.$user->avatar; ?>" width="220" height="220" alt="User" style="border: 10px solid;" />
+                                            <img src="<?php echo $avatar_file; ?>" width="220" height="220" alt="User" style="border: 10px solid;" />
                                         </div>
                                         <?php //echo $error;?>
 

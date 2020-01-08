@@ -46,4 +46,74 @@ class Pdf extends TCPDF
         $this->Cell(0, 10, 'build with                                .', 0, false, 'C', 0, '', 0, false, 'T', 'M');
         
     }
+
+    public function MultiRow($left, $right) {
+        // MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0)
+
+        $page_start = $this->getPage();
+        $y_start = $this->GetY();
+
+        // write the left cell
+        $this->MultiCell(40, 0, $left, 0, 'L', 0, 2, '', '', true, 0);
+
+        $page_end_1 = $this->getPage();
+        $y_end_1 = $this->GetY();
+
+        $this->setPage($page_start);
+
+        // write the right cell
+        $this->MultiCell(0, 0, $right, 0, 'L', 0, 1, $this->GetX() ,$y_start, true, 0);
+
+        $page_end_2 = $this->getPage();
+        $y_end_2 = $this->GetY();
+
+        // set the new row position by case
+        if (max($page_end_1,$page_end_2) == $page_start) {
+            $ynew = max($y_end_1, $y_end_2);
+        } elseif ($page_end_1 == $page_end_2) {
+            $ynew = max($y_end_1, $y_end_2);
+        } elseif ($page_end_1 > $page_end_2) {
+            $ynew = $y_end_1;
+        } else {
+            $ynew = $y_end_2;
+        }
+
+        $this->setPage(max($page_end_1,$page_end_2));
+        $this->SetXY($this->GetX(),$ynew);
+    }
+
+    public function MultiRowGedung($left, $right) {
+        // MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0)
+
+        $page_start = $this->getPage();
+        $y_start = $this->GetY();
+
+        // write the left cell
+        $this->MultiCell(40, 0, $left, 0, 'L', 0, 2, '', '', true, 0);
+
+        $page_end_1 = $this->getPage();
+        $y_end_1 = $this->GetY();
+
+        $this->setPage($page_start);
+
+        // write the right cell
+        $this->MultiCell(80, 0, $right, 0, 'L', 0, 1, $this->GetX() ,$y_start, true, 0);
+
+        $page_end_2 = $this->getPage();
+        $y_end_2 = $this->GetY();
+
+        // set the new row position by case
+        if (max($page_end_1,$page_end_2) == $page_start) {
+            $ynew = max($y_end_1, $y_end_2);
+        } elseif ($page_end_1 == $page_end_2) {
+            $ynew = max($y_end_1, $y_end_2);
+        } elseif ($page_end_1 > $page_end_2) {
+            $ynew = $y_end_1;
+        } else {
+            $ynew = $y_end_2;
+        }
+
+        $this->setPage(max($page_end_1,$page_end_2));
+        $this->SetXY($this->GetX(),$ynew);
+    }
 }

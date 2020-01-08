@@ -55,8 +55,8 @@
                             </div>
                         </div>
                         <div class="body">
-                            <div class="display">
-                                <table class="table table-bordered table-hover table-condensed dataTable hist_dataTable">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover table-condensed dataTable hist_dataTable">
                                     <thead>
                                         <tr>
                                             <th class="hidden">id</th>

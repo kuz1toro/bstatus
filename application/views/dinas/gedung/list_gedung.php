@@ -59,7 +59,7 @@
                         </div>
                         <div class="body">
                             <div class="display">
-                                <table class="table table-bordered table-striped table-hover table-condensed dataTable js-basic-example">
+                                <table class="table table-bordered table-striped table-hover table-responsive table-condensed dataTable js-basic-example">
                                     <thead>
                                         <tr>
                                             <th class="hidden">id</th>

@@ -3,3 +3,5 @@
 - select wilayah, kecamatan dan kelurahan tidak berfungsi (fixed)
 - select kecamatan dan kelurahan tidak bisa simpan nilai pada edit page (fixed)
 - ketika col gedung_dinas.last_status byk yg null maka page chart and report error with undifined index (fixed)
+- tidak ada avatar untuk user baru (fixed)
+- amnistion error on admin page (fixed)

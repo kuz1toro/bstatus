@@ -51,6 +51,8 @@
                             <ul class="header-dropdown m-r--5">
                                 <li>
                                     <div class="btn-group js-sweetalert" role="group">
+                                        <!--<button type="button" class="btn btn-success waves-effect" data-toggle="modal" data-target="#gdgModal" title="Download PDF"><i class="material-icons">picture_as_pdf</i></button>-->
+                                        <a href="<?php echo base_url().'dinas/generatePdfHtmlGedung/'.$this->uri->segment(3); ?>" class="btn btn-success waves-effect" data-toggle="tooltip" title="Download PDF"><i class="material-icons">picture_as_pdf</i></a>
                                         <a href="<?php echo base_url().'dinas/'.$list_url; ?>" class="btn btn-info waves-effect" data-toggle="tooltip" title="Kembali ke halaman sebelumnya"><i class="material-icons">keyboard_backspace</i></a>
                                         <a href="<?php echo base_url().'dinas/'.$edit_url.'/'.$this->uri->segment(3); ?>" class="btn btn-warning waves-effect" data-toggle="tooltip" title="Edit"><i class="material-icons">edit</i></a>
                                         <button type="button" class="btn btn-danger waves-effect" value="<?php echo $this->uri->segment(3); ?>" data-type="confirm_del_settingInput" data-toggle="tooltip" title="Hapus">
@@ -60,9 +62,9 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="body table-responsive">
-                            <div class="table-responsive">
-                                <?php //print_r($data_gedung); 
+                        <div class="body table-responsive " >
+                            <div class="table-responsive " >
+                                <?php //d($data_pemeriksaan); 
                                  //print_r($data_pemeriksaan); ?>
                             </div>
                             <!-- Nav tabs -->
@@ -75,9 +77,9 @@
                                 <a href="#peta" data-toggle="tab">Peta</a></li>
                             </ul>
                             <!-- Tab panes -->
-                            <div class="tab-content">
+                            <div class="tab-content" >
                                 <!-- Data Gedung -->
-                                <div role="tabpanel" class="tab-pane fade in active" id="gedung">
+                                <div role="tabpanel" class="tab-pane fade in active" id="gedung" >
                                     <table class="table">
                                         <tbody>
                                         <?php
@@ -207,6 +209,20 @@
                 </div>
             </div>
         </div>
+        <!-- modal pdf 
+        <?php //$file_pdfDataGdg = $this->config->item('data_gdg_pdf');?>
+        <div class="modal fade" id="gdgModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <iframe src="<?php //echo base_url().$file_pdfDataGdg.'#zoom=FitH'; ?>" style="right:0; top:0; bottom:0; width:100%;height:300px;"></iframe>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
     </section>
 
     

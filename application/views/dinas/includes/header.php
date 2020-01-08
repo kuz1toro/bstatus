@@ -9,11 +9,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <title>B-Status-nG Dinas Penanggulangan Kebakaran dan Penyelamatan DKI Jakarta</title>
     <!-- Favicon-->
-    <link rel="shortcut icon" type="ico" size="36x36" href="<?php echo base_url(); ?>assets/icon/damkar.ico">
+    <link rel="icon" type="image/x-icon" size="36x36" href="<?php echo base_url(); ?>assets/icon/damkar.ico">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    
+    <link href="<?php echo base_url(); ?>assets/vendor_new/material-icon/icon.css" rel="stylesheet">
 
     <!-- Bootstrap Core Css -->
     <link href="<?php echo base_url(); ?>assets/vendor_new/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -137,20 +137,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div> 
             <div class=" collapse navbar-collapse navbar-nav navbar-right js-sweetalert" id="navbar-collapse"  style="padding: 5px 7px">
                 <button type="button" class="btn bg-red btn-circle-lg waves-effect waves-circle waves-float" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="logout" data-type="confirm_logout">
-                    <i class="material-icons">logout</i>
+                    <i class="material-icons">exit_to_app</i>
                 </button>
             </div>
         </div>
     </nav>
     <!-- #Top Bar -->
+    <?php
+        $user = $this->ion_auth->user()->row();
+        $avatar_file = base_url().'upload/avatar/'.$user->avatar;
+        if (! file_exists($avatar_file)) {
+            $avatar_file = base_url().'upload/avatar/default.png';
+        }
+    ?>
     <section>
         <!-- Left Sidebar -->
         <aside id="leftsidebar" class="sidebar">
             <!-- User Info -->
             <div class="user-info">
                 <div class="image col-xs-2">
-                    <?php $user = $this->ion_auth->user()->row(); ?>
-                    <img src="<?php echo base_url().'upload/'.$user->avatar; ?>" width="48" height="48" alt="User" />    
+                    <img src="<?php echo $avatar_file; ?>" width="48" height="48" alt="User" />    
                 </div>
                 <div class="image-k col-xs-2">
                     <img src="<?php echo base_url(); ?>assets/icon/inspektur.ico" width="55" height="48" alt="User" />    
